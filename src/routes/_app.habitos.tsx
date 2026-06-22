@@ -73,7 +73,7 @@ function Habitos() {
         <div className="card-soft mb-4 text-center gradient-brand text-white animate-pulse">
           <div className="text-3xl mb-1">🎉</div>
           <div className="font-bold">Você completou todos os hábitos de hoje!</div>
-          <div className="text-sm opacity-90">Continue assim, {`{name}`} — seu corpo agradece.</div>
+          <div className="text-sm opacity-90">Continue assim, {userName} — seu corpo agradece.</div>
         </div>
       )}
 
