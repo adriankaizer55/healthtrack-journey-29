@@ -9,38 +9,326 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as OnboardingRouteImport } from './routes/onboarding'
+import { Route as LoginRouteImport } from './routes/login'
+import { Route as CadastroRouteImport } from './routes/cadastro'
+import { Route as AppRouteImport } from './routes/_app'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AppSobreRouteImport } from './routes/_app.sobre'
+import { Route as AppPrivacidadeRouteImport } from './routes/_app.privacidade'
+import { Route as AppPerfilRouteImport } from './routes/_app.perfil'
+import { Route as AppNotificacoesRouteImport } from './routes/_app.notificacoes'
+import { Route as AppMaisRouteImport } from './routes/_app.mais'
+import { Route as AppIaCoachRouteImport } from './routes/_app.ia-coach'
+import { Route as AppHidratacaoRouteImport } from './routes/_app.hidratacao'
+import { Route as AppHabitosRouteImport } from './routes/_app.habitos'
+import { Route as AppDashboardRouteImport } from './routes/_app.dashboard'
+import { Route as AppAlimentacaoRouteImport } from './routes/_app.alimentacao'
+import { Route as AppAjudaRouteImport } from './routes/_app.ajuda'
+import { Route as AppAcessibilidadeRouteImport } from './routes/_app.acessibilidade'
+import { Route as AppAcessibilidadeNavegacaoPorVozRouteImport } from './routes/_app.acessibilidade.navegacao-por-voz'
+import { Route as AppAcessibilidadeModoEscuroRouteImport } from './routes/_app.acessibilidade.modo-escuro'
+import { Route as AppAcessibilidadeLeituraSimplificadaRouteImport } from './routes/_app.acessibilidade.leitura-simplificada'
+import { Route as AppAcessibilidadeFonteGrandeRouteImport } from './routes/_app.acessibilidade.fonte-grande'
+import { Route as AppAcessibilidadeAltoContrasteRouteImport } from './routes/_app.acessibilidade.alto-contraste'
 
+const OnboardingRoute = OnboardingRouteImport.update({
+  id: '/onboarding',
+  path: '/onboarding',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CadastroRoute = CadastroRouteImport.update({
+  id: '/cadastro',
+  path: '/cadastro',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AppRoute = AppRouteImport.update({
+  id: '/_app',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AppSobreRoute = AppSobreRouteImport.update({
+  id: '/sobre',
+  path: '/sobre',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppPrivacidadeRoute = AppPrivacidadeRouteImport.update({
+  id: '/privacidade',
+  path: '/privacidade',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppPerfilRoute = AppPerfilRouteImport.update({
+  id: '/perfil',
+  path: '/perfil',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppNotificacoesRoute = AppNotificacoesRouteImport.update({
+  id: '/notificacoes',
+  path: '/notificacoes',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppMaisRoute = AppMaisRouteImport.update({
+  id: '/mais',
+  path: '/mais',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppIaCoachRoute = AppIaCoachRouteImport.update({
+  id: '/ia-coach',
+  path: '/ia-coach',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppHidratacaoRoute = AppHidratacaoRouteImport.update({
+  id: '/hidratacao',
+  path: '/hidratacao',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppHabitosRoute = AppHabitosRouteImport.update({
+  id: '/habitos',
+  path: '/habitos',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppDashboardRoute = AppDashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppAlimentacaoRoute = AppAlimentacaoRouteImport.update({
+  id: '/alimentacao',
+  path: '/alimentacao',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppAjudaRoute = AppAjudaRouteImport.update({
+  id: '/ajuda',
+  path: '/ajuda',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppAcessibilidadeRoute = AppAcessibilidadeRouteImport.update({
+  id: '/acessibilidade',
+  path: '/acessibilidade',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppAcessibilidadeNavegacaoPorVozRoute =
+  AppAcessibilidadeNavegacaoPorVozRouteImport.update({
+    id: '/navegacao-por-voz',
+    path: '/navegacao-por-voz',
+    getParentRoute: () => AppAcessibilidadeRoute,
+  } as any)
+const AppAcessibilidadeModoEscuroRoute =
+  AppAcessibilidadeModoEscuroRouteImport.update({
+    id: '/modo-escuro',
+    path: '/modo-escuro',
+    getParentRoute: () => AppAcessibilidadeRoute,
+  } as any)
+const AppAcessibilidadeLeituraSimplificadaRoute =
+  AppAcessibilidadeLeituraSimplificadaRouteImport.update({
+    id: '/leitura-simplificada',
+    path: '/leitura-simplificada',
+    getParentRoute: () => AppAcessibilidadeRoute,
+  } as any)
+const AppAcessibilidadeFonteGrandeRoute =
+  AppAcessibilidadeFonteGrandeRouteImport.update({
+    id: '/fonte-grande',
+    path: '/fonte-grande',
+    getParentRoute: () => AppAcessibilidadeRoute,
+  } as any)
+const AppAcessibilidadeAltoContrasteRoute =
+  AppAcessibilidadeAltoContrasteRouteImport.update({
+    id: '/alto-contraste',
+    path: '/alto-contraste',
+    getParentRoute: () => AppAcessibilidadeRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/cadastro': typeof CadastroRoute
+  '/login': typeof LoginRoute
+  '/onboarding': typeof OnboardingRoute
+  '/acessibilidade': typeof AppAcessibilidadeRouteWithChildren
+  '/ajuda': typeof AppAjudaRoute
+  '/alimentacao': typeof AppAlimentacaoRoute
+  '/dashboard': typeof AppDashboardRoute
+  '/habitos': typeof AppHabitosRoute
+  '/hidratacao': typeof AppHidratacaoRoute
+  '/ia-coach': typeof AppIaCoachRoute
+  '/mais': typeof AppMaisRoute
+  '/notificacoes': typeof AppNotificacoesRoute
+  '/perfil': typeof AppPerfilRoute
+  '/privacidade': typeof AppPrivacidadeRoute
+  '/sobre': typeof AppSobreRoute
+  '/acessibilidade/alto-contraste': typeof AppAcessibilidadeAltoContrasteRoute
+  '/acessibilidade/fonte-grande': typeof AppAcessibilidadeFonteGrandeRoute
+  '/acessibilidade/leitura-simplificada': typeof AppAcessibilidadeLeituraSimplificadaRoute
+  '/acessibilidade/modo-escuro': typeof AppAcessibilidadeModoEscuroRoute
+  '/acessibilidade/navegacao-por-voz': typeof AppAcessibilidadeNavegacaoPorVozRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/cadastro': typeof CadastroRoute
+  '/login': typeof LoginRoute
+  '/onboarding': typeof OnboardingRoute
+  '/acessibilidade': typeof AppAcessibilidadeRouteWithChildren
+  '/ajuda': typeof AppAjudaRoute
+  '/alimentacao': typeof AppAlimentacaoRoute
+  '/dashboard': typeof AppDashboardRoute
+  '/habitos': typeof AppHabitosRoute
+  '/hidratacao': typeof AppHidratacaoRoute
+  '/ia-coach': typeof AppIaCoachRoute
+  '/mais': typeof AppMaisRoute
+  '/notificacoes': typeof AppNotificacoesRoute
+  '/perfil': typeof AppPerfilRoute
+  '/privacidade': typeof AppPrivacidadeRoute
+  '/sobre': typeof AppSobreRoute
+  '/acessibilidade/alto-contraste': typeof AppAcessibilidadeAltoContrasteRoute
+  '/acessibilidade/fonte-grande': typeof AppAcessibilidadeFonteGrandeRoute
+  '/acessibilidade/leitura-simplificada': typeof AppAcessibilidadeLeituraSimplificadaRoute
+  '/acessibilidade/modo-escuro': typeof AppAcessibilidadeModoEscuroRoute
+  '/acessibilidade/navegacao-por-voz': typeof AppAcessibilidadeNavegacaoPorVozRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_app': typeof AppRouteWithChildren
+  '/cadastro': typeof CadastroRoute
+  '/login': typeof LoginRoute
+  '/onboarding': typeof OnboardingRoute
+  '/_app/acessibilidade': typeof AppAcessibilidadeRouteWithChildren
+  '/_app/ajuda': typeof AppAjudaRoute
+  '/_app/alimentacao': typeof AppAlimentacaoRoute
+  '/_app/dashboard': typeof AppDashboardRoute
+  '/_app/habitos': typeof AppHabitosRoute
+  '/_app/hidratacao': typeof AppHidratacaoRoute
+  '/_app/ia-coach': typeof AppIaCoachRoute
+  '/_app/mais': typeof AppMaisRoute
+  '/_app/notificacoes': typeof AppNotificacoesRoute
+  '/_app/perfil': typeof AppPerfilRoute
+  '/_app/privacidade': typeof AppPrivacidadeRoute
+  '/_app/sobre': typeof AppSobreRoute
+  '/_app/acessibilidade/alto-contraste': typeof AppAcessibilidadeAltoContrasteRoute
+  '/_app/acessibilidade/fonte-grande': typeof AppAcessibilidadeFonteGrandeRoute
+  '/_app/acessibilidade/leitura-simplificada': typeof AppAcessibilidadeLeituraSimplificadaRoute
+  '/_app/acessibilidade/modo-escuro': typeof AppAcessibilidadeModoEscuroRoute
+  '/_app/acessibilidade/navegacao-por-voz': typeof AppAcessibilidadeNavegacaoPorVozRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/cadastro'
+    | '/login'
+    | '/onboarding'
+    | '/acessibilidade'
+    | '/ajuda'
+    | '/alimentacao'
+    | '/dashboard'
+    | '/habitos'
+    | '/hidratacao'
+    | '/ia-coach'
+    | '/mais'
+    | '/notificacoes'
+    | '/perfil'
+    | '/privacidade'
+    | '/sobre'
+    | '/acessibilidade/alto-contraste'
+    | '/acessibilidade/fonte-grande'
+    | '/acessibilidade/leitura-simplificada'
+    | '/acessibilidade/modo-escuro'
+    | '/acessibilidade/navegacao-por-voz'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/cadastro'
+    | '/login'
+    | '/onboarding'
+    | '/acessibilidade'
+    | '/ajuda'
+    | '/alimentacao'
+    | '/dashboard'
+    | '/habitos'
+    | '/hidratacao'
+    | '/ia-coach'
+    | '/mais'
+    | '/notificacoes'
+    | '/perfil'
+    | '/privacidade'
+    | '/sobre'
+    | '/acessibilidade/alto-contraste'
+    | '/acessibilidade/fonte-grande'
+    | '/acessibilidade/leitura-simplificada'
+    | '/acessibilidade/modo-escuro'
+    | '/acessibilidade/navegacao-por-voz'
+  id:
+    | '__root__'
+    | '/'
+    | '/_app'
+    | '/cadastro'
+    | '/login'
+    | '/onboarding'
+    | '/_app/acessibilidade'
+    | '/_app/ajuda'
+    | '/_app/alimentacao'
+    | '/_app/dashboard'
+    | '/_app/habitos'
+    | '/_app/hidratacao'
+    | '/_app/ia-coach'
+    | '/_app/mais'
+    | '/_app/notificacoes'
+    | '/_app/perfil'
+    | '/_app/privacidade'
+    | '/_app/sobre'
+    | '/_app/acessibilidade/alto-contraste'
+    | '/_app/acessibilidade/fonte-grande'
+    | '/_app/acessibilidade/leitura-simplificada'
+    | '/_app/acessibilidade/modo-escuro'
+    | '/_app/acessibilidade/navegacao-por-voz'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AppRoute: typeof AppRouteWithChildren
+  CadastroRoute: typeof CadastroRoute
+  LoginRoute: typeof LoginRoute
+  OnboardingRoute: typeof OnboardingRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/onboarding': {
+      id: '/onboarding'
+      path: '/onboarding'
+      fullPath: '/onboarding'
+      preLoaderRoute: typeof OnboardingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cadastro': {
+      id: '/cadastro'
+      path: '/cadastro'
+      fullPath: '/cadastro'
+      preLoaderRoute: typeof CadastroRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_app': {
+      id: '/_app'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AppRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,11 +336,186 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_app/sobre': {
+      id: '/_app/sobre'
+      path: '/sobre'
+      fullPath: '/sobre'
+      preLoaderRoute: typeof AppSobreRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/privacidade': {
+      id: '/_app/privacidade'
+      path: '/privacidade'
+      fullPath: '/privacidade'
+      preLoaderRoute: typeof AppPrivacidadeRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/perfil': {
+      id: '/_app/perfil'
+      path: '/perfil'
+      fullPath: '/perfil'
+      preLoaderRoute: typeof AppPerfilRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/notificacoes': {
+      id: '/_app/notificacoes'
+      path: '/notificacoes'
+      fullPath: '/notificacoes'
+      preLoaderRoute: typeof AppNotificacoesRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/mais': {
+      id: '/_app/mais'
+      path: '/mais'
+      fullPath: '/mais'
+      preLoaderRoute: typeof AppMaisRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/ia-coach': {
+      id: '/_app/ia-coach'
+      path: '/ia-coach'
+      fullPath: '/ia-coach'
+      preLoaderRoute: typeof AppIaCoachRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/hidratacao': {
+      id: '/_app/hidratacao'
+      path: '/hidratacao'
+      fullPath: '/hidratacao'
+      preLoaderRoute: typeof AppHidratacaoRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/habitos': {
+      id: '/_app/habitos'
+      path: '/habitos'
+      fullPath: '/habitos'
+      preLoaderRoute: typeof AppHabitosRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/dashboard': {
+      id: '/_app/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof AppDashboardRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/alimentacao': {
+      id: '/_app/alimentacao'
+      path: '/alimentacao'
+      fullPath: '/alimentacao'
+      preLoaderRoute: typeof AppAlimentacaoRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/ajuda': {
+      id: '/_app/ajuda'
+      path: '/ajuda'
+      fullPath: '/ajuda'
+      preLoaderRoute: typeof AppAjudaRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/acessibilidade': {
+      id: '/_app/acessibilidade'
+      path: '/acessibilidade'
+      fullPath: '/acessibilidade'
+      preLoaderRoute: typeof AppAcessibilidadeRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/acessibilidade/navegacao-por-voz': {
+      id: '/_app/acessibilidade/navegacao-por-voz'
+      path: '/navegacao-por-voz'
+      fullPath: '/acessibilidade/navegacao-por-voz'
+      preLoaderRoute: typeof AppAcessibilidadeNavegacaoPorVozRouteImport
+      parentRoute: typeof AppAcessibilidadeRoute
+    }
+    '/_app/acessibilidade/modo-escuro': {
+      id: '/_app/acessibilidade/modo-escuro'
+      path: '/modo-escuro'
+      fullPath: '/acessibilidade/modo-escuro'
+      preLoaderRoute: typeof AppAcessibilidadeModoEscuroRouteImport
+      parentRoute: typeof AppAcessibilidadeRoute
+    }
+    '/_app/acessibilidade/leitura-simplificada': {
+      id: '/_app/acessibilidade/leitura-simplificada'
+      path: '/leitura-simplificada'
+      fullPath: '/acessibilidade/leitura-simplificada'
+      preLoaderRoute: typeof AppAcessibilidadeLeituraSimplificadaRouteImport
+      parentRoute: typeof AppAcessibilidadeRoute
+    }
+    '/_app/acessibilidade/fonte-grande': {
+      id: '/_app/acessibilidade/fonte-grande'
+      path: '/fonte-grande'
+      fullPath: '/acessibilidade/fonte-grande'
+      preLoaderRoute: typeof AppAcessibilidadeFonteGrandeRouteImport
+      parentRoute: typeof AppAcessibilidadeRoute
+    }
+    '/_app/acessibilidade/alto-contraste': {
+      id: '/_app/acessibilidade/alto-contraste'
+      path: '/alto-contraste'
+      fullPath: '/acessibilidade/alto-contraste'
+      preLoaderRoute: typeof AppAcessibilidadeAltoContrasteRouteImport
+      parentRoute: typeof AppAcessibilidadeRoute
+    }
   }
 }
 
+interface AppAcessibilidadeRouteChildren {
+  AppAcessibilidadeAltoContrasteRoute: typeof AppAcessibilidadeAltoContrasteRoute
+  AppAcessibilidadeFonteGrandeRoute: typeof AppAcessibilidadeFonteGrandeRoute
+  AppAcessibilidadeLeituraSimplificadaRoute: typeof AppAcessibilidadeLeituraSimplificadaRoute
+  AppAcessibilidadeModoEscuroRoute: typeof AppAcessibilidadeModoEscuroRoute
+  AppAcessibilidadeNavegacaoPorVozRoute: typeof AppAcessibilidadeNavegacaoPorVozRoute
+}
+
+const AppAcessibilidadeRouteChildren: AppAcessibilidadeRouteChildren = {
+  AppAcessibilidadeAltoContrasteRoute: AppAcessibilidadeAltoContrasteRoute,
+  AppAcessibilidadeFonteGrandeRoute: AppAcessibilidadeFonteGrandeRoute,
+  AppAcessibilidadeLeituraSimplificadaRoute:
+    AppAcessibilidadeLeituraSimplificadaRoute,
+  AppAcessibilidadeModoEscuroRoute: AppAcessibilidadeModoEscuroRoute,
+  AppAcessibilidadeNavegacaoPorVozRoute: AppAcessibilidadeNavegacaoPorVozRoute,
+}
+
+const AppAcessibilidadeRouteWithChildren =
+  AppAcessibilidadeRoute._addFileChildren(AppAcessibilidadeRouteChildren)
+
+interface AppRouteChildren {
+  AppAcessibilidadeRoute: typeof AppAcessibilidadeRouteWithChildren
+  AppAjudaRoute: typeof AppAjudaRoute
+  AppAlimentacaoRoute: typeof AppAlimentacaoRoute
+  AppDashboardRoute: typeof AppDashboardRoute
+  AppHabitosRoute: typeof AppHabitosRoute
+  AppHidratacaoRoute: typeof AppHidratacaoRoute
+  AppIaCoachRoute: typeof AppIaCoachRoute
+  AppMaisRoute: typeof AppMaisRoute
+  AppNotificacoesRoute: typeof AppNotificacoesRoute
+  AppPerfilRoute: typeof AppPerfilRoute
+  AppPrivacidadeRoute: typeof AppPrivacidadeRoute
+  AppSobreRoute: typeof AppSobreRoute
+}
+
+const AppRouteChildren: AppRouteChildren = {
+  AppAcessibilidadeRoute: AppAcessibilidadeRouteWithChildren,
+  AppAjudaRoute: AppAjudaRoute,
+  AppAlimentacaoRoute: AppAlimentacaoRoute,
+  AppDashboardRoute: AppDashboardRoute,
+  AppHabitosRoute: AppHabitosRoute,
+  AppHidratacaoRoute: AppHidratacaoRoute,
+  AppIaCoachRoute: AppIaCoachRoute,
+  AppMaisRoute: AppMaisRoute,
+  AppNotificacoesRoute: AppNotificacoesRoute,
+  AppPerfilRoute: AppPerfilRoute,
+  AppPrivacidadeRoute: AppPrivacidadeRoute,
+  AppSobreRoute: AppSobreRoute,
+}
+
+const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AppRoute: AppRouteWithChildren,
+  CadastroRoute: CadastroRoute,
+  LoginRoute: LoginRoute,
+  OnboardingRoute: OnboardingRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
