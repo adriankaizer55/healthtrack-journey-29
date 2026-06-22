@@ -11,6 +11,7 @@ const DAYS = ["S", "T", "Q", "Q", "S", "S", "D"];
 const WEEK = [3, 5, 4, 6, 4, 2, 6].map((v, i) => ({ d: DAYS[i], v }));
 
 function Habitos() {
+  const userName = useApp().user.name;
   const nav = useNavigate();
   const { habits, toggleHabit, streak } = useApp();
   const today = new Date().getDay();
