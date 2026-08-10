@@ -28,7 +28,7 @@ const routes = [
 
 export default defineConfig({
   tanstackStart: {
-    server: { entry: "server" },
+
     spa: { enabled: true },
     prerender: { enabled: true, crawlLinks: true },
     pages: routes.map((path) => ({ path, prerender: { enabled: true } })),
