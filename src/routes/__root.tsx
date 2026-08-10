@@ -8,6 +8,7 @@ import {
   Scripts,
 } from "@tanstack/react-router";
 import { useEffect, type ReactNode } from "react";
+import { Analytics } from "@vercel/analytics/react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
@@ -22,7 +23,9 @@ function NotFoundComponent() {
         <h2 className="mt-4 text-xl font-semibold">Página não encontrada</h2>
         <p className="mt-2 text-sm text-muted-foreground">A rota que você acessou não existe.</p>
         <div className="mt-6">
-          <Link to="/dashboard" className="btn-brand">Ir para o início</Link>
+          <Link to="/dashboard" className="btn-brand">
+            Ir para o início
+          </Link>
         </div>
       </div>
     </div>
@@ -41,8 +44,18 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
         <h1 className="text-xl font-semibold">Sem conexão</h1>
         <p className="mt-2 text-sm text-muted-foreground">Algo deu errado. Tente novamente.</p>
         <div className="mt-6 flex justify-center gap-2">
-          <button onClick={() => { router.invalidate(); reset(); }} className="btn-brand">Tentar novamente</button>
-          <Link to="/dashboard" className="px-4 py-2 rounded-xl border border-border">Início</Link>
+          <button
+            onClick={() => {
+              router.invalidate();
+              reset();
+            }}
+            className="btn-brand"
+          >
+            Tentar novamente
+          </button>
+          <Link to="/dashboard" className="px-4 py-2 rounded-xl border border-border">
+            Início
+          </Link>
         </div>
       </div>
     </div>
@@ -55,14 +68,20 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { title: "HealthTrack — Mais acessível. Mais humano. Mais você." },
-      { name: "description", content: "Plataforma de saúde e bem-estar com hábitos, alimentação, hidratação e IA Coach." },
+      {
+        name: "description",
+        content: "Plataforma de saúde e bem-estar com hábitos, alimentação, hidratação e IA Coach.",
+      },
       { name: "theme-color", content: "#2563EB" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
-      { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" },
+      {
+        rel: "stylesheet",
+        href: "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap",
+      },
     ],
   }),
   shellComponent: RootShell,
@@ -74,7 +93,9 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 function RootShell({ children }: { children: ReactNode }) {
   return (
     <html lang="pt-BR">
-      <head><HeadContent /></head>
+      <head>
+        <HeadContent />
+      </head>
       <body>
         {children}
         <Scripts />
@@ -90,6 +111,7 @@ function RootComponent() {
       <AppProvider>
         <Outlet />
         <Toaster position="top-right" />
+        <Analytics />
       </AppProvider>
     </QueryClientProvider>
   );

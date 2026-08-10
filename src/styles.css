@@ -46,7 +46,7 @@
   --card-foreground: oklch(0.18 0.04 260);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.18 0.04 260);
-  --primary: oklch(0.55 0.21 260);          /* #2563EB */
+  --primary: oklch(0.55 0.21 260); /* #2563EB */
   --primary-foreground: oklch(0.99 0 0);
   --secondary: oklch(0.96 0.01 240);
   --secondary-foreground: oklch(0.2 0.04 260);
@@ -59,15 +59,15 @@
   --border: oklch(0.92 0.01 240);
   --input: oklch(0.92 0.01 240);
   --ring: oklch(0.6 0.18 250);
-  --teal: oklch(0.72 0.13 190);             /* #14B8A6 */
+  --teal: oklch(0.72 0.13 190); /* #14B8A6 */
   --teal-foreground: oklch(0.99 0 0);
   --success: oklch(0.7 0.17 150);
 }
 
 .dark {
-  --background: oklch(0.18 0.03 260);       /* #0F172A */
+  --background: oklch(0.18 0.03 260); /* #0F172A */
   --foreground: oklch(0.97 0.01 240);
-  --card: oklch(0.24 0.03 260);             /* #1E293B */
+  --card: oklch(0.24 0.03 260); /* #1E293B */
   --card-foreground: oklch(0.97 0.01 240);
   --popover: oklch(0.24 0.03 260);
   --popover-foreground: oklch(0.97 0.01 240);
@@ -128,8 +128,12 @@
 }
 
 @layer base {
-  * { border-color: var(--color-border); }
-  html { font-size: calc(16px * var(--app-font-scale)); }
+  * {
+    border-color: var(--color-border);
+  }
+  html {
+    font-size: calc(16px * var(--app-font-scale));
+  }
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
@@ -164,7 +168,9 @@
   background-color: var(--color-card);
   color: var(--color-card-foreground);
   border-radius: 1rem;
-  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.05), 0 1px 2px -1px rgb(0 0 0 / 0.05);
+  box-shadow:
+    0 1px 3px 0 rgb(0 0 0 / 0.05),
+    0 1px 2px -1px rgb(0 0 0 / 0.05);
   padding: 1.25rem;
   border: 1px solid var(--color-border);
 }
