@@ -26,6 +26,7 @@ import { Route as AppDashboardRouteImport } from './routes/_app.dashboard'
 import { Route as AppAlimentacaoRouteImport } from './routes/_app.alimentacao'
 import { Route as AppAjudaRouteImport } from './routes/_app.ajuda'
 import { Route as AppAcessibilidadeRouteImport } from './routes/_app.acessibilidade'
+import { Route as AppAcessibilidadeIndexRouteImport } from './routes/_app.acessibilidade.index'
 import { Route as AppAcessibilidadeNavegacaoPorVozRouteImport } from './routes/_app.acessibilidade.navegacao-por-voz'
 import { Route as AppAcessibilidadeModoEscuroRouteImport } from './routes/_app.acessibilidade.modo-escuro'
 import { Route as AppAcessibilidadeLeituraSimplificadaRouteImport } from './routes/_app.acessibilidade.leitura-simplificada'
@@ -116,6 +117,11 @@ const AppAcessibilidadeRoute = AppAcessibilidadeRouteImport.update({
   path: '/acessibilidade',
   getParentRoute: () => AppRoute,
 } as any)
+const AppAcessibilidadeIndexRoute = AppAcessibilidadeIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AppAcessibilidadeRoute,
+} as any)
 const AppAcessibilidadeNavegacaoPorVozRoute =
   AppAcessibilidadeNavegacaoPorVozRouteImport.update({
     id: '/navegacao-por-voz',
@@ -169,13 +175,13 @@ export interface FileRoutesByFullPath {
   '/acessibilidade/leitura-simplificada': typeof AppAcessibilidadeLeituraSimplificadaRoute
   '/acessibilidade/modo-escuro': typeof AppAcessibilidadeModoEscuroRoute
   '/acessibilidade/navegacao-por-voz': typeof AppAcessibilidadeNavegacaoPorVozRoute
+  '/acessibilidade/': typeof AppAcessibilidadeIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/cadastro': typeof CadastroRoute
   '/login': typeof LoginRoute
   '/onboarding': typeof OnboardingRoute
-  '/acessibilidade': typeof AppAcessibilidadeRouteWithChildren
   '/ajuda': typeof AppAjudaRoute
   '/alimentacao': typeof AppAlimentacaoRoute
   '/dashboard': typeof AppDashboardRoute
@@ -192,6 +198,7 @@ export interface FileRoutesByTo {
   '/acessibilidade/leitura-simplificada': typeof AppAcessibilidadeLeituraSimplificadaRoute
   '/acessibilidade/modo-escuro': typeof AppAcessibilidadeModoEscuroRoute
   '/acessibilidade/navegacao-por-voz': typeof AppAcessibilidadeNavegacaoPorVozRoute
+  '/acessibilidade': typeof AppAcessibilidadeIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -217,6 +224,7 @@ export interface FileRoutesById {
   '/_app/acessibilidade/leitura-simplificada': typeof AppAcessibilidadeLeituraSimplificadaRoute
   '/_app/acessibilidade/modo-escuro': typeof AppAcessibilidadeModoEscuroRoute
   '/_app/acessibilidade/navegacao-por-voz': typeof AppAcessibilidadeNavegacaoPorVozRoute
+  '/_app/acessibilidade/': typeof AppAcessibilidadeIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -242,13 +250,13 @@ export interface FileRouteTypes {
     | '/acessibilidade/leitura-simplificada'
     | '/acessibilidade/modo-escuro'
     | '/acessibilidade/navegacao-por-voz'
+    | '/acessibilidade/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/cadastro'
     | '/login'
     | '/onboarding'
-    | '/acessibilidade'
     | '/ajuda'
     | '/alimentacao'
     | '/dashboard'
@@ -265,6 +273,7 @@ export interface FileRouteTypes {
     | '/acessibilidade/leitura-simplificada'
     | '/acessibilidade/modo-escuro'
     | '/acessibilidade/navegacao-por-voz'
+    | '/acessibilidade'
   id:
     | '__root__'
     | '/'
@@ -289,6 +298,7 @@ export interface FileRouteTypes {
     | '/_app/acessibilidade/leitura-simplificada'
     | '/_app/acessibilidade/modo-escuro'
     | '/_app/acessibilidade/navegacao-por-voz'
+    | '/_app/acessibilidade/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -420,6 +430,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppAcessibilidadeRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/acessibilidade/': {
+      id: '/_app/acessibilidade/'
+      path: '/'
+      fullPath: '/acessibilidade/'
+      preLoaderRoute: typeof AppAcessibilidadeIndexRouteImport
+      parentRoute: typeof AppAcessibilidadeRoute
+    }
     '/_app/acessibilidade/navegacao-por-voz': {
       id: '/_app/acessibilidade/navegacao-por-voz'
       path: '/navegacao-por-voz'
@@ -464,6 +481,7 @@ interface AppAcessibilidadeRouteChildren {
   AppAcessibilidadeLeituraSimplificadaRoute: typeof AppAcessibilidadeLeituraSimplificadaRoute
   AppAcessibilidadeModoEscuroRoute: typeof AppAcessibilidadeModoEscuroRoute
   AppAcessibilidadeNavegacaoPorVozRoute: typeof AppAcessibilidadeNavegacaoPorVozRoute
+  AppAcessibilidadeIndexRoute: typeof AppAcessibilidadeIndexRoute
 }
 
 const AppAcessibilidadeRouteChildren: AppAcessibilidadeRouteChildren = {
@@ -473,6 +491,7 @@ const AppAcessibilidadeRouteChildren: AppAcessibilidadeRouteChildren = {
     AppAcessibilidadeLeituraSimplificadaRoute,
   AppAcessibilidadeModoEscuroRoute: AppAcessibilidadeModoEscuroRoute,
   AppAcessibilidadeNavegacaoPorVozRoute: AppAcessibilidadeNavegacaoPorVozRoute,
+  AppAcessibilidadeIndexRoute: AppAcessibilidadeIndexRoute,
 }
 
 const AppAcessibilidadeRouteWithChildren =
@@ -520,13 +539,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
