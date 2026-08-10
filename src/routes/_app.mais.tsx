@@ -1,5 +1,14 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { User, Bell, Accessibility, Shield, HelpCircle, Info, LogOut, ChevronRight } from "lucide-react";
+import {
+  User,
+  Bell,
+  Accessibility,
+  Shield,
+  HelpCircle,
+  Info,
+  LogOut,
+  ChevronRight,
+} from "lucide-react";
 
 export const Route = createFileRoute("/_app/mais")({ component: Mais });
 
@@ -19,16 +28,26 @@ function Mais() {
       <ul className="space-y-2">
         {ITEMS.map((it) => (
           <li key={it.to}>
-            <Link to={it.to} className="card-soft flex items-center gap-3 hover:shadow-md transition-all min-h-14">
-              <div className="size-10 rounded-xl bg-muted text-primary grid place-items-center"><it.icon className="size-5" /></div>
+            <Link
+              to={it.to}
+              className="card-soft flex items-center gap-3 hover:shadow-md transition-all min-h-14"
+            >
+              <div className="size-10 rounded-xl bg-muted text-primary grid place-items-center">
+                <it.icon className="size-5" />
+              </div>
               <span className="flex-1 font-medium">{it.label}</span>
               <ChevronRight className="size-5 text-muted-foreground" />
             </Link>
           </li>
         ))}
         <li>
-          <Link to="/login" className="card-soft flex items-center gap-3 hover:bg-destructive/10 transition-all min-h-14 text-destructive">
-            <div className="size-10 rounded-xl bg-destructive/15 grid place-items-center"><LogOut className="size-5" /></div>
+          <Link
+            to="/login"
+            className="card-soft flex items-center gap-3 hover:bg-destructive/10 transition-all min-h-14 text-destructive"
+          >
+            <div className="size-10 rounded-xl bg-destructive/15 grid place-items-center">
+              <LogOut className="size-5" />
+            </div>
             <span className="flex-1 font-medium">Sair da conta</span>
           </Link>
         </li>
