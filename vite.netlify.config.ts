@@ -33,5 +33,5 @@ export default defineConfig({
     prerender: { enabled: true, crawlLinks: true },
     pages: routes.map((path) => ({ path, prerender: { enabled: true } })),
   },
-  nitro: { preset: "node" },
+  nitro: false,
 });
