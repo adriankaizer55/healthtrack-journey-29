@@ -1,5 +1,20 @@
 import { Link, Outlet, useRouterState } from "@tanstack/react-router";
-import { Home, ListChecks, UtensilsCrossed, Bot, Menu, Bell, User, Settings, Accessibility, HelpCircle, Shield, Info, LogOut, Droplet } from "lucide-react";
+import {
+  Home,
+  ListChecks,
+  UtensilsCrossed,
+  Bot,
+  Menu,
+  Bell,
+  User,
+  Settings,
+  Accessibility,
+  HelpCircle,
+  Shield,
+  Info,
+  LogOut,
+  Droplet,
+} from "lucide-react";
 import { Logo } from "./Logo";
 
 const NAV = [
@@ -28,23 +43,37 @@ export function AppShell() {
     <div className="min-h-dvh flex w-full bg-background text-foreground">
       {/* Sidebar desktop */}
       <aside className="hidden lg:flex w-64 shrink-0 border-r border-border flex-col p-4 gap-1 sticky top-0 h-dvh">
-        <div className="px-2 py-3"><Logo /></div>
+        <div className="px-2 py-3">
+          <Logo />
+        </div>
         <nav className="flex flex-col gap-1 mt-2" aria-label="Principal">
           {NAV.map((n) => (
-            <Link key={n.to} to={n.to}
-              className={`flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all min-h-11 ${isActive(n.to) ? "gradient-brand text-white shadow-sm" : "hover:bg-muted text-foreground"}`}>
-              <n.icon className="size-5" /><span className="font-medium">{n.label}</span>
+            <Link
+              key={n.to}
+              to={n.to}
+              className={`flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all min-h-11 ${isActive(n.to) ? "gradient-brand text-white shadow-sm" : "hover:bg-muted text-foreground"}`}
+            >
+              <n.icon className="size-5" />
+              <span className="font-medium">{n.label}</span>
             </Link>
           ))}
           <div className="h-px bg-border my-3" />
           {SIDE_EXTRA.map((n) => (
-            <Link key={n.to} to={n.to}
-              className={`flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all min-h-11 ${isActive(n.to) ? "bg-muted text-primary font-semibold" : "hover:bg-muted text-muted-foreground hover:text-foreground"}`}>
-              <n.icon className="size-5" /><span>{n.label}</span>
+            <Link
+              key={n.to}
+              to={n.to}
+              className={`flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all min-h-11 ${isActive(n.to) ? "bg-muted text-primary font-semibold" : "hover:bg-muted text-muted-foreground hover:text-foreground"}`}
+            >
+              <n.icon className="size-5" />
+              <span>{n.label}</span>
             </Link>
           ))}
-          <Link to="/login" className="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-destructive/10 text-destructive mt-auto min-h-11">
-            <LogOut className="size-5" /><span>Sair</span>
+          <Link
+            to="/login"
+            className="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-destructive/10 text-destructive mt-auto min-h-11"
+          >
+            <LogOut className="size-5" />
+            <span>Sair</span>
           </Link>
         </nav>
       </aside>
@@ -55,13 +84,19 @@ export function AppShell() {
       </main>
 
       {/* Bottom nav mobile */}
-      <nav className="lg:hidden fixed bottom-0 inset-x-0 z-50 bg-card/95 backdrop-blur border-t border-border" aria-label="Navegação">
+      <nav
+        className="lg:hidden fixed bottom-0 inset-x-0 z-50 bg-card/95 backdrop-blur border-t border-border"
+        aria-label="Navegação"
+      >
         <ul className="grid grid-cols-5">
           {NAV.map((n) => {
             const active = isActive(n.to);
             return (
               <li key={n.to}>
-                <Link to={n.to} className={`flex flex-col items-center justify-center gap-1 py-2.5 min-h-14 transition-colors ${active ? "text-primary" : "text-muted-foreground"}`}>
+                <Link
+                  to={n.to}
+                  className={`flex flex-col items-center justify-center gap-1 py-2.5 min-h-14 transition-colors ${active ? "text-primary" : "text-muted-foreground"}`}
+                >
                   <n.icon className={`size-5 ${active ? "stroke-[2.5]" : ""}`} />
                   <span className="text-[11px] font-medium">{n.label}</span>
                 </Link>
