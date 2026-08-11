@@ -127,6 +127,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
     setActivity((p) => loadLS("ht_activity", p));
     setUnit((p) => loadLS("ht_unit", p));
     setHabits((p) => loadLS("ht_habits", p));
+    setDoneByDay((p) => loadLS("ht_done_day", p));
     setMeals((p) => loadLS("ht_meals", p));
     setWaterCups((p) => loadLS("ht_water", p));
     setThemeState((p) => loadLS("ht_theme", p));
