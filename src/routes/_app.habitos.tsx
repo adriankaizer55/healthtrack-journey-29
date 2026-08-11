@@ -155,6 +155,10 @@ function Habitos() {
               className={`size-9 rounded-full grid place-items-center transition-all ${h.done ? "bg-success text-white" : "border-2 border-border"}`}>
               {h.done && <Check className="size-5" />}
             </button>
+            <button onClick={() => onRemove(h.id, h.name)} aria-label={`Remover ${h.name}`}
+              className="size-9 rounded-full grid place-items-center text-muted-foreground hover:text-destructive hover:bg-muted transition-all">
+              <Trash2 className="size-4" />
+            </button>
           </li>
         ))}
       </ul>
