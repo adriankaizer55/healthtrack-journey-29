@@ -133,7 +133,7 @@ function Habitos() {
           <div className="text-sm font-semibold mb-2">Últimos 7 dias</div>
           <div className="h-24">
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={WEEK}>
+              <BarChart data={week}>
                 <XAxis dataKey="d" tick={{ fontSize: 10 }} axisLine={false} tickLine={false} />
                 <Tooltip contentStyle={{ borderRadius: 12, border: "1px solid var(--border)", background: "var(--card)", color: "var(--card-foreground)" }} />
                 <Bar dataKey="v" fill="url(#bg)" radius={[6, 6, 0, 0]} />
