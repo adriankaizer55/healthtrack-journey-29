@@ -169,6 +169,11 @@ export function AppProvider({ children }: { children: ReactNode }) {
     toggleHabit: (id) => setHabits((hs) => hs.map((h) => h.id === id ? { ...h, done: !h.done } : h)),
     addHabit: (h) => setHabits((hs) => [...hs, { ...h, id: `h${Date.now()}`, done: false }]),
     removeHabit: (id) => setHabits((hs) => hs.filter((h) => h.id !== id)),
+    doneByDay,
+    toggleHabitDay: (day, id) => setDoneByDay((p) => {
+      const list = p[day] ?? [];
+      return { ...p, [day]: list.includes(id) ? list.filter((x) => x !== id) : [...list, id] };
+    }),
     meals,
     addMeal: (m) => setMeals((ms) => [...ms, { ...m, id: `m${Date.now()}` }]),
     waterCups,
