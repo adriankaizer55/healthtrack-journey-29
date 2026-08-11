@@ -97,6 +97,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [activity, setActivity] = useState<Activity>("moderado");
   const [unit, setUnit] = useState<"kg" | "lb">("kg");
   const [habits, setHabits] = useState<Habit[]>(DEFAULT_HABITS);
+  const [doneByDay, setDoneByDay] = useState<Record<number, string[]>>(DEFAULT_DONE_BY_DAY);
   const [meals, setMeals] = useState<Meal[]>(DEFAULT_MEALS);
   const [waterCups, setWaterCups] = useState<number>(4);
   const [streak] = useState(7);
