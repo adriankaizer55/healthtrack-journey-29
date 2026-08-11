@@ -54,7 +54,7 @@ function Dashboard() {
                 </LineChart>
               </ResponsiveContainer>
             </div>
-            <CircleProgress value={Math.min(100, ((81.1 - weight) / (81.1 - targetWeight)) * 100)} label={`-${lost} kg`} />
+            <CircleProgress value={0} label={`-${lost} kg`} />
           </div>
         </div>
 
