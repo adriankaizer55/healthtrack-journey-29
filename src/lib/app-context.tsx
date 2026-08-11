@@ -69,6 +69,16 @@ const DEFAULT_HABITS: Habit[] = [
   { id: "h5", name: "Treino", icon: "🏋️", color: "bg-orange-500", goal: "30 min", value: "0", done: false },
   { id: "h6", name: "Frutas", icon: "🍎", color: "bg-rose-500", goal: "3 porções", value: "2", done: false },
 ];
+const DEFAULT_DONE_BY_DAY: Record<number, string[]> = {
+  0: ["h1", "h6"],
+  1: ["h2", "h3", "h4"],
+  2: ["h1", "h2"],
+  3: ["h2", "h3", "h5", "h6"],
+  4: ["h1", "h3"],
+  5: ["h4"],
+  6: ["h1", "h2", "h3", "h5"],
+};
+
 
 const DEFAULT_MEALS: Meal[] = [
   { id: "m1", name: "Aveia com banana", category: "Café", time: "07:30", kcal: 320, protein: 12, carbs: 55, fat: 6 },
