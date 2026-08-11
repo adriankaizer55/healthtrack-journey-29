@@ -111,9 +111,10 @@ function Habitos() {
       {/* Days selector */}
       <div className="flex gap-2 mb-5 overflow-x-auto pb-1">
         {DAYS.map((d, i) => (
-          <button key={i} onClick={() => setSelected(i)}
-            className={`shrink-0 size-11 rounded-full font-semibold transition-all ${selected === i ? "gradient-brand text-white shadow-md" : "bg-muted text-muted-foreground"}`}>
+          <button key={i} onClick={() => setSelected(i)} aria-pressed={selected === i}
+            className={`shrink-0 size-11 rounded-full font-semibold transition-all relative ${selected === i ? "gradient-brand text-white shadow-md" : "bg-muted text-muted-foreground"}`}>
             {d}
+            {i === today && <span className="absolute -bottom-0.5 left-1/2 -translate-x-1/2 size-1.5 rounded-full bg-primary" />}
           </button>
         ))}
       </div>
@@ -122,8 +123,9 @@ function Habitos() {
         <div className="card-soft flex items-center gap-4">
           <CircleProgress value={pct} label={`${done}/${total}`} />
           <div>
-            <div className="font-semibold">Progresso de hoje</div>
+            <div className="font-semibold">{isToday ? "Progresso de hoje" : `Progresso de ${DAY_LABELS[selected]}`}</div>
             <div className="text-sm text-muted-foreground">{done} hábitos concluídos</div>
+
             <div className="mt-2 flex items-center gap-1.5 text-sm text-orange-500 font-semibold"><Flame className="size-4" /> {streak} dias</div>
           </div>
         </div>
