@@ -151,7 +151,7 @@ function Habitos() {
       {allDone && (
         <div className="card-soft mb-4 text-center gradient-brand text-white animate-pulse">
           <div className="text-3xl mb-1">🎉</div>
-          <div className="font-bold">Você completou todos os hábitos de hoje!</div>
+          <div className="font-bold">Você completou todos os hábitos de {isToday ? "hoje" : DAY_LABELS[selected]}!</div>
           <div className="text-sm opacity-90">Continue assim, {userName} — seu corpo agradece.</div>
         </div>
       )}
@@ -163,19 +163,22 @@ function Habitos() {
             <div className="font-semibold">Nenhum hábito ainda</div>
             <p className="text-sm text-muted-foreground">Comece criando um hábito saudável hoje.</p>
           </li>
-        ) : habits.map((h) => (
+        ) : habits.map((h) => {
+          const dayDone = isDone(h);
+          return (
           <li key={h.id} className="card-soft flex items-center gap-3">
             <div className={`size-11 rounded-xl ${h.color} text-white grid place-items-center text-xl`}>{h.icon}</div>
             <button
-              onClick={() => h.id === "h1" ? nav({ to: "/hidratacao" }) : onToggle(h.id, h.name)}
+              onClick={() => h.id === "h1" && isToday ? nav({ to: "/hidratacao" }) : onToggle(h.id, h.name)}
               className="flex-1 text-left min-h-11">
               <div className="font-semibold">{h.name}</div>
-              <div className="text-xs text-muted-foreground">{h.value} / {h.goal}</div>
+              <div className="text-xs text-muted-foreground">{isToday ? `${h.value} / ${h.goal}` : `Meta: ${h.goal}`}</div>
             </button>
-            <button onClick={() => onToggle(h.id, h.name)} aria-label={h.done ? "Desmarcar" : "Marcar"}
-              className={`size-9 rounded-full grid place-items-center transition-all ${h.done ? "bg-success text-white" : "border-2 border-border"}`}>
-              {h.done && <Check className="size-5" />}
+            <button onClick={() => onToggle(h.id, h.name)} aria-label={dayDone ? "Desmarcar" : "Marcar"}
+              className={`size-9 rounded-full grid place-items-center transition-all ${dayDone ? "bg-success text-white" : "border-2 border-border"}`}>
+              {dayDone && <Check className="size-5" />}
             </button>
+
             <button onClick={() => onRemove(h.id, h.name)} aria-label={`Remover ${h.name}`}
               className="size-9 rounded-full grid place-items-center text-muted-foreground hover:text-destructive hover:bg-muted transition-all">
               <Trash2 className="size-4" />
