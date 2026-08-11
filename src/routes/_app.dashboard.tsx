@@ -41,7 +41,7 @@ function Dashboard() {
           <div className="flex items-center gap-4">
             <div className="flex-1 h-28">
               <ResponsiveContainer width="100%" height="100%">
-                <LineChart data={WEIGHT_DATA}>
+                <LineChart data={weightData}>
                   <XAxis dataKey="d" tick={{ fontSize: 10 }} axisLine={false} tickLine={false} />
                   <YAxis hide domain={["dataMin - 1", "dataMax + 1"]} />
                   <Tooltip contentStyle={{ borderRadius: 12, border: "1px solid var(--border)", background: "var(--card)", color: "var(--card-foreground)" }} />
