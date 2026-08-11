@@ -1,37 +1,56 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useApp } from "@/lib/app-context";
 import { Check, Flame, Plus, Trash2, X } from "lucide-react";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
 import { BarChart, Bar, ResponsiveContainer, XAxis, Tooltip } from "recharts";
 
 export const Route = createFileRoute("/_app/habitos")({ component: Habitos });
 
 const DAYS = ["S", "T", "Q", "Q", "S", "S", "D"];
-const WEEK = [3, 5, 4, 6, 4, 2, 6].map((v, i) => ({ d: DAYS[i], v }));
+const DAY_LABELS = ["segunda", "terça", "quarta", "quinta", "sexta", "sábado", "domingo"];
 const ICONS = ["💧", "🚶", "🧘", "😴", "🏋️", "🍎", "📚", "🥗"];
 const COLORS = ["bg-sky-500", "bg-emerald-500", "bg-violet-500", "bg-indigo-500", "bg-orange-500", "bg-rose-500"];
 
 function Habitos() {
   const userName = useApp().user.name;
   const nav = useNavigate();
-  const { habits, toggleHabit, streak, addHabit, removeHabit } = useApp();
-  const today = new Date().getDay();
-  const [selected, setSelected] = useState(today);
+  const { habits, toggleHabit, streak, addHabit, removeHabit, doneByDay, toggleHabitDay } = useApp();
+  const [today, setToday] = useState(0);
+  const [selected, setSelected] = useState(0);
+  useEffect(() => {
+    const idx = (new Date().getDay() + 6) % 7; // 0 = segunda
+    setToday(idx);
+    setSelected(idx);
+  }, []);
   const [open, setOpen] = useState(false);
   const [name, setName] = useState("");
   const [goal, setGoal] = useState("");
   const [icon, setIcon] = useState(ICONS[0]);
-  const done = habits.filter((h) => h.done).length;
+  const isToday = selected === today;
+
+  const isDone = (h: { id: string; done: boolean }) =>
+    isToday ? h.done : (doneByDay[selected] ?? []).includes(h.id);
+
+  const done = habits.filter(isDone).length;
   const total = habits.length;
   const allDone = total > 0 && done === total;
   const pct = useMemo(() => (total ? (done / total) * 100 : 0), [done, total]);
+  const week = useMemo(
+    () => DAYS.map((d, i) => ({
+      d,
+      v: i === today ? habits.filter((h) => h.done).length : (doneByDay[i] ?? []).filter((id) => habits.some((h) => h.id === id)).length,
+    })),
+    [habits, doneByDay, today],
+  );
 
   function onToggle(id: string, name: string) {
-    toggleHabit(id);
     const h = habits.find((x) => x.id === id);
-    if (!h?.done) toast.success(`Hábito "${name}" concluído ✓`);
+    const wasDone = h ? isDone(h) : false;
+    if (isToday) toggleHabit(id); else toggleHabitDay(selected, id);
+    if (!wasDone) toast.success(`Hábito "${name}" concluído ✓`);
   }
+
 
   function onAdd(e: React.FormEvent) {
     e.preventDefault();
@@ -92,9 +111,10 @@ function Habitos() {
       {/* Days selector */}
       <div className="flex gap-2 mb-5 overflow-x-auto pb-1">
         {DAYS.map((d, i) => (
-          <button key={i} onClick={() => setSelected(i)}
-            className={`shrink-0 size-11 rounded-full font-semibold transition-all ${selected === i ? "gradient-brand text-white shadow-md" : "bg-muted text-muted-foreground"}`}>
+          <button key={i} onClick={() => setSelected(i)} aria-pressed={selected === i}
+            className={`shrink-0 size-11 rounded-full font-semibold transition-all relative ${selected === i ? "gradient-brand text-white shadow-md" : "bg-muted text-muted-foreground"}`}>
             {d}
+            {i === today && <span className="absolute -bottom-0.5 left-1/2 -translate-x-1/2 size-1.5 rounded-full bg-primary" />}
           </button>
         ))}
       </div>
@@ -103,8 +123,9 @@ function Habitos() {
         <div className="card-soft flex items-center gap-4">
           <CircleProgress value={pct} label={`${done}/${total}`} />
           <div>
-            <div className="font-semibold">Progresso de hoje</div>
+            <div className="font-semibold">{isToday ? "Progresso de hoje" : `Progresso de ${DAY_LABELS[selected]}`}</div>
             <div className="text-sm text-muted-foreground">{done} hábitos concluídos</div>
+
             <div className="mt-2 flex items-center gap-1.5 text-sm text-orange-500 font-semibold"><Flame className="size-4" /> {streak} dias</div>
           </div>
         </div>
@@ -112,7 +133,7 @@ function Habitos() {
           <div className="text-sm font-semibold mb-2">Últimos 7 dias</div>
           <div className="h-24">
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={WEEK}>
+              <BarChart data={week}>
                 <XAxis dataKey="d" tick={{ fontSize: 10 }} axisLine={false} tickLine={false} />
                 <Tooltip contentStyle={{ borderRadius: 12, border: "1px solid var(--border)", background: "var(--card)", color: "var(--card-foreground)" }} />
                 <Bar dataKey="v" fill="url(#bg)" radius={[6, 6, 0, 0]} />
@@ -130,7 +151,7 @@ function Habitos() {
       {allDone && (
         <div className="card-soft mb-4 text-center gradient-brand text-white animate-pulse">
           <div className="text-3xl mb-1">🎉</div>
-          <div className="font-bold">Você completou todos os hábitos de hoje!</div>
+          <div className="font-bold">Você completou todos os hábitos de {isToday ? "hoje" : DAY_LABELS[selected]}!</div>
           <div className="text-sm opacity-90">Continue assim, {userName} — seu corpo agradece.</div>
         </div>
       )}
@@ -142,25 +163,29 @@ function Habitos() {
             <div className="font-semibold">Nenhum hábito ainda</div>
             <p className="text-sm text-muted-foreground">Comece criando um hábito saudável hoje.</p>
           </li>
-        ) : habits.map((h) => (
+        ) : habits.map((h) => {
+          const dayDone = isDone(h);
+          return (
           <li key={h.id} className="card-soft flex items-center gap-3">
             <div className={`size-11 rounded-xl ${h.color} text-white grid place-items-center text-xl`}>{h.icon}</div>
             <button
-              onClick={() => h.id === "h1" ? nav({ to: "/hidratacao" }) : onToggle(h.id, h.name)}
+              onClick={() => h.id === "h1" && isToday ? nav({ to: "/hidratacao" }) : onToggle(h.id, h.name)}
               className="flex-1 text-left min-h-11">
               <div className="font-semibold">{h.name}</div>
-              <div className="text-xs text-muted-foreground">{h.value} / {h.goal}</div>
+              <div className="text-xs text-muted-foreground">{isToday ? `${h.value} / ${h.goal}` : `Meta: ${h.goal}`}</div>
             </button>
-            <button onClick={() => onToggle(h.id, h.name)} aria-label={h.done ? "Desmarcar" : "Marcar"}
-              className={`size-9 rounded-full grid place-items-center transition-all ${h.done ? "bg-success text-white" : "border-2 border-border"}`}>
-              {h.done && <Check className="size-5" />}
+            <button onClick={() => onToggle(h.id, h.name)} aria-label={dayDone ? "Desmarcar" : "Marcar"}
+              className={`size-9 rounded-full grid place-items-center transition-all ${dayDone ? "bg-success text-white" : "border-2 border-border"}`}>
+              {dayDone && <Check className="size-5" />}
             </button>
+
             <button onClick={() => onRemove(h.id, h.name)} aria-label={`Remover ${h.name}`}
               className="size-9 rounded-full grid place-items-center text-muted-foreground hover:text-destructive hover:bg-muted transition-all">
               <Trash2 className="size-4" />
             </button>
           </li>
-        ))}
+          );
+        })}
       </ul>
     </div>
   );

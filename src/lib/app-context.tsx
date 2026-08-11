@@ -38,6 +38,8 @@ type State = {
   toggleHabit: (id: string) => void;
   addHabit: (h: Omit<Habit, "id" | "done">) => void;
   removeHabit: (id: string) => void;
+  doneByDay: Record<number, string[]>;
+  toggleHabitDay: (day: number, id: string) => void;
 
   meals: Meal[];
   addMeal: (m: Omit<Meal, "id">) => void;
@@ -67,6 +69,16 @@ const DEFAULT_HABITS: Habit[] = [
   { id: "h5", name: "Treino", icon: "🏋️", color: "bg-orange-500", goal: "30 min", value: "0", done: false },
   { id: "h6", name: "Frutas", icon: "🍎", color: "bg-rose-500", goal: "3 porções", value: "2", done: false },
 ];
+const DEFAULT_DONE_BY_DAY: Record<number, string[]> = {
+  0: ["h1", "h6"],
+  1: ["h2", "h3", "h4"],
+  2: ["h1", "h2"],
+  3: ["h2", "h3", "h5", "h6"],
+  4: ["h1", "h3"],
+  5: ["h4"],
+  6: ["h1", "h2", "h3", "h5"],
+};
+
 
 const DEFAULT_MEALS: Meal[] = [
   { id: "m1", name: "Aveia com banana", category: "Café", time: "07:30", kcal: 320, protein: 12, carbs: 55, fat: 6 },
@@ -95,6 +107,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [activity, setActivity] = useState<Activity>("moderado");
   const [unit, setUnit] = useState<"kg" | "lb">("kg");
   const [habits, setHabits] = useState<Habit[]>(DEFAULT_HABITS);
+  const [doneByDay, setDoneByDay] = useState<Record<number, string[]>>(DEFAULT_DONE_BY_DAY);
   const [meals, setMeals] = useState<Meal[]>(DEFAULT_MEALS);
   const [waterCups, setWaterCups] = useState<number>(4);
   const [streak] = useState(7);
@@ -114,6 +127,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
     setActivity((p) => loadLS("ht_activity", p));
     setUnit((p) => loadLS("ht_unit", p));
     setHabits((p) => loadLS("ht_habits", p));
+    setDoneByDay((p) => loadLS("ht_done_day", p));
     setMeals((p) => loadLS("ht_meals", p));
     setWaterCups((p) => loadLS("ht_water", p));
     setThemeState((p) => loadLS("ht_theme", p));
@@ -138,6 +152,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
   }, [theme, contrast, fontScale, hydrated]);
 
   useEffect(() => { if (hydrated) saveLS("ht_habits", habits); }, [habits, hydrated]);
+  useEffect(() => { if (hydrated) saveLS("ht_done_day", doneByDay); }, [doneByDay, hydrated]);
   useEffect(() => { if (hydrated) saveLS("ht_meals", meals); }, [meals, hydrated]);
   useEffect(() => { if (hydrated) saveLS("ht_water", waterCups); }, [waterCups, hydrated]);
   useEffect(() => { if (hydrated) saveLS("ht_user", user); }, [user, hydrated]);
@@ -156,6 +171,11 @@ export function AppProvider({ children }: { children: ReactNode }) {
     toggleHabit: (id) => setHabits((hs) => hs.map((h) => h.id === id ? { ...h, done: !h.done } : h)),
     addHabit: (h) => setHabits((hs) => [...hs, { ...h, id: `h${Date.now()}`, done: false }]),
     removeHabit: (id) => setHabits((hs) => hs.filter((h) => h.id !== id)),
+    doneByDay,
+    toggleHabitDay: (day, id) => setDoneByDay((p) => {
+      const list = p[day] ?? [];
+      return { ...p, [day]: list.includes(id) ? list.filter((x) => x !== id) : [...list, id] };
+    }),
     meals,
     addMeal: (m) => setMeals((ms) => [...ms, { ...m, id: `m${Date.now()}` }]),
     waterCups,
