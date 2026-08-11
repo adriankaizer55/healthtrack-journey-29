@@ -1,7 +1,7 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useApp } from "@/lib/app-context";
 import { Check, Flame, Plus, Trash2, X } from "lucide-react";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
 import { BarChart, Bar, ResponsiveContainer, XAxis, Tooltip } from "recharts";
 
