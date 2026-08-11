@@ -5,16 +5,14 @@ import { LineChart, Line, ResponsiveContainer, XAxis, YAxis, Tooltip } from "rec
 
 export const Route = createFileRoute("/_app/dashboard")({ component: Dashboard });
 
-const WEIGHT_DATA = [
-  { d: "Sem 1", w: 81.1 }, { d: "Sem 2", w: 80.2 }, { d: "Sem 3", w: 79.4 },
-  { d: "Sem 4", w: 78.8 }, { d: "Sem 5", w: 78.3 }, { d: "Sem 6", w: 78.0 },
-];
+const WEEK_LABELS = ["Sem 1", "Sem 2", "Sem 3", "Sem 4", "Sem 5", "Sem 6"];
 
 function Dashboard() {
   const { user, habits, waterCups, streak, weight, targetWeight } = useApp();
   const done = habits.filter((h) => h.done).length;
   const kcal = 1240, kcalGoal = 2000;
-  const lost = (81.1 - weight).toFixed(1);
+  const lost = "0.0";
+  const weightData = WEEK_LABELS.map((d) => ({ d, w: weight }));
 
   return (
     <div className="px-4 lg:px-8 py-6 max-w-6xl mx-auto">
