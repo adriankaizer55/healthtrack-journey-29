@@ -152,6 +152,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
   }, [theme, contrast, fontScale, hydrated]);
 
   useEffect(() => { if (hydrated) saveLS("ht_habits", habits); }, [habits, hydrated]);
+  useEffect(() => { if (hydrated) saveLS("ht_done_day", doneByDay); }, [doneByDay, hydrated]);
   useEffect(() => { if (hydrated) saveLS("ht_meals", meals); }, [meals, hydrated]);
   useEffect(() => { if (hydrated) saveLS("ht_water", waterCups); }, [waterCups, hydrated]);
   useEffect(() => { if (hydrated) saveLS("ht_user", user); }, [user, hydrated]);
