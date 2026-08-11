@@ -5,16 +5,14 @@ import { LineChart, Line, ResponsiveContainer, XAxis, YAxis, Tooltip } from "rec
 
 export const Route = createFileRoute("/_app/dashboard")({ component: Dashboard });
 
-const WEIGHT_DATA = [
-  { d: "Sem 1", w: 81.1 }, { d: "Sem 2", w: 80.2 }, { d: "Sem 3", w: 79.4 },
-  { d: "Sem 4", w: 78.8 }, { d: "Sem 5", w: 78.3 }, { d: "Sem 6", w: 78.0 },
-];
+const WEEK_LABELS = ["Sem 1", "Sem 2", "Sem 3", "Sem 4", "Sem 5", "Sem 6"];
 
 function Dashboard() {
   const { user, habits, waterCups, streak, weight, targetWeight } = useApp();
   const done = habits.filter((h) => h.done).length;
   const kcal = 1240, kcalGoal = 2000;
-  const lost = (81.1 - weight).toFixed(1);
+  const lost = "0.0";
+  const weightData = WEEK_LABELS.map((d) => ({ d, w: weight }));
 
   return (
     <div className="px-4 lg:px-8 py-6 max-w-6xl mx-auto">
@@ -43,7 +41,7 @@ function Dashboard() {
           <div className="flex items-center gap-4">
             <div className="flex-1 h-28">
               <ResponsiveContainer width="100%" height="100%">
-                <LineChart data={WEIGHT_DATA}>
+                <LineChart data={weightData}>
                   <XAxis dataKey="d" tick={{ fontSize: 10 }} axisLine={false} tickLine={false} />
                   <YAxis hide domain={["dataMin - 1", "dataMax + 1"]} />
                   <Tooltip contentStyle={{ borderRadius: 12, border: "1px solid var(--border)", background: "var(--card)", color: "var(--card-foreground)" }} />
@@ -56,7 +54,7 @@ function Dashboard() {
                 </LineChart>
               </ResponsiveContainer>
             </div>
-            <CircleProgress value={Math.min(100, ((81.1 - weight) / (81.1 - targetWeight)) * 100)} label={`-${lost} kg`} />
+            <CircleProgress value={0} label={`-${lost} kg`} />
           </div>
         </div>
 
