@@ -36,6 +36,8 @@ type State = {
 
   habits: Habit[];
   toggleHabit: (id: string) => void;
+  addHabit: (h: Omit<Habit, "id" | "done">) => void;
+  removeHabit: (id: string) => void;
 
   meals: Meal[];
   addMeal: (m: Omit<Meal, "id">) => void;
@@ -152,6 +154,8 @@ export function AppProvider({ children }: { children: ReactNode }) {
     unit, setUnit,
     habits,
     toggleHabit: (id) => setHabits((hs) => hs.map((h) => h.id === id ? { ...h, done: !h.done } : h)),
+    addHabit: (h) => setHabits((hs) => [...hs, { ...h, id: `h${Date.now()}`, done: false }]),
+    removeHabit: (id) => setHabits((hs) => hs.filter((h) => h.id !== id)),
     meals,
     addMeal: (m) => setMeals((ms) => [...ms, { ...m, id: `m${Date.now()}` }]),
     waterCups,

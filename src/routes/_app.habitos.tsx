@@ -1,6 +1,6 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useApp } from "@/lib/app-context";
-import { Check, Flame } from "lucide-react";
+import { Check, Flame, Plus, Trash2, X } from "lucide-react";
 import { useMemo, useState } from "react";
 import { toast } from "sonner";
 import { BarChart, Bar, ResponsiveContainer, XAxis, Tooltip } from "recharts";
@@ -9,17 +9,23 @@ export const Route = createFileRoute("/_app/habitos")({ component: Habitos });
 
 const DAYS = ["S", "T", "Q", "Q", "S", "S", "D"];
 const WEEK = [3, 5, 4, 6, 4, 2, 6].map((v, i) => ({ d: DAYS[i], v }));
+const ICONS = ["💧", "🚶", "🧘", "😴", "🏋️", "🍎", "📚", "🥗"];
+const COLORS = ["bg-sky-500", "bg-emerald-500", "bg-violet-500", "bg-indigo-500", "bg-orange-500", "bg-rose-500"];
 
 function Habitos() {
   const userName = useApp().user.name;
   const nav = useNavigate();
-  const { habits, toggleHabit, streak } = useApp();
+  const { habits, toggleHabit, streak, addHabit, removeHabit } = useApp();
   const today = new Date().getDay();
   const [selected, setSelected] = useState(today);
+  const [open, setOpen] = useState(false);
+  const [name, setName] = useState("");
+  const [goal, setGoal] = useState("");
+  const [icon, setIcon] = useState(ICONS[0]);
   const done = habits.filter((h) => h.done).length;
   const total = habits.length;
-  const allDone = done === total;
-  const pct = useMemo(() => (done / total) * 100, [done, total]);
+  const allDone = total > 0 && done === total;
+  const pct = useMemo(() => (total ? (done / total) * 100 : 0), [done, total]);
 
   function onToggle(id: string, name: string) {
     toggleHabit(id);
@@ -27,9 +33,61 @@ function Habitos() {
     if (!h?.done) toast.success(`Hábito "${name}" concluído ✓`);
   }
 
+  function onAdd(e: React.FormEvent) {
+    e.preventDefault();
+    if (!name.trim()) return;
+    addHabit({
+      name: name.trim(),
+      icon,
+      color: COLORS[habits.length % COLORS.length],
+      goal: goal.trim() || "1x por dia",
+      value: "0",
+    });
+    toast.success(`Hábito "${name.trim()}" criado`);
+    setName(""); setGoal(""); setIcon(ICONS[0]); setOpen(false);
+  }
+
+  function onRemove(id: string, name: string) {
+    removeHabit(id);
+    toast.success(`Hábito "${name}" removido`);
+  }
+
   return (
     <div className="px-4 lg:px-8 py-6 max-w-4xl mx-auto">
-      <h1 className="text-2xl font-bold mb-4">Hábitos</h1>
+      <div className="flex items-center justify-between mb-4">
+        <h1 className="text-2xl font-bold">Hábitos</h1>
+        <button onClick={() => setOpen((o) => !o)}
+          className="gradient-brand text-white rounded-full px-4 min-h-11 flex items-center gap-2 font-semibold shadow-md">
+          {open ? <X className="size-4" /> : <Plus className="size-4" />}
+          {open ? "Cancelar" : "Novo hábito"}
+        </button>
+      </div>
+
+      {open && (
+        <form onSubmit={onAdd} className="card-soft mb-4 space-y-3">
+          <div>
+            <label className="text-sm font-semibold" htmlFor="hname">Nome do hábito</label>
+            <input id="hname" value={name} onChange={(e) => setName(e.target.value)} placeholder="Ex.: Alongar"
+              className="mt-1 w-full rounded-xl border border-border bg-background px-3 min-h-11" />
+          </div>
+          <div>
+            <label className="text-sm font-semibold" htmlFor="hgoal">Meta</label>
+            <input id="hgoal" value={goal} onChange={(e) => setGoal(e.target.value)} placeholder="Ex.: 10 min"
+              className="mt-1 w-full rounded-xl border border-border bg-background px-3 min-h-11" />
+          </div>
+          <div>
+            <div className="text-sm font-semibold mb-1">Ícone</div>
+            <div className="flex gap-2 flex-wrap">
+              {ICONS.map((i) => (
+                <button key={i} type="button" onClick={() => setIcon(i)} aria-label={`Ícone ${i}`}
+                  className={`size-11 rounded-xl text-xl grid place-items-center ${icon === i ? "gradient-brand text-white" : "bg-muted"}`}>{i}</button>
+              ))}
+            </div>
+          </div>
+          <button type="submit" className="w-full gradient-brand text-white rounded-xl min-h-11 font-semibold">Adicionar hábito</button>
+        </form>
+      )}
+
 
       {/* Days selector */}
       <div className="flex gap-2 mb-5 overflow-x-auto pb-1">
@@ -96,6 +154,10 @@ function Habitos() {
             <button onClick={() => onToggle(h.id, h.name)} aria-label={h.done ? "Desmarcar" : "Marcar"}
               className={`size-9 rounded-full grid place-items-center transition-all ${h.done ? "bg-success text-white" : "border-2 border-border"}`}>
               {h.done && <Check className="size-5" />}
+            </button>
+            <button onClick={() => onRemove(h.id, h.name)} aria-label={`Remover ${h.name}`}
+              className="size-9 rounded-full grid place-items-center text-muted-foreground hover:text-destructive hover:bg-muted transition-all">
+              <Trash2 className="size-4" />
             </button>
           </li>
         ))}
