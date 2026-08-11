@@ -15,23 +15,42 @@ const COLORS = ["bg-sky-500", "bg-emerald-500", "bg-violet-500", "bg-indigo-500"
 function Habitos() {
   const userName = useApp().user.name;
   const nav = useNavigate();
-  const { habits, toggleHabit, streak, addHabit, removeHabit } = useApp();
-  const today = new Date().getDay();
-  const [selected, setSelected] = useState(today);
+  const { habits, toggleHabit, streak, addHabit, removeHabit, doneByDay, toggleHabitDay } = useApp();
+  const [today, setToday] = useState(0);
+  const [selected, setSelected] = useState(0);
+  useEffect(() => {
+    const idx = (new Date().getDay() + 6) % 7; // 0 = segunda
+    setToday(idx);
+    setSelected(idx);
+  }, []);
   const [open, setOpen] = useState(false);
   const [name, setName] = useState("");
   const [goal, setGoal] = useState("");
   const [icon, setIcon] = useState(ICONS[0]);
-  const done = habits.filter((h) => h.done).length;
+  const isToday = selected === today;
+
+  const isDone = (h: { id: string; done: boolean }) =>
+    isToday ? h.done : (doneByDay[selected] ?? []).includes(h.id);
+
+  const done = habits.filter(isDone).length;
   const total = habits.length;
   const allDone = total > 0 && done === total;
   const pct = useMemo(() => (total ? (done / total) * 100 : 0), [done, total]);
+  const week = useMemo(
+    () => DAYS.map((d, i) => ({
+      d,
+      v: i === today ? habits.filter((h) => h.done).length : (doneByDay[i] ?? []).filter((id) => habits.some((h) => h.id === id)).length,
+    })),
+    [habits, doneByDay, today],
+  );
 
   function onToggle(id: string, name: string) {
-    toggleHabit(id);
     const h = habits.find((x) => x.id === id);
-    if (!h?.done) toast.success(`Hábito "${name}" concluído ✓`);
+    const wasDone = h ? isDone(h) : false;
+    if (isToday) toggleHabit(id); else toggleHabitDay(selected, id);
+    if (!wasDone) toast.success(`Hábito "${name}" concluído ✓`);
   }
+
 
   function onAdd(e: React.FormEvent) {
     e.preventDefault();
