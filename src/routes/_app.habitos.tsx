@@ -8,7 +8,7 @@ import { BarChart, Bar, ResponsiveContainer, XAxis, Tooltip } from "recharts";
 export const Route = createFileRoute("/_app/habitos")({ component: Habitos });
 
 const DAYS = ["S", "T", "Q", "Q", "S", "S", "D"];
-const WEEK = [3, 5, 4, 6, 4, 2, 6].map((v, i) => ({ d: DAYS[i], v }));
+const DAY_LABELS = ["segunda", "terça", "quarta", "quinta", "sexta", "sábado", "domingo"];
 const ICONS = ["💧", "🚶", "🧘", "😴", "🏋️", "🍎", "📚", "🥗"];
 const COLORS = ["bg-sky-500", "bg-emerald-500", "bg-violet-500", "bg-indigo-500", "bg-orange-500", "bg-rose-500"];
 
