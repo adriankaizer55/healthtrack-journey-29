@@ -184,7 +184,8 @@ function Habitos() {
               <Trash2 className="size-4" />
             </button>
           </li>
-        ))}
+          );
+        })}
       </ul>
     </div>
   );
