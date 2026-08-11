@@ -85,22 +85,43 @@ function saveLS(key: string, value: unknown) {
 }
 
 export function AppProvider({ children }: { children: ReactNode }) {
-  const [user, setUserState] = useState(() => loadLS("ht_user", { name: "Adrian", email: "adrian@email.com" }));
-  const [goal, setGoal] = useState<Goal>(() => loadLS("ht_goal", "perder"));
-  const [weight, setWeight] = useState<number>(() => loadLS("ht_weight", 78));
-  const [targetWeight, setTargetWeight] = useState<number>(() => loadLS("ht_tweight", 72));
-  const [activity, setActivity] = useState<Activity>(() => loadLS("ht_activity", "moderado"));
-  const [unit, setUnit] = useState<"kg" | "lb">(() => loadLS("ht_unit", "kg"));
-  const [habits, setHabits] = useState<Habit[]>(() => loadLS("ht_habits", DEFAULT_HABITS));
-  const [meals, setMeals] = useState<Meal[]>(() => loadLS("ht_meals", DEFAULT_MEALS));
-  const [waterCups, setWaterCups] = useState<number>(() => loadLS("ht_water", 4));
+  const [hydrated, setHydrated] = useState(false);
+  const [user, setUserState] = useState({ name: "Adrian", email: "adrian@email.com" });
+  const [goal, setGoal] = useState<Goal>("perder");
+  const [weight, setWeight] = useState<number>(78);
+  const [targetWeight, setTargetWeight] = useState<number>(72);
+  const [activity, setActivity] = useState<Activity>("moderado");
+  const [unit, setUnit] = useState<"kg" | "lb">("kg");
+  const [habits, setHabits] = useState<Habit[]>(DEFAULT_HABITS);
+  const [meals, setMeals] = useState<Meal[]>(DEFAULT_MEALS);
+  const [waterCups, setWaterCups] = useState<number>(4);
   const [streak] = useState(7);
-  const [theme, setThemeState] = useState<"light" | "dark">(() => loadLS("ht_theme", "light"));
-  const [contrast, setContrastState] = useState<Contrast>(() => loadLS("ht_contrast", "off"));
-  const [fontScale, setFontScaleState] = useState<number>(() => loadLS("ht_font", 1));
-  const [simpleRead, setSimpleRead] = useState<boolean>(() => loadLS("ht_simple", false));
-  const [voiceNav, setVoiceNav] = useState<boolean>(() => loadLS("ht_voice", false));
-  const [notifPrefs, setNotifPrefs] = useState(() => loadLS("ht_notif", { hidratacao: true, habitos: true, ia: false, relatorio: true }));
+  const [theme, setThemeState] = useState<"light" | "dark">("light");
+  const [contrast, setContrastState] = useState<Contrast>("off");
+  const [fontScale, setFontScaleState] = useState<number>(1);
+  const [simpleRead, setSimpleRead] = useState<boolean>(false);
+  const [voiceNav, setVoiceNav] = useState<boolean>(false);
+  const [notifPrefs, setNotifPrefs] = useState({ hidratacao: true, habitos: true, ia: false, relatorio: true });
+
+  // Restaura dados salvos apenas após a hidratação (evita divergência SSR/cliente)
+  useEffect(() => {
+    setUserState((p) => loadLS("ht_user", p));
+    setGoal((p) => loadLS("ht_goal", p));
+    setWeight((p) => loadLS("ht_weight", p));
+    setTargetWeight((p) => loadLS("ht_tweight", p));
+    setActivity((p) => loadLS("ht_activity", p));
+    setUnit((p) => loadLS("ht_unit", p));
+    setHabits((p) => loadLS("ht_habits", p));
+    setMeals((p) => loadLS("ht_meals", p));
+    setWaterCups((p) => loadLS("ht_water", p));
+    setThemeState((p) => loadLS("ht_theme", p));
+    setContrastState((p) => loadLS("ht_contrast", p));
+    setFontScaleState((p) => loadLS("ht_font", p));
+    setSimpleRead((p) => loadLS("ht_simple", p));
+    setVoiceNav((p) => loadLS("ht_voice", p));
+    setNotifPrefs((p) => loadLS("ht_notif", p));
+    setHydrated(true);
+  }, []);
 
   useEffect(() => {
     const root = document.documentElement;
@@ -108,16 +129,18 @@ export function AppProvider({ children }: { children: ReactNode }) {
     root.classList.remove("hc-bw", "hc-yellow", "hc-blue");
     if (contrast !== "off") root.classList.add(`hc-${contrast}`);
     root.style.setProperty("--app-font-scale", String(fontScale));
+    if (!hydrated) return;
     saveLS("ht_theme", theme);
     saveLS("ht_contrast", contrast);
     saveLS("ht_font", fontScale);
-  }, [theme, contrast, fontScale]);
+  }, [theme, contrast, fontScale, hydrated]);
 
-  useEffect(() => { saveLS("ht_habits", habits); }, [habits]);
-  useEffect(() => { saveLS("ht_meals", meals); }, [meals]);
-  useEffect(() => { saveLS("ht_water", waterCups); }, [waterCups]);
-  useEffect(() => { saveLS("ht_user", user); }, [user]);
-  useEffect(() => { saveLS("ht_notif", notifPrefs); }, [notifPrefs]);
+  useEffect(() => { if (hydrated) saveLS("ht_habits", habits); }, [habits, hydrated]);
+  useEffect(() => { if (hydrated) saveLS("ht_meals", meals); }, [meals, hydrated]);
+  useEffect(() => { if (hydrated) saveLS("ht_water", waterCups); }, [waterCups, hydrated]);
+  useEffect(() => { if (hydrated) saveLS("ht_user", user); }, [user, hydrated]);
+  useEffect(() => { if (hydrated) saveLS("ht_notif", notifPrefs); }, [notifPrefs, hydrated]);
+
 
   const value: State = {
     user,
