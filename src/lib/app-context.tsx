@@ -38,6 +38,8 @@ type State = {
   toggleHabit: (id: string) => void;
   addHabit: (h: Omit<Habit, "id" | "done">) => void;
   removeHabit: (id: string) => void;
+  doneByDay: Record<number, string[]>;
+  toggleHabitDay: (day: number, id: string) => void;
 
   meals: Meal[];
   addMeal: (m: Omit<Meal, "id">) => void;
