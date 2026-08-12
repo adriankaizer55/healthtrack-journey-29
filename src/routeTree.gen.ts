@@ -26,6 +26,7 @@ import { Route as AppSobreRouteImport } from './routes/_app.sobre'
 import { Route as AppPrivacidadeRouteImport } from './routes/_app.privacidade'
 import { Route as AppPerfilRouteImport } from './routes/_app.perfil'
 import { Route as AppNotificacoesRouteImport } from './routes/_app.notificacoes'
+import { Route as AppMensagensRouteImport } from './routes/_app.mensagens'
 import { Route as AppMaisRouteImport } from './routes/_app.mais'
 import { Route as AppIaCoachRouteImport } from './routes/_app.ia-coach'
 import { Route as AppHidratacaoRouteImport } from './routes/_app.hidratacao'
@@ -126,6 +127,11 @@ const AppNotificacoesRoute = AppNotificacoesRouteImport.update({
   path: '/notificacoes',
   getParentRoute: () => AppRoute,
 } as any)
+const AppMensagensRoute = AppMensagensRouteImport.update({
+  id: '/mensagens',
+  path: '/mensagens',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppMaisRoute = AppMaisRouteImport.update({
   id: '/mais',
   path: '/mais',
@@ -223,6 +229,7 @@ export interface FileRoutesByFullPath {
   '/hidratacao': typeof AppHidratacaoRoute
   '/ia-coach': typeof AppIaCoachRoute
   '/mais': typeof AppMaisRoute
+  '/mensagens': typeof AppMensagensRoute
   '/notificacoes': typeof AppNotificacoesRoute
   '/perfil': typeof AppPerfilRoute
   '/privacidade': typeof AppPrivacidadeRoute
@@ -254,6 +261,7 @@ export interface FileRoutesByTo {
   '/hidratacao': typeof AppHidratacaoRoute
   '/ia-coach': typeof AppIaCoachRoute
   '/mais': typeof AppMaisRoute
+  '/mensagens': typeof AppMensagensRoute
   '/notificacoes': typeof AppNotificacoesRoute
   '/perfil': typeof AppPerfilRoute
   '/privacidade': typeof AppPrivacidadeRoute
@@ -289,6 +297,7 @@ export interface FileRoutesById {
   '/_app/hidratacao': typeof AppHidratacaoRoute
   '/_app/ia-coach': typeof AppIaCoachRoute
   '/_app/mais': typeof AppMaisRoute
+  '/_app/mensagens': typeof AppMensagensRoute
   '/_app/notificacoes': typeof AppNotificacoesRoute
   '/_app/perfil': typeof AppPerfilRoute
   '/_app/privacidade': typeof AppPrivacidadeRoute
@@ -324,6 +333,7 @@ export interface FileRouteTypes {
     | '/hidratacao'
     | '/ia-coach'
     | '/mais'
+    | '/mensagens'
     | '/notificacoes'
     | '/perfil'
     | '/privacidade'
@@ -355,6 +365,7 @@ export interface FileRouteTypes {
     | '/hidratacao'
     | '/ia-coach'
     | '/mais'
+    | '/mensagens'
     | '/notificacoes'
     | '/perfil'
     | '/privacidade'
@@ -389,6 +400,7 @@ export interface FileRouteTypes {
     | '/_app/hidratacao'
     | '/_app/ia-coach'
     | '/_app/mais'
+    | '/_app/mensagens'
     | '/_app/notificacoes'
     | '/_app/perfil'
     | '/_app/privacidade'
@@ -539,6 +551,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppNotificacoesRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/mensagens': {
+      id: '/_app/mensagens'
+      path: '/mensagens'
+      fullPath: '/mensagens'
+      preLoaderRoute: typeof AppMensagensRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/mais': {
       id: '/_app/mais'
       path: '/mais'
@@ -678,6 +697,7 @@ interface AppRouteChildren {
   AppHidratacaoRoute: typeof AppHidratacaoRoute
   AppIaCoachRoute: typeof AppIaCoachRoute
   AppMaisRoute: typeof AppMaisRoute
+  AppMensagensRoute: typeof AppMensagensRoute
   AppNotificacoesRoute: typeof AppNotificacoesRoute
   AppPerfilRoute: typeof AppPerfilRoute
   AppPrivacidadeRoute: typeof AppPrivacidadeRoute
@@ -693,6 +713,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppHidratacaoRoute: AppHidratacaoRoute,
   AppIaCoachRoute: AppIaCoachRoute,
   AppMaisRoute: AppMaisRoute,
+  AppMensagensRoute: AppMensagensRoute,
   AppNotificacoesRoute: AppNotificacoesRoute,
   AppPerfilRoute: AppPerfilRoute,
   AppPrivacidadeRoute: AppPrivacidadeRoute,
