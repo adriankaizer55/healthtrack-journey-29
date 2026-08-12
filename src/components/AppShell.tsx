@@ -1,5 +1,6 @@
-import { Link, Outlet, useRouterState } from "@tanstack/react-router";
-import { Home, ListChecks, UtensilsCrossed, Bot, Menu, Bell, User, Settings, Accessibility, HelpCircle, Shield, Info, LogOut, Droplet } from "lucide-react";
+import { Link, Outlet, useNavigate, useRouterState } from "@tanstack/react-router";
+import { useAuth } from "@/lib/auth-context";
+import { Home, ListChecks, UtensilsCrossed, Bot, Menu, Bell, User, Settings, Accessibility, HelpCircle, Shield, Info, LogOut, Droplet, MessageSquare, Shield as ShieldIcon } from "lucide-react";
 import { Logo } from "./Logo";
 
 const NAV = [
@@ -11,6 +12,7 @@ const NAV = [
 ] as const;
 
 const SIDE_EXTRA = [
+  { to: "/mensagens", label: "Mensagens", icon: MessageSquare },
   { to: "/hidratacao", label: "Hidratação", icon: Droplet },
   { to: "/perfil", label: "Perfil", icon: User },
   { to: "/notificacoes", label: "Notificações", icon: Bell },
@@ -21,6 +23,8 @@ const SIDE_EXTRA = [
 ] as const;
 
 export function AppShell() {
+  const { isAdmin, signOut } = useAuth();
+  const nav = useNavigate();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const isActive = (to: string) => pathname === to || pathname.startsWith(to + "/");
 
@@ -43,9 +47,15 @@ export function AppShell() {
               <n.icon className="size-5" /><span>{n.label}</span>
             </Link>
           ))}
-          <Link to="/login" className="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-destructive/10 text-destructive mt-auto min-h-11">
+          {isAdmin && (
+            <Link to="/admin" className="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-muted text-primary font-semibold min-h-11">
+              <ShieldIcon className="size-5" /><span>Administração</span>
+            </Link>
+          )}
+          <button onClick={async () => { await signOut(); nav({ to: "/login", replace: true }); }}
+            className="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-destructive/10 text-destructive mt-auto min-h-11">
             <LogOut className="size-5" /><span>Sair</span>
-          </Link>
+          </button>
         </nav>
       </aside>
 
