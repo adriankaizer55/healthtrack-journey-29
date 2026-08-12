@@ -12,7 +12,7 @@ const NAV = [
   { to: "/admin/habits", label: "Hábitos", icon: ListChecks },
   { to: "/admin/workouts", label: "Treinos", icon: Dumbbell },
   { to: "/admin/mensagens", label: "Mensagens", icon: MessageSquare },
-] as const;
+] satisfies { to: string; label: string; icon: typeof Users; exact?: boolean }[];
 
 function AdminLayout() {
   const { loading, userId, isAdmin, profile, signOut } = useAuth();
@@ -42,7 +42,7 @@ function AdminLayout() {
         <span className="px-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground">Administração</span>
         <nav className="flex flex-col gap-1 mt-2 flex-1" aria-label="Administração">
           {NAV.map((n) => (
-            <Link key={n.to} to={n.to}
+            <Link key={n.to} to={n.to as never}
               className={`flex items-center gap-3 px-3 py-2.5 rounded-xl min-h-11 transition-all ${isActive(n.to, n.exact) ? "gradient-brand text-white shadow-sm" : "hover:bg-muted"}`}>
               <n.icon className="size-5" /><span className="font-medium">{n.label}</span>
             </Link>
@@ -70,7 +70,7 @@ function AdminLayout() {
         <ul className="grid grid-cols-5">
           {NAV.map((n) => (
             <li key={n.to}>
-              <Link to={n.to} className={`flex flex-col items-center gap-1 py-2.5 min-h-14 ${isActive(n.to, n.exact) ? "text-primary" : "text-muted-foreground"}`}>
+              <Link to={n.to as never} className={`flex flex-col items-center gap-1 py-2.5 min-h-14 ${isActive(n.to, n.exact) ? "text-primary" : "text-muted-foreground"}`}>
                 <n.icon className="size-5" /><span className="text-[10px] font-medium">{n.label}</span>
               </Link>
             </li>
