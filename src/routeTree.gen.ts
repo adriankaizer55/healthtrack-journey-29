@@ -18,6 +18,7 @@ import { Route as AdminRouteImport } from './routes/admin'
 import { Route as AppRouteImport } from './routes/_app'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
+import { Route as AdminUsersRouteImport } from './routes/admin.users'
 import { Route as AppSobreRouteImport } from './routes/_app.sobre'
 import { Route as AppPrivacidadeRouteImport } from './routes/_app.privacidade'
 import { Route as AppPerfilRouteImport } from './routes/_app.perfil'
@@ -79,6 +80,11 @@ const IndexRoute = IndexRouteImport.update({
 const AdminIndexRoute = AdminIndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminUsersRoute = AdminUsersRouteImport.update({
+  id: '/users',
+  path: '/users',
   getParentRoute: () => AdminRoute,
 } as any)
 const AppSobreRoute = AppSobreRouteImport.update({
@@ -197,6 +203,7 @@ export interface FileRoutesByFullPath {
   '/perfil': typeof AppPerfilRoute
   '/privacidade': typeof AppPrivacidadeRoute
   '/sobre': typeof AppSobreRoute
+  '/admin/users': typeof AdminUsersRoute
   '/admin/': typeof AdminIndexRoute
   '/acessibilidade/alto-contraste': typeof AppAcessibilidadeAltoContrasteRoute
   '/acessibilidade/fonte-grande': typeof AppAcessibilidadeFonteGrandeRoute
@@ -223,6 +230,7 @@ export interface FileRoutesByTo {
   '/perfil': typeof AppPerfilRoute
   '/privacidade': typeof AppPrivacidadeRoute
   '/sobre': typeof AppSobreRoute
+  '/admin/users': typeof AdminUsersRoute
   '/admin': typeof AdminIndexRoute
   '/acessibilidade/alto-contraste': typeof AppAcessibilidadeAltoContrasteRoute
   '/acessibilidade/fonte-grande': typeof AppAcessibilidadeFonteGrandeRoute
@@ -253,6 +261,7 @@ export interface FileRoutesById {
   '/_app/perfil': typeof AppPerfilRoute
   '/_app/privacidade': typeof AppPrivacidadeRoute
   '/_app/sobre': typeof AppSobreRoute
+  '/admin/users': typeof AdminUsersRoute
   '/admin/': typeof AdminIndexRoute
   '/_app/acessibilidade/alto-contraste': typeof AppAcessibilidadeAltoContrasteRoute
   '/_app/acessibilidade/fonte-grande': typeof AppAcessibilidadeFonteGrandeRoute
@@ -283,6 +292,7 @@ export interface FileRouteTypes {
     | '/perfil'
     | '/privacidade'
     | '/sobre'
+    | '/admin/users'
     | '/admin/'
     | '/acessibilidade/alto-contraste'
     | '/acessibilidade/fonte-grande'
@@ -309,6 +319,7 @@ export interface FileRouteTypes {
     | '/perfil'
     | '/privacidade'
     | '/sobre'
+    | '/admin/users'
     | '/admin'
     | '/acessibilidade/alto-contraste'
     | '/acessibilidade/fonte-grande'
@@ -338,6 +349,7 @@ export interface FileRouteTypes {
     | '/_app/perfil'
     | '/_app/privacidade'
     | '/_app/sobre'
+    | '/admin/users'
     | '/admin/'
     | '/_app/acessibilidade/alto-contraste'
     | '/_app/acessibilidade/fonte-grande'
@@ -421,6 +433,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/admin/'
       preLoaderRoute: typeof AdminIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/users': {
+      id: '/admin/users'
+      path: '/users'
+      fullPath: '/admin/users'
+      preLoaderRoute: typeof AdminUsersRouteImport
       parentRoute: typeof AdminRoute
     }
     '/_app/sobre': {
@@ -607,10 +626,12 @@ const AppRouteChildren: AppRouteChildren = {
 const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
 
 interface AdminRouteChildren {
+  AdminUsersRoute: typeof AdminUsersRoute
   AdminIndexRoute: typeof AdminIndexRoute
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
+  AdminUsersRoute: AdminUsersRoute,
   AdminIndexRoute: AdminIndexRoute,
 }
 
