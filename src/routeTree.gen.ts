@@ -18,7 +18,10 @@ import { Route as AdminRouteImport } from './routes/admin'
 import { Route as AppRouteImport } from './routes/_app'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
+import { Route as AdminWorkoutsRouteImport } from './routes/admin.workouts'
 import { Route as AdminUsersRouteImport } from './routes/admin.users'
+import { Route as AdminMensagensRouteImport } from './routes/admin.mensagens'
+import { Route as AdminHabitsRouteImport } from './routes/admin.habits'
 import { Route as AppSobreRouteImport } from './routes/_app.sobre'
 import { Route as AppPrivacidadeRouteImport } from './routes/_app.privacidade'
 import { Route as AppPerfilRouteImport } from './routes/_app.perfil'
@@ -32,6 +35,7 @@ import { Route as AppAlimentacaoRouteImport } from './routes/_app.alimentacao'
 import { Route as AppAjudaRouteImport } from './routes/_app.ajuda'
 import { Route as AppAcessibilidadeRouteImport } from './routes/_app.acessibilidade'
 import { Route as AppAcessibilidadeIndexRouteImport } from './routes/_app.acessibilidade.index'
+import { Route as AdminUsersIdRouteImport } from './routes/admin.users.$id'
 import { Route as AppAcessibilidadeNavegacaoPorVozRouteImport } from './routes/_app.acessibilidade.navegacao-por-voz'
 import { Route as AppAcessibilidadeModoEscuroRouteImport } from './routes/_app.acessibilidade.modo-escuro'
 import { Route as AppAcessibilidadeLeituraSimplificadaRouteImport } from './routes/_app.acessibilidade.leitura-simplificada'
@@ -82,9 +86,24 @@ const AdminIndexRoute = AdminIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminWorkoutsRoute = AdminWorkoutsRouteImport.update({
+  id: '/workouts',
+  path: '/workouts',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminUsersRoute = AdminUsersRouteImport.update({
   id: '/users',
   path: '/users',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminMensagensRoute = AdminMensagensRouteImport.update({
+  id: '/mensagens',
+  path: '/mensagens',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminHabitsRoute = AdminHabitsRouteImport.update({
+  id: '/habits',
+  path: '/habits',
   getParentRoute: () => AdminRoute,
 } as any)
 const AppSobreRoute = AppSobreRouteImport.update({
@@ -152,6 +171,11 @@ const AppAcessibilidadeIndexRoute = AppAcessibilidadeIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AppAcessibilidadeRoute,
 } as any)
+const AdminUsersIdRoute = AdminUsersIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => AdminUsersRoute,
+} as any)
 const AppAcessibilidadeNavegacaoPorVozRoute =
   AppAcessibilidadeNavegacaoPorVozRouteImport.update({
     id: '/navegacao-por-voz',
@@ -203,13 +227,17 @@ export interface FileRoutesByFullPath {
   '/perfil': typeof AppPerfilRoute
   '/privacidade': typeof AppPrivacidadeRoute
   '/sobre': typeof AppSobreRoute
-  '/admin/users': typeof AdminUsersRoute
+  '/admin/habits': typeof AdminHabitsRoute
+  '/admin/mensagens': typeof AdminMensagensRoute
+  '/admin/users': typeof AdminUsersRouteWithChildren
+  '/admin/workouts': typeof AdminWorkoutsRoute
   '/admin/': typeof AdminIndexRoute
   '/acessibilidade/alto-contraste': typeof AppAcessibilidadeAltoContrasteRoute
   '/acessibilidade/fonte-grande': typeof AppAcessibilidadeFonteGrandeRoute
   '/acessibilidade/leitura-simplificada': typeof AppAcessibilidadeLeituraSimplificadaRoute
   '/acessibilidade/modo-escuro': typeof AppAcessibilidadeModoEscuroRoute
   '/acessibilidade/navegacao-por-voz': typeof AppAcessibilidadeNavegacaoPorVozRoute
+  '/admin/users/$id': typeof AdminUsersIdRoute
   '/acessibilidade/': typeof AppAcessibilidadeIndexRoute
 }
 export interface FileRoutesByTo {
@@ -230,13 +258,17 @@ export interface FileRoutesByTo {
   '/perfil': typeof AppPerfilRoute
   '/privacidade': typeof AppPrivacidadeRoute
   '/sobre': typeof AppSobreRoute
-  '/admin/users': typeof AdminUsersRoute
+  '/admin/habits': typeof AdminHabitsRoute
+  '/admin/mensagens': typeof AdminMensagensRoute
+  '/admin/users': typeof AdminUsersRouteWithChildren
+  '/admin/workouts': typeof AdminWorkoutsRoute
   '/admin': typeof AdminIndexRoute
   '/acessibilidade/alto-contraste': typeof AppAcessibilidadeAltoContrasteRoute
   '/acessibilidade/fonte-grande': typeof AppAcessibilidadeFonteGrandeRoute
   '/acessibilidade/leitura-simplificada': typeof AppAcessibilidadeLeituraSimplificadaRoute
   '/acessibilidade/modo-escuro': typeof AppAcessibilidadeModoEscuroRoute
   '/acessibilidade/navegacao-por-voz': typeof AppAcessibilidadeNavegacaoPorVozRoute
+  '/admin/users/$id': typeof AdminUsersIdRoute
   '/acessibilidade': typeof AppAcessibilidadeIndexRoute
 }
 export interface FileRoutesById {
@@ -261,13 +293,17 @@ export interface FileRoutesById {
   '/_app/perfil': typeof AppPerfilRoute
   '/_app/privacidade': typeof AppPrivacidadeRoute
   '/_app/sobre': typeof AppSobreRoute
-  '/admin/users': typeof AdminUsersRoute
+  '/admin/habits': typeof AdminHabitsRoute
+  '/admin/mensagens': typeof AdminMensagensRoute
+  '/admin/users': typeof AdminUsersRouteWithChildren
+  '/admin/workouts': typeof AdminWorkoutsRoute
   '/admin/': typeof AdminIndexRoute
   '/_app/acessibilidade/alto-contraste': typeof AppAcessibilidadeAltoContrasteRoute
   '/_app/acessibilidade/fonte-grande': typeof AppAcessibilidadeFonteGrandeRoute
   '/_app/acessibilidade/leitura-simplificada': typeof AppAcessibilidadeLeituraSimplificadaRoute
   '/_app/acessibilidade/modo-escuro': typeof AppAcessibilidadeModoEscuroRoute
   '/_app/acessibilidade/navegacao-por-voz': typeof AppAcessibilidadeNavegacaoPorVozRoute
+  '/admin/users/$id': typeof AdminUsersIdRoute
   '/_app/acessibilidade/': typeof AppAcessibilidadeIndexRoute
 }
 export interface FileRouteTypes {
@@ -292,13 +328,17 @@ export interface FileRouteTypes {
     | '/perfil'
     | '/privacidade'
     | '/sobre'
+    | '/admin/habits'
+    | '/admin/mensagens'
     | '/admin/users'
+    | '/admin/workouts'
     | '/admin/'
     | '/acessibilidade/alto-contraste'
     | '/acessibilidade/fonte-grande'
     | '/acessibilidade/leitura-simplificada'
     | '/acessibilidade/modo-escuro'
     | '/acessibilidade/navegacao-por-voz'
+    | '/admin/users/$id'
     | '/acessibilidade/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -319,13 +359,17 @@ export interface FileRouteTypes {
     | '/perfil'
     | '/privacidade'
     | '/sobre'
+    | '/admin/habits'
+    | '/admin/mensagens'
     | '/admin/users'
+    | '/admin/workouts'
     | '/admin'
     | '/acessibilidade/alto-contraste'
     | '/acessibilidade/fonte-grande'
     | '/acessibilidade/leitura-simplificada'
     | '/acessibilidade/modo-escuro'
     | '/acessibilidade/navegacao-por-voz'
+    | '/admin/users/$id'
     | '/acessibilidade'
   id:
     | '__root__'
@@ -349,13 +393,17 @@ export interface FileRouteTypes {
     | '/_app/perfil'
     | '/_app/privacidade'
     | '/_app/sobre'
+    | '/admin/habits'
+    | '/admin/mensagens'
     | '/admin/users'
+    | '/admin/workouts'
     | '/admin/'
     | '/_app/acessibilidade/alto-contraste'
     | '/_app/acessibilidade/fonte-grande'
     | '/_app/acessibilidade/leitura-simplificada'
     | '/_app/acessibilidade/modo-escuro'
     | '/_app/acessibilidade/navegacao-por-voz'
+    | '/admin/users/$id'
     | '/_app/acessibilidade/'
   fileRoutesById: FileRoutesById
 }
@@ -435,11 +483,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminIndexRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/workouts': {
+      id: '/admin/workouts'
+      path: '/workouts'
+      fullPath: '/admin/workouts'
+      preLoaderRoute: typeof AdminWorkoutsRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/users': {
       id: '/admin/users'
       path: '/users'
       fullPath: '/admin/users'
       preLoaderRoute: typeof AdminUsersRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/mensagens': {
+      id: '/admin/mensagens'
+      path: '/mensagens'
+      fullPath: '/admin/mensagens'
+      preLoaderRoute: typeof AdminMensagensRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/habits': {
+      id: '/admin/habits'
+      path: '/habits'
+      fullPath: '/admin/habits'
+      preLoaderRoute: typeof AdminHabitsRouteImport
       parentRoute: typeof AdminRoute
     }
     '/_app/sobre': {
@@ -533,6 +602,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppAcessibilidadeIndexRouteImport
       parentRoute: typeof AppAcessibilidadeRoute
     }
+    '/admin/users/$id': {
+      id: '/admin/users/$id'
+      path: '/$id'
+      fullPath: '/admin/users/$id'
+      preLoaderRoute: typeof AdminUsersIdRouteImport
+      parentRoute: typeof AdminUsersRoute
+    }
     '/_app/acessibilidade/navegacao-por-voz': {
       id: '/_app/acessibilidade/navegacao-por-voz'
       path: '/navegacao-por-voz'
@@ -625,13 +701,31 @@ const AppRouteChildren: AppRouteChildren = {
 
 const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
 
+interface AdminUsersRouteChildren {
+  AdminUsersIdRoute: typeof AdminUsersIdRoute
+}
+
+const AdminUsersRouteChildren: AdminUsersRouteChildren = {
+  AdminUsersIdRoute: AdminUsersIdRoute,
+}
+
+const AdminUsersRouteWithChildren = AdminUsersRoute._addFileChildren(
+  AdminUsersRouteChildren,
+)
+
 interface AdminRouteChildren {
-  AdminUsersRoute: typeof AdminUsersRoute
+  AdminHabitsRoute: typeof AdminHabitsRoute
+  AdminMensagensRoute: typeof AdminMensagensRoute
+  AdminUsersRoute: typeof AdminUsersRouteWithChildren
+  AdminWorkoutsRoute: typeof AdminWorkoutsRoute
   AdminIndexRoute: typeof AdminIndexRoute
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
-  AdminUsersRoute: AdminUsersRoute,
+  AdminHabitsRoute: AdminHabitsRoute,
+  AdminMensagensRoute: AdminMensagensRoute,
+  AdminUsersRoute: AdminUsersRouteWithChildren,
+  AdminWorkoutsRoute: AdminWorkoutsRoute,
   AdminIndexRoute: AdminIndexRoute,
 }
 
