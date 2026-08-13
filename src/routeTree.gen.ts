@@ -18,6 +18,7 @@ import { Route as AdminRouteImport } from './routes/admin'
 import { Route as AppRouteImport } from './routes/_app'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
+import { Route as AuthCallbackRouteImport } from './routes/auth.callback'
 import { Route as AdminWorkoutsRouteImport } from './routes/admin.workouts'
 import { Route as AdminUsersRouteImport } from './routes/admin.users'
 import { Route as AdminMensagensRouteImport } from './routes/admin.mensagens'
@@ -86,6 +87,11 @@ const AdminIndexRoute = AdminIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => AdminRoute,
+} as any)
+const AuthCallbackRoute = AuthCallbackRouteImport.update({
+  id: '/auth/callback',
+  path: '/auth/callback',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const AdminWorkoutsRoute = AdminWorkoutsRouteImport.update({
   id: '/workouts',
@@ -238,6 +244,7 @@ export interface FileRoutesByFullPath {
   '/admin/mensagens': typeof AdminMensagensRoute
   '/admin/users': typeof AdminUsersRouteWithChildren
   '/admin/workouts': typeof AdminWorkoutsRoute
+  '/auth/callback': typeof AuthCallbackRoute
   '/admin/': typeof AdminIndexRoute
   '/acessibilidade/alto-contraste': typeof AppAcessibilidadeAltoContrasteRoute
   '/acessibilidade/fonte-grande': typeof AppAcessibilidadeFonteGrandeRoute
@@ -270,6 +277,7 @@ export interface FileRoutesByTo {
   '/admin/mensagens': typeof AdminMensagensRoute
   '/admin/users': typeof AdminUsersRouteWithChildren
   '/admin/workouts': typeof AdminWorkoutsRoute
+  '/auth/callback': typeof AuthCallbackRoute
   '/admin': typeof AdminIndexRoute
   '/acessibilidade/alto-contraste': typeof AppAcessibilidadeAltoContrasteRoute
   '/acessibilidade/fonte-grande': typeof AppAcessibilidadeFonteGrandeRoute
@@ -306,6 +314,7 @@ export interface FileRoutesById {
   '/admin/mensagens': typeof AdminMensagensRoute
   '/admin/users': typeof AdminUsersRouteWithChildren
   '/admin/workouts': typeof AdminWorkoutsRoute
+  '/auth/callback': typeof AuthCallbackRoute
   '/admin/': typeof AdminIndexRoute
   '/_app/acessibilidade/alto-contraste': typeof AppAcessibilidadeAltoContrasteRoute
   '/_app/acessibilidade/fonte-grande': typeof AppAcessibilidadeFonteGrandeRoute
@@ -342,6 +351,7 @@ export interface FileRouteTypes {
     | '/admin/mensagens'
     | '/admin/users'
     | '/admin/workouts'
+    | '/auth/callback'
     | '/admin/'
     | '/acessibilidade/alto-contraste'
     | '/acessibilidade/fonte-grande'
@@ -374,6 +384,7 @@ export interface FileRouteTypes {
     | '/admin/mensagens'
     | '/admin/users'
     | '/admin/workouts'
+    | '/auth/callback'
     | '/admin'
     | '/acessibilidade/alto-contraste'
     | '/acessibilidade/fonte-grande'
@@ -409,6 +420,7 @@ export interface FileRouteTypes {
     | '/admin/mensagens'
     | '/admin/users'
     | '/admin/workouts'
+    | '/auth/callback'
     | '/admin/'
     | '/_app/acessibilidade/alto-contraste'
     | '/_app/acessibilidade/fonte-grande'
@@ -428,6 +440,7 @@ export interface RootRouteChildren {
   OnboardingRoute: typeof OnboardingRoute
   RecuperarSenhaRoute: typeof RecuperarSenhaRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
+  AuthCallbackRoute: typeof AuthCallbackRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -494,6 +507,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/admin/'
       preLoaderRoute: typeof AdminIndexRouteImport
       parentRoute: typeof AdminRoute
+    }
+    '/auth/callback': {
+      id: '/auth/callback'
+      path: '/auth/callback'
+      fullPath: '/auth/callback'
+      preLoaderRoute: typeof AuthCallbackRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/admin/workouts': {
       id: '/admin/workouts'
@@ -761,6 +781,7 @@ const rootRouteChildren: RootRouteChildren = {
   OnboardingRoute: OnboardingRoute,
   RecuperarSenhaRoute: RecuperarSenhaRoute,
   ResetPasswordRoute: ResetPasswordRoute,
+  AuthCallbackRoute: AuthCallbackRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
