@@ -57,8 +57,12 @@ function Cadastro() {
           <div className="card-soft text-center space-y-3">
             <div className="text-4xl">📩</div>
             <h1 className="text-lg font-semibold">Confirme seu e-mail</h1>
-            <p className="text-sm text-muted-foreground">Enviamos um link de confirmação para <strong>{email}</strong>. Depois de confirmar, faça login.</p>
+            <p className="text-sm text-muted-foreground">Enviamos um link de confirmação para <strong>{email}</strong>. Ao clicar no link você volta para o HealthTrack já autenticado.</p>
             <Link to="/login" className="btn-brand inline-block">Ir para o login</Link>
+            <button type="button" onClick={resend} disabled={busy}
+              className="w-full h-11 rounded-xl border border-border font-medium hover:bg-muted inline-flex items-center justify-center gap-2 disabled:opacity-60">
+              {busy && <Loader2 className="size-4 animate-spin" />} Enviar novo e-mail de confirmação
+            </button>
           </div>
         ) : (
           <form onSubmit={onSubmit} className="card-soft space-y-4">
