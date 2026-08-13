@@ -3,6 +3,7 @@ import { Loader2 } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 import { Logo } from "@/components/Logo";
+import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth-context";
 
 export const Route = createFileRoute("/cadastro")({
@@ -43,6 +44,18 @@ function Cadastro() {
       toast.success("Conta criada com sucesso!");
       nav({ to: "/onboarding" });
     }
+  }
+
+  async function resend() {
+    setBusy(true);
+    const { error } = await supabase.auth.resend({
+      type: "signup",
+      email: email.trim(),
+      options: { emailRedirectTo: `${window.location.origin}/auth/callback` },
+    });
+    setBusy(false);
+    if (error) return toast.error(error.message);
+    toast.success("Novo e-mail de confirmação enviado.");
   }
 
   return (

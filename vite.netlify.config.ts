@@ -6,6 +6,7 @@ const routes = [
   "/",
   "/login",
   "/cadastro",
+  "/auth/callback",
   "/onboarding",
   "/dashboard",
   "/habitos",
