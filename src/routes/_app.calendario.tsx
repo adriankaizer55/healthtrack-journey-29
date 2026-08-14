@@ -16,7 +16,7 @@ export const Route = createFileRoute("/_app/calendario")({
       { name: "twitter:card", content: "summary" },
     ],
   }),
-  component: Calendario;
+  component: Calendario,
 });
 
 const WD = ["S", "T", "Q", "Q", "S", "S", "D"];
