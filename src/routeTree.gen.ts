@@ -23,6 +23,7 @@ import { Route as AdminWorkoutsRouteImport } from './routes/admin.workouts'
 import { Route as AdminUsersRouteImport } from './routes/admin.users'
 import { Route as AdminMensagensRouteImport } from './routes/admin.mensagens'
 import { Route as AdminHabitsRouteImport } from './routes/admin.habits'
+import { Route as AppTreinosRouteImport } from './routes/_app.treinos'
 import { Route as AppSobreRouteImport } from './routes/_app.sobre'
 import { Route as AppPrivacidadeRouteImport } from './routes/_app.privacidade'
 import { Route as AppPerfilRouteImport } from './routes/_app.perfil'
@@ -112,6 +113,11 @@ const AdminHabitsRoute = AdminHabitsRouteImport.update({
   id: '/habits',
   path: '/habits',
   getParentRoute: () => AdminRoute,
+} as any)
+const AppTreinosRoute = AppTreinosRouteImport.update({
+  id: '/treinos',
+  path: '/treinos',
+  getParentRoute: () => AppRoute,
 } as any)
 const AppSobreRoute = AppSobreRouteImport.update({
   id: '/sobre',
@@ -240,6 +246,7 @@ export interface FileRoutesByFullPath {
   '/perfil': typeof AppPerfilRoute
   '/privacidade': typeof AppPrivacidadeRoute
   '/sobre': typeof AppSobreRoute
+  '/treinos': typeof AppTreinosRoute
   '/admin/habits': typeof AdminHabitsRoute
   '/admin/mensagens': typeof AdminMensagensRoute
   '/admin/users': typeof AdminUsersRouteWithChildren
@@ -273,6 +280,7 @@ export interface FileRoutesByTo {
   '/perfil': typeof AppPerfilRoute
   '/privacidade': typeof AppPrivacidadeRoute
   '/sobre': typeof AppSobreRoute
+  '/treinos': typeof AppTreinosRoute
   '/admin/habits': typeof AdminHabitsRoute
   '/admin/mensagens': typeof AdminMensagensRoute
   '/admin/users': typeof AdminUsersRouteWithChildren
@@ -310,6 +318,7 @@ export interface FileRoutesById {
   '/_app/perfil': typeof AppPerfilRoute
   '/_app/privacidade': typeof AppPrivacidadeRoute
   '/_app/sobre': typeof AppSobreRoute
+  '/_app/treinos': typeof AppTreinosRoute
   '/admin/habits': typeof AdminHabitsRoute
   '/admin/mensagens': typeof AdminMensagensRoute
   '/admin/users': typeof AdminUsersRouteWithChildren
@@ -347,6 +356,7 @@ export interface FileRouteTypes {
     | '/perfil'
     | '/privacidade'
     | '/sobre'
+    | '/treinos'
     | '/admin/habits'
     | '/admin/mensagens'
     | '/admin/users'
@@ -380,6 +390,7 @@ export interface FileRouteTypes {
     | '/perfil'
     | '/privacidade'
     | '/sobre'
+    | '/treinos'
     | '/admin/habits'
     | '/admin/mensagens'
     | '/admin/users'
@@ -416,6 +427,7 @@ export interface FileRouteTypes {
     | '/_app/perfil'
     | '/_app/privacidade'
     | '/_app/sobre'
+    | '/_app/treinos'
     | '/admin/habits'
     | '/admin/mensagens'
     | '/admin/users'
@@ -542,6 +554,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/admin/habits'
       preLoaderRoute: typeof AdminHabitsRouteImport
       parentRoute: typeof AdminRoute
+    }
+    '/_app/treinos': {
+      id: '/_app/treinos'
+      path: '/treinos'
+      fullPath: '/treinos'
+      preLoaderRoute: typeof AppTreinosRouteImport
+      parentRoute: typeof AppRoute
     }
     '/_app/sobre': {
       id: '/_app/sobre'
@@ -722,6 +741,7 @@ interface AppRouteChildren {
   AppPerfilRoute: typeof AppPerfilRoute
   AppPrivacidadeRoute: typeof AppPrivacidadeRoute
   AppSobreRoute: typeof AppSobreRoute
+  AppTreinosRoute: typeof AppTreinosRoute
 }
 
 const AppRouteChildren: AppRouteChildren = {
@@ -738,6 +758,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppPerfilRoute: AppPerfilRoute,
   AppPrivacidadeRoute: AppPrivacidadeRoute,
   AppSobreRoute: AppSobreRoute,
+  AppTreinosRoute: AppTreinosRoute,
 }
 
 const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
