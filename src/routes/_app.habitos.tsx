@@ -1,75 +1,161 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useApp } from "@/lib/app-context";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Check, Flame, Plus, Trash2, X } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
 import { BarChart, Bar, ResponsiveContainer, XAxis, Tooltip } from "recharts";
+import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/lib/auth-context";
+import {
+  computeStreak,
+  dateISO,
+  fetchMyCompletions,
+  fetchMyHabits,
+  toggleCompletion,
+  type Habit,
+} from "@/lib/queries";
 
-export const Route = createFileRoute("/_app/habitos")({ component: Habitos });
+export const Route = createFileRoute("/_app/habitos")({
+  head: () => ({
+    meta: [
+      { title: "Meus hábitos — HealthTrack" },
+      { name: "description", content: "Acompanhe e marque seus hábitos diários no HealthTrack." },
+      { property: "og:title", content: "Meus hábitos — HealthTrack" },
+      { property: "og:description", content: "Acompanhe e marque seus hábitos diários no HealthTrack." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
+    ],
+  }),
+  component: Habitos,
+});
 
 const DAYS = ["S", "T", "Q", "Q", "S", "S", "D"];
 const DAY_LABELS = ["segunda", "terça", "quarta", "quinta", "sexta", "sábado", "domingo"];
 const ICONS = ["💧", "🚶", "🧘", "😴", "🏋️", "🍎", "📚", "🥗"];
 const COLORS = ["bg-sky-500", "bg-emerald-500", "bg-violet-500", "bg-indigo-500", "bg-orange-500", "bg-rose-500"];
 
+/** Datas (segunda→domingo) da semana atual */
+function weekDates() {
+  const now = new Date();
+  const monday = new Date(now);
+  monday.setDate(now.getDate() - ((now.getDay() + 6) % 7));
+  return Array.from({ length: 7 }, (_, i) => {
+    const d = new Date(monday);
+    d.setDate(monday.getDate() + i);
+    return dateISO(d);
+  });
+}
+
 function Habitos() {
-  const userName = useApp().user.name;
   const nav = useNavigate();
-  const { habits, toggleHabit, streak, addHabit, removeHabit, doneByDay, toggleHabitDay } = useApp();
+  const qc = useQueryClient();
+  const { userId, profile } = useAuth();
+  const userName = profile?.name?.split(" ")[0] || "você";
+
+  const [days, setDays] = useState<string[]>([]);
   const [today, setToday] = useState(0);
   const [selected, setSelected] = useState(0);
   useEffect(() => {
-    const idx = (new Date().getDay() + 6) % 7; // 0 = segunda
+    const idx = (new Date().getDay() + 6) % 7;
+    setDays(weekDates());
     setToday(idx);
     setSelected(idx);
   }, []);
+
   const [open, setOpen] = useState(false);
   const [name, setName] = useState("");
   const [goal, setGoal] = useState("");
   const [icon, setIcon] = useState(ICONS[0]);
-  const isToday = selected === today;
 
-  const isDone = (h: { id: string; done: boolean }) =>
-    isToday ? h.done : (doneByDay[selected] ?? []).includes(h.id);
+  const { data: habits = [], isLoading } = useQuery({
+    queryKey: ["my-habits", userId],
+    queryFn: () => fetchMyHabits(userId!),
+    enabled: !!userId,
+  });
+
+  const from = days[0] ?? "";
+  const to = days[6] ?? "";
+  const { data: completions = [] } = useQuery({
+    queryKey: ["my-completions", userId, from, to],
+    queryFn: () => fetchMyCompletions(userId!, from, to),
+    enabled: !!userId && !!from,
+  });
+
+  const { data: allCompletions = [] } = useQuery({
+    queryKey: ["my-completions-all", userId],
+    queryFn: () => fetchMyCompletions(userId!, "2000-01-01", dateISO(new Date())),
+    enabled: !!userId,
+  });
+
+  const refresh = () => {
+    void qc.invalidateQueries({ queryKey: ["my-habits"] });
+    void qc.invalidateQueries({ queryKey: ["my-completions"] });
+    void qc.invalidateQueries({ queryKey: ["my-completions-all"] });
+  };
+
+  const streak = useMemo(
+    () => computeStreak(allCompletions.map((c) => c.completed_on as string)).current,
+    [allCompletions],
+  );
+
+  const selectedDate = days[selected] ?? "";
+  const isToday = selected === today;
+  const isDone = (h: Habit) => completions.some((c) => c.habit_id === h.id && c.completed_on === selectedDate);
 
   const done = habits.filter(isDone).length;
   const total = habits.length;
   const allDone = total > 0 && done === total;
-  const pct = useMemo(() => (total ? (done / total) * 100 : 0), [done, total]);
+  const pct = total ? (done / total) * 100 : 0;
+
   const week = useMemo(
-    () => DAYS.map((d, i) => ({
-      d,
-      v: i === today ? habits.filter((h) => h.done).length : (doneByDay[i] ?? []).filter((id) => habits.some((h) => h.id === id)).length,
-    })),
-    [habits, doneByDay, today],
+    () => DAYS.map((d, i) => ({ d, v: completions.filter((c) => c.completed_on === days[i]).length })),
+    [completions, days],
   );
 
-  function onToggle(id: string, name: string) {
-    const h = habits.find((x) => x.id === id);
-    const wasDone = h ? isDone(h) : false;
-    if (isToday) toggleHabit(id); else toggleHabitDay(selected, id);
-    if (!wasDone) toast.success(`Hábito "${name}" concluído ✓`);
-  }
+  const toggle = useMutation({
+    mutationFn: (h: Habit) => toggleCompletion(userId!, h.id, selectedDate, isDone(h)),
+    onSuccess: (_r, h) => {
+      if (!isDone(h)) toast.success(`Hábito "${h.name}" concluído ✓`);
+      refresh();
+    },
+    onError: () => toast.error("Não foi possível atualizar o hábito."),
+  });
 
+  const create = useMutation({
+    mutationFn: async () => {
+      const { data, error } = await supabase
+        .from("habits")
+        .insert({
+          name: name.trim(),
+          icon,
+          target: goal.trim() || "1x por dia",
+          category: "pessoal",
+          created_by: userId!,
+        })
+        .select("id")
+        .single();
+      if (error) throw error;
+      const { error: aErr } = await supabase
+        .from("habit_assignments")
+        .insert({ habit_id: data.id, user_id: userId!, active: true });
+      if (aErr) throw aErr;
+    },
+    onSuccess: () => {
+      toast.success(`Hábito "${name.trim()}" criado`);
+      setName(""); setGoal(""); setIcon(ICONS[0]); setOpen(false);
+      refresh();
+    },
+    onError: () => toast.error("Não foi possível criar o hábito."),
+  });
 
-  function onAdd(e: React.FormEvent) {
-    e.preventDefault();
-    if (!name.trim()) return;
-    addHabit({
-      name: name.trim(),
-      icon,
-      color: COLORS[habits.length % COLORS.length],
-      goal: goal.trim() || "1x por dia",
-      value: "0",
-    });
-    toast.success(`Hábito "${name.trim()}" criado`);
-    setName(""); setGoal(""); setIcon(ICONS[0]); setOpen(false);
-  }
-
-  function onRemove(id: string, name: string) {
-    removeHabit(id);
-    toast.success(`Hábito "${name}" removido`);
-  }
+  const remove = useMutation({
+    mutationFn: async (h: Habit) => {
+      const { error } = await supabase.from("habits").delete().eq("id", h.id);
+      if (error) throw error;
+    },
+    onSuccess: (_r, h) => { toast.success(`Hábito "${h.name}" removido`); refresh(); },
+    onError: () => toast.error("Este hábito foi enviado pelo seu profissional e não pode ser removido."),
+  });
 
   return (
     <div className="px-4 lg:px-8 py-6 max-w-4xl mx-auto">
@@ -83,7 +169,7 @@ function Habitos() {
       </div>
 
       {open && (
-        <form onSubmit={onAdd} className="card-soft mb-4 space-y-3">
+        <form onSubmit={(e) => { e.preventDefault(); if (name.trim()) create.mutate(); }} className="card-soft mb-4 space-y-3">
           <div>
             <label className="text-sm font-semibold" htmlFor="hname">Nome do hábito</label>
             <input id="hname" value={name} onChange={(e) => setName(e.target.value)} placeholder="Ex.: Alongar"
@@ -103,10 +189,12 @@ function Habitos() {
               ))}
             </div>
           </div>
-          <button type="submit" className="w-full gradient-brand text-white rounded-xl min-h-11 font-semibold">Adicionar hábito</button>
+          <button type="submit" disabled={create.isPending}
+            className="w-full gradient-brand text-white rounded-xl min-h-11 font-semibold disabled:opacity-60">
+            {create.isPending ? "Salvando..." : "Adicionar hábito"}
+          </button>
         </form>
       )}
-
 
       {/* Days selector */}
       <div className="flex gap-2 mb-5 overflow-x-auto pb-1">
@@ -125,12 +213,11 @@ function Habitos() {
           <div>
             <div className="font-semibold">{isToday ? "Progresso de hoje" : `Progresso de ${DAY_LABELS[selected]}`}</div>
             <div className="text-sm text-muted-foreground">{done} hábitos concluídos</div>
-
             <div className="mt-2 flex items-center gap-1.5 text-sm text-orange-500 font-semibold"><Flame className="size-4" /> {streak} dias</div>
           </div>
         </div>
         <div className="card-soft">
-          <div className="text-sm font-semibold mb-2">Últimos 7 dias</div>
+          <div className="text-sm font-semibold mb-2">Esta semana</div>
           <div className="h-24">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={week}>
@@ -157,33 +244,36 @@ function Habitos() {
       )}
 
       <ul className="space-y-2">
-        {habits.length === 0 ? (
+        {isLoading ? (
+          <li className="card-soft text-center py-10 text-muted-foreground">Carregando seus hábitos...</li>
+        ) : habits.length === 0 ? (
           <li className="card-soft text-center py-10">
             <div className="text-5xl mb-2">🌱</div>
             <div className="font-semibold">Nenhum hábito ainda</div>
-            <p className="text-sm text-muted-foreground">Comece criando um hábito saudável hoje.</p>
+            <p className="text-sm text-muted-foreground">Crie um hábito ou aguarde a atribuição do seu profissional.</p>
           </li>
-        ) : habits.map((h) => {
+        ) : habits.map((h, idx) => {
           const dayDone = isDone(h);
           return (
-          <li key={h.id} className="card-soft flex items-center gap-3">
-            <div className={`size-11 rounded-xl ${h.color} text-white grid place-items-center text-xl`}>{h.icon}</div>
-            <button
-              onClick={() => h.id === "h1" && isToday ? nav({ to: "/hidratacao" }) : onToggle(h.id, h.name)}
-              className="flex-1 text-left min-h-11">
-              <div className="font-semibold">{h.name}</div>
-              <div className="text-xs text-muted-foreground">{isToday ? `${h.value} / ${h.goal}` : `Meta: ${h.goal}`}</div>
-            </button>
-            <button onClick={() => onToggle(h.id, h.name)} aria-label={dayDone ? "Desmarcar" : "Marcar"}
-              className={`size-9 rounded-full grid place-items-center transition-all ${dayDone ? "bg-success text-white" : "border-2 border-border"}`}>
-              {dayDone && <Check className="size-5" />}
-            </button>
-
-            <button onClick={() => onRemove(h.id, h.name)} aria-label={`Remover ${h.name}`}
-              className="size-9 rounded-full grid place-items-center text-muted-foreground hover:text-destructive hover:bg-muted transition-all">
-              <Trash2 className="size-4" />
-            </button>
-          </li>
+            <li key={h.id} className="card-soft flex items-center gap-3">
+              <div className={`size-11 rounded-xl ${COLORS[idx % COLORS.length]} text-white grid place-items-center text-xl`}>{h.icon}</div>
+              <button
+                onClick={() => (h.name.toLowerCase().includes("água") && isToday ? nav({ to: "/hidratacao" }) : toggle.mutate(h))}
+                className="flex-1 text-left min-h-11">
+                <div className="font-semibold">{h.name}</div>
+                <div className="text-xs text-muted-foreground">
+                  {h.target ? `Meta: ${h.target}` : h.frequency === "diario" ? "Diário" : h.frequency}
+                </div>
+              </button>
+              <button onClick={() => toggle.mutate(h)} aria-label={dayDone ? "Desmarcar" : "Marcar"}
+                className={`size-9 rounded-full grid place-items-center transition-all ${dayDone ? "bg-success text-white" : "border-2 border-border"}`}>
+                {dayDone && <Check className="size-5" />}
+              </button>
+              <button onClick={() => remove.mutate(h)} aria-label={`Remover ${h.name}`}
+                className="size-9 rounded-full grid place-items-center text-muted-foreground hover:text-destructive hover:bg-muted transition-all">
+                <Trash2 className="size-4" />
+              </button>
+            </li>
           );
         })}
       </ul>
