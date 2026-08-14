@@ -1,6 +1,6 @@
 import { Link, Outlet, useNavigate, useRouterState } from "@tanstack/react-router";
 import { useAuth } from "@/lib/auth-context";
-import { Home, ListChecks, UtensilsCrossed, Bot, Menu, Bell, User, Settings, Accessibility, HelpCircle, Shield, Info, LogOut, Droplet, MessageSquare, Shield as ShieldIcon } from "lucide-react";
+import { Home, ListChecks, UtensilsCrossed, Bot, Menu, Bell, User, Settings, Accessibility, HelpCircle, Shield, Info, LogOut, Droplet, MessageSquare, Dumbbell, Target, CalendarDays, Shield as ShieldIcon } from "lucide-react";
 import { Logo } from "./Logo";
 
 const NAV = [
@@ -12,6 +12,9 @@ const NAV = [
 ] as const;
 
 const SIDE_EXTRA = [
+  { to: "/treinos", label: "Treinos", icon: Dumbbell },
+  { to: "/metas", label: "Metas", icon: Target },
+  { to: "/calendario", label: "Calendário", icon: CalendarDays },
   { to: "/mensagens", label: "Mensagens", icon: MessageSquare },
   { to: "/hidratacao", label: "Hidratação", icon: Droplet },
   { to: "/perfil", label: "Perfil", icon: User },
