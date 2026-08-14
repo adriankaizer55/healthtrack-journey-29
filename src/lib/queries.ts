@@ -300,3 +300,44 @@ export function computeStreak(days: string[]) {
   }
   return { current, best, totalDays: set.size };
 }
+
+/* ---------- perfil / metas ---------- */
+
+export async function updateMyProfile(userId: string, patch: { name?: string; avatar_url?: string | null }) {
+  const { error } = await supabase.from("profiles").update(patch).eq("id", userId);
+  if (error) throw error;
+}
+
+export type Goal = {
+  id: string;
+  user_id: string;
+  title: string;
+  description: string | null;
+  target: number;
+  progress: number;
+  deadline: string | null;
+  status: string;
+  created_at: string;
+};
+
+export async function createGoal(userId: string, g: { title: string; description?: string; target: number; deadline?: string | null }) {
+  const { error } = await supabase.from("goals").insert({
+    user_id: userId,
+    created_by: userId,
+    title: g.title,
+    description: g.description || null,
+    target: g.target,
+    deadline: g.deadline || null,
+  });
+  if (error) throw error;
+}
+
+export async function updateGoal(id: string, patch: { progress?: number; status?: string; title?: string; target?: number; deadline?: string | null }) {
+  const { error } = await supabase.from("goals").update(patch).eq("id", id);
+  if (error) throw error;
+}
+
+export async function deleteGoal(id: string) {
+  const { error } = await supabase.from("goals").delete().eq("id", id);
+  if (error) throw error;
+}

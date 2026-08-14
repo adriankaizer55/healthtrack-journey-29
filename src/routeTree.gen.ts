@@ -23,16 +23,19 @@ import { Route as AdminWorkoutsRouteImport } from './routes/admin.workouts'
 import { Route as AdminUsersRouteImport } from './routes/admin.users'
 import { Route as AdminMensagensRouteImport } from './routes/admin.mensagens'
 import { Route as AdminHabitsRouteImport } from './routes/admin.habits'
+import { Route as AppTreinosRouteImport } from './routes/_app.treinos'
 import { Route as AppSobreRouteImport } from './routes/_app.sobre'
 import { Route as AppPrivacidadeRouteImport } from './routes/_app.privacidade'
 import { Route as AppPerfilRouteImport } from './routes/_app.perfil'
 import { Route as AppNotificacoesRouteImport } from './routes/_app.notificacoes'
+import { Route as AppMetasRouteImport } from './routes/_app.metas'
 import { Route as AppMensagensRouteImport } from './routes/_app.mensagens'
 import { Route as AppMaisRouteImport } from './routes/_app.mais'
 import { Route as AppIaCoachRouteImport } from './routes/_app.ia-coach'
 import { Route as AppHidratacaoRouteImport } from './routes/_app.hidratacao'
 import { Route as AppHabitosRouteImport } from './routes/_app.habitos'
 import { Route as AppDashboardRouteImport } from './routes/_app.dashboard'
+import { Route as AppCalendarioRouteImport } from './routes/_app.calendario'
 import { Route as AppAlimentacaoRouteImport } from './routes/_app.alimentacao'
 import { Route as AppAjudaRouteImport } from './routes/_app.ajuda'
 import { Route as AppAcessibilidadeRouteImport } from './routes/_app.acessibilidade'
@@ -113,6 +116,11 @@ const AdminHabitsRoute = AdminHabitsRouteImport.update({
   path: '/habits',
   getParentRoute: () => AdminRoute,
 } as any)
+const AppTreinosRoute = AppTreinosRouteImport.update({
+  id: '/treinos',
+  path: '/treinos',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppSobreRoute = AppSobreRouteImport.update({
   id: '/sobre',
   path: '/sobre',
@@ -131,6 +139,11 @@ const AppPerfilRoute = AppPerfilRouteImport.update({
 const AppNotificacoesRoute = AppNotificacoesRouteImport.update({
   id: '/notificacoes',
   path: '/notificacoes',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppMetasRoute = AppMetasRouteImport.update({
+  id: '/metas',
+  path: '/metas',
   getParentRoute: () => AppRoute,
 } as any)
 const AppMensagensRoute = AppMensagensRouteImport.update({
@@ -161,6 +174,11 @@ const AppHabitosRoute = AppHabitosRouteImport.update({
 const AppDashboardRoute = AppDashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppCalendarioRoute = AppCalendarioRouteImport.update({
+  id: '/calendario',
+  path: '/calendario',
   getParentRoute: () => AppRoute,
 } as any)
 const AppAlimentacaoRoute = AppAlimentacaoRouteImport.update({
@@ -230,16 +248,19 @@ export interface FileRoutesByFullPath {
   '/acessibilidade': typeof AppAcessibilidadeRouteWithChildren
   '/ajuda': typeof AppAjudaRoute
   '/alimentacao': typeof AppAlimentacaoRoute
+  '/calendario': typeof AppCalendarioRoute
   '/dashboard': typeof AppDashboardRoute
   '/habitos': typeof AppHabitosRoute
   '/hidratacao': typeof AppHidratacaoRoute
   '/ia-coach': typeof AppIaCoachRoute
   '/mais': typeof AppMaisRoute
   '/mensagens': typeof AppMensagensRoute
+  '/metas': typeof AppMetasRoute
   '/notificacoes': typeof AppNotificacoesRoute
   '/perfil': typeof AppPerfilRoute
   '/privacidade': typeof AppPrivacidadeRoute
   '/sobre': typeof AppSobreRoute
+  '/treinos': typeof AppTreinosRoute
   '/admin/habits': typeof AdminHabitsRoute
   '/admin/mensagens': typeof AdminMensagensRoute
   '/admin/users': typeof AdminUsersRouteWithChildren
@@ -263,16 +284,19 @@ export interface FileRoutesByTo {
   '/reset-password': typeof ResetPasswordRoute
   '/ajuda': typeof AppAjudaRoute
   '/alimentacao': typeof AppAlimentacaoRoute
+  '/calendario': typeof AppCalendarioRoute
   '/dashboard': typeof AppDashboardRoute
   '/habitos': typeof AppHabitosRoute
   '/hidratacao': typeof AppHidratacaoRoute
   '/ia-coach': typeof AppIaCoachRoute
   '/mais': typeof AppMaisRoute
   '/mensagens': typeof AppMensagensRoute
+  '/metas': typeof AppMetasRoute
   '/notificacoes': typeof AppNotificacoesRoute
   '/perfil': typeof AppPerfilRoute
   '/privacidade': typeof AppPrivacidadeRoute
   '/sobre': typeof AppSobreRoute
+  '/treinos': typeof AppTreinosRoute
   '/admin/habits': typeof AdminHabitsRoute
   '/admin/mensagens': typeof AdminMensagensRoute
   '/admin/users': typeof AdminUsersRouteWithChildren
@@ -300,16 +324,19 @@ export interface FileRoutesById {
   '/_app/acessibilidade': typeof AppAcessibilidadeRouteWithChildren
   '/_app/ajuda': typeof AppAjudaRoute
   '/_app/alimentacao': typeof AppAlimentacaoRoute
+  '/_app/calendario': typeof AppCalendarioRoute
   '/_app/dashboard': typeof AppDashboardRoute
   '/_app/habitos': typeof AppHabitosRoute
   '/_app/hidratacao': typeof AppHidratacaoRoute
   '/_app/ia-coach': typeof AppIaCoachRoute
   '/_app/mais': typeof AppMaisRoute
   '/_app/mensagens': typeof AppMensagensRoute
+  '/_app/metas': typeof AppMetasRoute
   '/_app/notificacoes': typeof AppNotificacoesRoute
   '/_app/perfil': typeof AppPerfilRoute
   '/_app/privacidade': typeof AppPrivacidadeRoute
   '/_app/sobre': typeof AppSobreRoute
+  '/_app/treinos': typeof AppTreinosRoute
   '/admin/habits': typeof AdminHabitsRoute
   '/admin/mensagens': typeof AdminMensagensRoute
   '/admin/users': typeof AdminUsersRouteWithChildren
@@ -337,16 +364,19 @@ export interface FileRouteTypes {
     | '/acessibilidade'
     | '/ajuda'
     | '/alimentacao'
+    | '/calendario'
     | '/dashboard'
     | '/habitos'
     | '/hidratacao'
     | '/ia-coach'
     | '/mais'
     | '/mensagens'
+    | '/metas'
     | '/notificacoes'
     | '/perfil'
     | '/privacidade'
     | '/sobre'
+    | '/treinos'
     | '/admin/habits'
     | '/admin/mensagens'
     | '/admin/users'
@@ -370,16 +400,19 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/ajuda'
     | '/alimentacao'
+    | '/calendario'
     | '/dashboard'
     | '/habitos'
     | '/hidratacao'
     | '/ia-coach'
     | '/mais'
     | '/mensagens'
+    | '/metas'
     | '/notificacoes'
     | '/perfil'
     | '/privacidade'
     | '/sobre'
+    | '/treinos'
     | '/admin/habits'
     | '/admin/mensagens'
     | '/admin/users'
@@ -406,16 +439,19 @@ export interface FileRouteTypes {
     | '/_app/acessibilidade'
     | '/_app/ajuda'
     | '/_app/alimentacao'
+    | '/_app/calendario'
     | '/_app/dashboard'
     | '/_app/habitos'
     | '/_app/hidratacao'
     | '/_app/ia-coach'
     | '/_app/mais'
     | '/_app/mensagens'
+    | '/_app/metas'
     | '/_app/notificacoes'
     | '/_app/perfil'
     | '/_app/privacidade'
     | '/_app/sobre'
+    | '/_app/treinos'
     | '/admin/habits'
     | '/admin/mensagens'
     | '/admin/users'
@@ -543,6 +579,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminHabitsRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/_app/treinos': {
+      id: '/_app/treinos'
+      path: '/treinos'
+      fullPath: '/treinos'
+      preLoaderRoute: typeof AppTreinosRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/sobre': {
       id: '/_app/sobre'
       path: '/sobre'
@@ -569,6 +612,13 @@ declare module '@tanstack/react-router' {
       path: '/notificacoes'
       fullPath: '/notificacoes'
       preLoaderRoute: typeof AppNotificacoesRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/metas': {
+      id: '/_app/metas'
+      path: '/metas'
+      fullPath: '/metas'
+      preLoaderRoute: typeof AppMetasRouteImport
       parentRoute: typeof AppRoute
     }
     '/_app/mensagens': {
@@ -611,6 +661,13 @@ declare module '@tanstack/react-router' {
       path: '/dashboard'
       fullPath: '/dashboard'
       preLoaderRoute: typeof AppDashboardRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/calendario': {
+      id: '/_app/calendario'
+      path: '/calendario'
+      fullPath: '/calendario'
+      preLoaderRoute: typeof AppCalendarioRouteImport
       parentRoute: typeof AppRoute
     }
     '/_app/alimentacao': {
@@ -712,32 +769,38 @@ interface AppRouteChildren {
   AppAcessibilidadeRoute: typeof AppAcessibilidadeRouteWithChildren
   AppAjudaRoute: typeof AppAjudaRoute
   AppAlimentacaoRoute: typeof AppAlimentacaoRoute
+  AppCalendarioRoute: typeof AppCalendarioRoute
   AppDashboardRoute: typeof AppDashboardRoute
   AppHabitosRoute: typeof AppHabitosRoute
   AppHidratacaoRoute: typeof AppHidratacaoRoute
   AppIaCoachRoute: typeof AppIaCoachRoute
   AppMaisRoute: typeof AppMaisRoute
   AppMensagensRoute: typeof AppMensagensRoute
+  AppMetasRoute: typeof AppMetasRoute
   AppNotificacoesRoute: typeof AppNotificacoesRoute
   AppPerfilRoute: typeof AppPerfilRoute
   AppPrivacidadeRoute: typeof AppPrivacidadeRoute
   AppSobreRoute: typeof AppSobreRoute
+  AppTreinosRoute: typeof AppTreinosRoute
 }
 
 const AppRouteChildren: AppRouteChildren = {
   AppAcessibilidadeRoute: AppAcessibilidadeRouteWithChildren,
   AppAjudaRoute: AppAjudaRoute,
   AppAlimentacaoRoute: AppAlimentacaoRoute,
+  AppCalendarioRoute: AppCalendarioRoute,
   AppDashboardRoute: AppDashboardRoute,
   AppHabitosRoute: AppHabitosRoute,
   AppHidratacaoRoute: AppHidratacaoRoute,
   AppIaCoachRoute: AppIaCoachRoute,
   AppMaisRoute: AppMaisRoute,
   AppMensagensRoute: AppMensagensRoute,
+  AppMetasRoute: AppMetasRoute,
   AppNotificacoesRoute: AppNotificacoesRoute,
   AppPerfilRoute: AppPerfilRoute,
   AppPrivacidadeRoute: AppPrivacidadeRoute,
   AppSobreRoute: AppSobreRoute,
+  AppTreinosRoute: AppTreinosRoute,
 }
 
 const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
