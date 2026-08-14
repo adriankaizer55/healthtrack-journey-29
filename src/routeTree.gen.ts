@@ -28,6 +28,7 @@ import { Route as AppSobreRouteImport } from './routes/_app.sobre'
 import { Route as AppPrivacidadeRouteImport } from './routes/_app.privacidade'
 import { Route as AppPerfilRouteImport } from './routes/_app.perfil'
 import { Route as AppNotificacoesRouteImport } from './routes/_app.notificacoes'
+import { Route as AppMetasRouteImport } from './routes/_app.metas'
 import { Route as AppMensagensRouteImport } from './routes/_app.mensagens'
 import { Route as AppMaisRouteImport } from './routes/_app.mais'
 import { Route as AppIaCoachRouteImport } from './routes/_app.ia-coach'
@@ -139,6 +140,11 @@ const AppNotificacoesRoute = AppNotificacoesRouteImport.update({
   path: '/notificacoes',
   getParentRoute: () => AppRoute,
 } as any)
+const AppMetasRoute = AppMetasRouteImport.update({
+  id: '/metas',
+  path: '/metas',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppMensagensRoute = AppMensagensRouteImport.update({
   id: '/mensagens',
   path: '/mensagens',
@@ -242,6 +248,7 @@ export interface FileRoutesByFullPath {
   '/ia-coach': typeof AppIaCoachRoute
   '/mais': typeof AppMaisRoute
   '/mensagens': typeof AppMensagensRoute
+  '/metas': typeof AppMetasRoute
   '/notificacoes': typeof AppNotificacoesRoute
   '/perfil': typeof AppPerfilRoute
   '/privacidade': typeof AppPrivacidadeRoute
@@ -276,6 +283,7 @@ export interface FileRoutesByTo {
   '/ia-coach': typeof AppIaCoachRoute
   '/mais': typeof AppMaisRoute
   '/mensagens': typeof AppMensagensRoute
+  '/metas': typeof AppMetasRoute
   '/notificacoes': typeof AppNotificacoesRoute
   '/perfil': typeof AppPerfilRoute
   '/privacidade': typeof AppPrivacidadeRoute
@@ -314,6 +322,7 @@ export interface FileRoutesById {
   '/_app/ia-coach': typeof AppIaCoachRoute
   '/_app/mais': typeof AppMaisRoute
   '/_app/mensagens': typeof AppMensagensRoute
+  '/_app/metas': typeof AppMetasRoute
   '/_app/notificacoes': typeof AppNotificacoesRoute
   '/_app/perfil': typeof AppPerfilRoute
   '/_app/privacidade': typeof AppPrivacidadeRoute
@@ -352,6 +361,7 @@ export interface FileRouteTypes {
     | '/ia-coach'
     | '/mais'
     | '/mensagens'
+    | '/metas'
     | '/notificacoes'
     | '/perfil'
     | '/privacidade'
@@ -386,6 +396,7 @@ export interface FileRouteTypes {
     | '/ia-coach'
     | '/mais'
     | '/mensagens'
+    | '/metas'
     | '/notificacoes'
     | '/perfil'
     | '/privacidade'
@@ -423,6 +434,7 @@ export interface FileRouteTypes {
     | '/_app/ia-coach'
     | '/_app/mais'
     | '/_app/mensagens'
+    | '/_app/metas'
     | '/_app/notificacoes'
     | '/_app/perfil'
     | '/_app/privacidade'
@@ -590,6 +602,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppNotificacoesRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/metas': {
+      id: '/_app/metas'
+      path: '/metas'
+      fullPath: '/metas'
+      preLoaderRoute: typeof AppMetasRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/mensagens': {
       id: '/_app/mensagens'
       path: '/mensagens'
@@ -737,6 +756,7 @@ interface AppRouteChildren {
   AppIaCoachRoute: typeof AppIaCoachRoute
   AppMaisRoute: typeof AppMaisRoute
   AppMensagensRoute: typeof AppMensagensRoute
+  AppMetasRoute: typeof AppMetasRoute
   AppNotificacoesRoute: typeof AppNotificacoesRoute
   AppPerfilRoute: typeof AppPerfilRoute
   AppPrivacidadeRoute: typeof AppPrivacidadeRoute
@@ -754,6 +774,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppIaCoachRoute: AppIaCoachRoute,
   AppMaisRoute: AppMaisRoute,
   AppMensagensRoute: AppMensagensRoute,
+  AppMetasRoute: AppMetasRoute,
   AppNotificacoesRoute: AppNotificacoesRoute,
   AppPerfilRoute: AppPerfilRoute,
   AppPrivacidadeRoute: AppPrivacidadeRoute,
