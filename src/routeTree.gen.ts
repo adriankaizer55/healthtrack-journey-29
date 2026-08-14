@@ -35,6 +35,7 @@ import { Route as AppIaCoachRouteImport } from './routes/_app.ia-coach'
 import { Route as AppHidratacaoRouteImport } from './routes/_app.hidratacao'
 import { Route as AppHabitosRouteImport } from './routes/_app.habitos'
 import { Route as AppDashboardRouteImport } from './routes/_app.dashboard'
+import { Route as AppCalendarioRouteImport } from './routes/_app.calendario'
 import { Route as AppAlimentacaoRouteImport } from './routes/_app.alimentacao'
 import { Route as AppAjudaRouteImport } from './routes/_app.ajuda'
 import { Route as AppAcessibilidadeRouteImport } from './routes/_app.acessibilidade'
@@ -175,6 +176,11 @@ const AppDashboardRoute = AppDashboardRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => AppRoute,
 } as any)
+const AppCalendarioRoute = AppCalendarioRouteImport.update({
+  id: '/calendario',
+  path: '/calendario',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppAlimentacaoRoute = AppAlimentacaoRouteImport.update({
   id: '/alimentacao',
   path: '/alimentacao',
@@ -242,6 +248,7 @@ export interface FileRoutesByFullPath {
   '/acessibilidade': typeof AppAcessibilidadeRouteWithChildren
   '/ajuda': typeof AppAjudaRoute
   '/alimentacao': typeof AppAlimentacaoRoute
+  '/calendario': typeof AppCalendarioRoute
   '/dashboard': typeof AppDashboardRoute
   '/habitos': typeof AppHabitosRoute
   '/hidratacao': typeof AppHidratacaoRoute
@@ -277,6 +284,7 @@ export interface FileRoutesByTo {
   '/reset-password': typeof ResetPasswordRoute
   '/ajuda': typeof AppAjudaRoute
   '/alimentacao': typeof AppAlimentacaoRoute
+  '/calendario': typeof AppCalendarioRoute
   '/dashboard': typeof AppDashboardRoute
   '/habitos': typeof AppHabitosRoute
   '/hidratacao': typeof AppHidratacaoRoute
@@ -316,6 +324,7 @@ export interface FileRoutesById {
   '/_app/acessibilidade': typeof AppAcessibilidadeRouteWithChildren
   '/_app/ajuda': typeof AppAjudaRoute
   '/_app/alimentacao': typeof AppAlimentacaoRoute
+  '/_app/calendario': typeof AppCalendarioRoute
   '/_app/dashboard': typeof AppDashboardRoute
   '/_app/habitos': typeof AppHabitosRoute
   '/_app/hidratacao': typeof AppHidratacaoRoute
@@ -355,6 +364,7 @@ export interface FileRouteTypes {
     | '/acessibilidade'
     | '/ajuda'
     | '/alimentacao'
+    | '/calendario'
     | '/dashboard'
     | '/habitos'
     | '/hidratacao'
@@ -390,6 +400,7 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/ajuda'
     | '/alimentacao'
+    | '/calendario'
     | '/dashboard'
     | '/habitos'
     | '/hidratacao'
@@ -428,6 +439,7 @@ export interface FileRouteTypes {
     | '/_app/acessibilidade'
     | '/_app/ajuda'
     | '/_app/alimentacao'
+    | '/_app/calendario'
     | '/_app/dashboard'
     | '/_app/habitos'
     | '/_app/hidratacao'
@@ -651,6 +663,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppDashboardRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/calendario': {
+      id: '/_app/calendario'
+      path: '/calendario'
+      fullPath: '/calendario'
+      preLoaderRoute: typeof AppCalendarioRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/alimentacao': {
       id: '/_app/alimentacao'
       path: '/alimentacao'
@@ -750,6 +769,7 @@ interface AppRouteChildren {
   AppAcessibilidadeRoute: typeof AppAcessibilidadeRouteWithChildren
   AppAjudaRoute: typeof AppAjudaRoute
   AppAlimentacaoRoute: typeof AppAlimentacaoRoute
+  AppCalendarioRoute: typeof AppCalendarioRoute
   AppDashboardRoute: typeof AppDashboardRoute
   AppHabitosRoute: typeof AppHabitosRoute
   AppHidratacaoRoute: typeof AppHidratacaoRoute
@@ -768,6 +788,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppAcessibilidadeRoute: AppAcessibilidadeRouteWithChildren,
   AppAjudaRoute: AppAjudaRoute,
   AppAlimentacaoRoute: AppAlimentacaoRoute,
+  AppCalendarioRoute: AppCalendarioRoute,
   AppDashboardRoute: AppDashboardRoute,
   AppHabitosRoute: AppHabitosRoute,
   AppHidratacaoRoute: AppHidratacaoRoute,
