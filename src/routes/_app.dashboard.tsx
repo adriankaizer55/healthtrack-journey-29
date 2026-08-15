@@ -98,8 +98,8 @@ function Dashboard() {
             {(profile?.name || "H")[0]?.toUpperCase()}
           </div>
           <div>
-            <p className="text-sm text-muted-foreground">Olá, {name}! 👋</p>
-            <p className="text-lg font-semibold">Vamos cuidar de você hoje?</p>
+            <p className="text-lg font-semibold">Olá, {name} 👋</p>
+            <p className="text-sm text-muted-foreground">Vamos cuidar de você hoje?</p>
           </div>
         </div>
         <Link to="/notificacoes" aria-label="Notificações" className="size-11 rounded-full grid place-items-center hover:bg-muted relative">
@@ -107,6 +107,29 @@ function Dashboard() {
           {unread > 0 && <span className="absolute top-2 right-2 size-2 rounded-full bg-destructive" />}
         </Link>
       </div>
+
+      {/* Perfil do onboarding (dados reais) */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-4">
+        <Link to="/perfil" className="card-soft hover:shadow-md transition-all">
+          <p className="text-xs text-muted-foreground">Seu objetivo</p>
+          <p className="mt-1 font-semibold text-sm">
+            {profile?.goal === "other" ? profile?.goal_other || "Outro" : goalLabel(profile?.goal)}
+          </p>
+        </Link>
+        <Link to="/perfil" className="card-soft hover:shadow-md transition-all">
+          <p className="text-xs text-muted-foreground">Peso atual</p>
+          <p className="mt-1 font-semibold text-sm">{profile?.current_weight != null ? `${profile.current_weight} kg` : "—"}</p>
+        </Link>
+        <Link to="/perfil" className="card-soft hover:shadow-md transition-all">
+          <p className="text-xs text-muted-foreground">Meta</p>
+          <p className="mt-1 font-semibold text-sm">{profile?.target_weight != null ? `${profile.target_weight} kg` : "—"}</p>
+        </Link>
+        <Link to="/treinos" className="card-soft hover:shadow-md transition-all">
+          <p className="text-xs text-muted-foreground">Treinos por semana</p>
+          <p className="mt-1 font-semibold text-sm">{profile?.training_frequency ? `${profile.training_frequency} dias` : "—"}</p>
+        </Link>
+      </div>
+
 
       <div className="grid lg:grid-cols-3 gap-4">
         {/* Hábitos da semana */}
