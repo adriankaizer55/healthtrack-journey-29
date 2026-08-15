@@ -6,6 +6,7 @@ import { Chat } from "@/components/Chat";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth-context";
 import { computeStreak } from "@/lib/queries";
+import { activityLabel, experienceLabel, goalLabel, timeLabel } from "@/lib/onboarding";
 
 export const Route = createFileRoute("/admin/users/$id")({
   head: () => ({
@@ -50,6 +51,7 @@ function UserDetail() {
     },
   });
 
+  const p = data?.profile;
   const streak = computeStreak((data?.completions ?? []).map((c) => c.completed_on as string));
   const name = data?.profile?.name ?? "Usuário";
   const todayDone = (data?.completions ?? []).filter((c) => c.completed_on === new Date().toISOString().slice(0, 10)).length;
@@ -80,10 +82,31 @@ function UserDetail() {
 
       <div className="mt-4">
         {tab === "Perfil" && (
-          <div className="grid sm:grid-cols-3 gap-3">
-            <Stat label="Sequência atual" value={`${streak.current} dias`} />
-            <Stat label="Maior sequência" value={`${streak.best} dias`} />
-            <Stat label="Dias com check-in" value={String(streak.totalDays)} />
+          <div className="space-y-4">
+            <div className="grid sm:grid-cols-3 gap-3">
+              <Stat label="Sequência atual" value={`${streak.current} dias`} />
+              <Stat label="Maior sequência" value={`${streak.best} dias`} />
+              <Stat label="Dias com check-in" value={String(streak.totalDays)} />
+            </div>
+            <div className="card-soft">
+              <h2 className="font-semibold mb-3">Perfil do usuário</h2>
+              <dl className="grid sm:grid-cols-2 gap-y-2 gap-x-6 text-sm">
+                <Info k="Nome" v={p?.name || "—"} />
+                <Info k="E-mail" v={p?.email || "—"} />
+                <Info k="Objetivo" v={p?.goal === "other" ? (p?.goal_other as string) || "Outro" : goalLabel(p?.goal as string)} />
+                <Info k="Peso atual" v={p?.current_weight != null ? `${p.current_weight} kg` : "—"} />
+                <Info k="Peso desejado" v={p?.target_weight != null ? `${p.target_weight} kg` : "—"} />
+                <Info k="Altura" v={p?.height_cm != null ? `${p.height_cm} cm` : "—"} />
+                <Info k="Data de nascimento" v={p?.birth_date ? new Date(`${p.birth_date}T00:00:00`).toLocaleDateString("pt-BR") : "—"} />
+                <Info k="Nível de atividade" v={activityLabel(p?.activity_level as string)} />
+                <Info k="Frequência de treino" v={p?.training_frequency ? `${p.training_frequency} dias/semana` : "—"} />
+                <Info k="Experiência" v={experienceLabel(p?.experience_level as string)} />
+                <Info k="Tempo disponível" v={timeLabel(p?.available_time as number)} />
+                <Info k="Preferências" v={(p?.preferred_activities as string[] | null)?.join(", ") || "—"} />
+                <Info k="Data de cadastro" v={p?.created_at ? new Date(p.created_at as string).toLocaleDateString("pt-BR") : "—"} />
+                <Info k="Onboarding concluído" v={p?.onboarding_completed ? "Sim" : "Não"} />
+              </dl>
+            </div>
           </div>
         )}
 
@@ -143,6 +166,15 @@ function UserDetail() {
           <div className="card-soft p-0 overflow-hidden"><Chat meId={meId} otherId={id} otherName={name} /></div>
         )}
       </div>
+    </div>
+  );
+}
+
+function Info({ k, v }: { k: string; v: string }) {
+  return (
+    <div className="flex justify-between gap-4 border-b border-border/60 pb-2 last:border-0">
+      <dt className="text-muted-foreground">{k}</dt>
+      <dd className="font-medium text-right">{v}</dd>
     </div>
   );
 }
