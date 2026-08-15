@@ -64,12 +64,13 @@ function AuthCallback() {
           return;
         }
 
-        const { data: roles } = await supabase
-          .from("user_roles")
-          .select("role")
-          .eq("user_id", data.session.user.id);
+        const [{ data: roles }, { data: prof }] = await Promise.all([
+          supabase.from("user_roles").select("role").eq("user_id", data.session.user.id),
+          supabase.from("profiles").select("onboarding_completed").eq("id", data.session.user.id).maybeSingle(),
+        ]);
         const isAdmin = roles?.some((r) => r.role === "admin") ?? false;
-        nav({ to: isAdmin ? "/admin" : "/dashboard", replace: true });
+        if (isAdmin) nav({ to: "/admin", replace: true });
+        else nav({ to: prof?.onboarding_completed ? "/dashboard" : "/onboarding", replace: true });
       } catch (e) {
         if (alive) setError(e instanceof Error ? e.message : String(e));
       }
