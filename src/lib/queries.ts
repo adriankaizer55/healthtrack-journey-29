@@ -256,7 +256,7 @@ export async function unassignWorkout(workoutId: string, userId: string) {
 export async function fetchAdminStats() {
   const today = todayISO();
   const [users, habits, workouts, completions, weekCompletions] = await Promise.all([
-    supabase.from("profiles").select("id, active, last_seen_at, created_at"),
+    supabase.from("profiles").select("id, active, last_seen_at, created_at, goal, onboarding_completed, training_frequency"),
     supabase.from("habits").select("id, active"),
     supabase.from("workouts").select("id, active"),
     supabase.from("habit_completions").select("id").eq("completed_on", today),
@@ -264,7 +264,16 @@ export async function fetchAdminStats() {
   ]);
   const assignments = await supabase.from("habit_assignments").select("id").eq("active", true);
   const totalAssign = assignments.data?.length ?? 0;
+  const list = users.data ?? [];
+  const onboarded = list.filter((u) => u.onboarding_completed);
+  const goalCounts = new Map<string, number>();
+  for (const u of onboarded) if (u.goal) goalCounts.set(u.goal, (goalCounts.get(u.goal) ?? 0) + 1);
+  const freqs = onboarded.map((u) => Number(u.training_frequency)).filter((n) => n > 0);
   return {
+    onboardedUsers: onboarded.length,
+    pendingOnboarding: list.length - onboarded.length,
+    topGoals: [...goalCounts.entries()].sort((a, b) => b[1] - a[1]).map(([goal, count]) => ({ goal, count })),
+    avgFrequency: freqs.length ? Math.round((freqs.reduce((a, b) => a + b, 0) / freqs.length) * 10) / 10 : 0,
     totalUsers: users.data?.length ?? 0,
     activeUsers: (users.data ?? []).filter((u) => u.active).length,
     activeHabits: (habits.data ?? []).filter((h) => h.active).length,

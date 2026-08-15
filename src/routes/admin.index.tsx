@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Users, ListChecks, Dumbbell, CheckCircle2, TrendingUp, Activity } from "lucide-react";
 import { Bar, BarChart, CartesianGrid, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { dateISO, fetchAdminStats } from "@/lib/queries";
+import { goalLabel } from "@/lib/onboarding";
 
 export const Route = createFileRoute("/admin/")({
   head: () => ({
@@ -47,6 +48,9 @@ function AdminHome() {
     { label: "Treinos ativos", value: data?.activeWorkouts ?? 0, icon: Dumbbell },
     { label: "Conclusões hoje", value: data?.completionsToday ?? 0, icon: CheckCircle2 },
     { label: "Taxa de conclusão", value: `${data?.completionRate ?? 0}%`, icon: TrendingUp },
+    { label: "Onboarding concluído", value: data?.onboardedUsers ?? 0, icon: CheckCircle2 },
+    { label: "Sem onboarding", value: data?.pendingOnboarding ?? 0, icon: Users },
+    { label: "Média de treinos/semana", value: data?.avgFrequency ?? 0, icon: Activity },
   ];
 
   return (
@@ -95,6 +99,22 @@ function AdminHome() {
             </ResponsiveContainer>
           </div>
         </div>
+      </div>
+
+      <div className="card-soft mt-4">
+        <h2 className="font-semibold mb-3">Objetivos mais escolhidos</h2>
+        {(data?.topGoals ?? []).length === 0 ? (
+          <p className="text-sm text-muted-foreground">Nenhum objetivo informado ainda.</p>
+        ) : (
+          <ul className="space-y-2">
+            {(data?.topGoals ?? []).slice(0, 6).map((g) => (
+              <li key={g.goal} className="flex items-center justify-between text-sm">
+                <span className="font-medium">{goalLabel(g.goal)}</span>
+                <span className="text-muted-foreground">{g.count} usuário(s)</span>
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
 
       <div className="grid sm:grid-cols-3 gap-3 mt-4">
