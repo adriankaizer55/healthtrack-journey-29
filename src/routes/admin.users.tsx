@@ -82,7 +82,7 @@ function AdminUsers() {
             <thead className="text-left text-muted-foreground border-b border-border">
               <tr>
                 <th className="p-3">Nome</th><th className="p-3">E-mail</th><th className="p-3">Função</th>
-                <th className="p-3">Status</th><th className="p-3">Cadastro</th><th className="p-3">Último acesso</th><th className="p-3">Ações</th>
+                <th className="p-3">Status</th><th className="p-3">Onboarding</th><th className="p-3">Cadastro</th><th className="p-3">Último acesso</th><th className="p-3">Ações</th>
               </tr>
             </thead>
             <tbody>
@@ -102,6 +102,11 @@ function AdminUsers() {
                     <td className="p-3">
                       <span className={`px-2 py-1 rounded-lg text-xs font-semibold ${u.active ? "bg-success/15 text-success" : "bg-destructive/15 text-destructive"}`}>
                         {u.active ? "Ativo" : "Inativo"}
+                      </span>
+                    </td>
+                    <td className="p-3">
+                      <span className={`px-2 py-1 rounded-lg text-xs font-semibold ${u.onboarding_completed ? "bg-success/15 text-success" : "bg-muted text-muted-foreground"}`}>
+                        {u.onboarding_completed ? "Concluído" : "Pendente"}
                       </span>
                     </td>
                     <td className="p-3 text-muted-foreground">{new Date(u.created_at as string).toLocaleDateString("pt-BR")}</td>

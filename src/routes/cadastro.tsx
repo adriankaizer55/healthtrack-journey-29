@@ -27,12 +27,16 @@ function Cadastro() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirm, setConfirm] = useState("");
   const [busy, setBusy] = useState(false);
   const [sent, setSent] = useState(false);
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
+    if (!name.trim()) return toast.error("Informe seu nome completo.");
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) return toast.error("Informe um e-mail válido.");
     if (password.length < 6) return toast.error("A senha precisa ter pelo menos 6 caracteres.");
+    if (password !== confirm) return toast.error("As senhas não coincidem.");
     setBusy(true);
     const { error, needsConfirm } = await signUp(name.trim(), email.trim(), password);
     setBusy(false);
@@ -80,8 +84,8 @@ function Cadastro() {
         ) : (
           <form onSubmit={onSubmit} className="card-soft space-y-4">
             <div>
-              <label className="text-sm font-medium" htmlFor="nome">Nome</label>
-              <input id="nome" required value={name} onChange={(e) => setName(e.target.value)}
+              <label className="text-sm font-medium" htmlFor="nome">Nome completo</label>
+              <input id="nome" required autoComplete="name" value={name} onChange={(e) => setName(e.target.value)}
                 className="mt-1 w-full h-11 px-3 rounded-xl border border-input bg-background focus:outline-none focus:ring-2 focus:ring-ring" />
             </div>
             <div>
@@ -91,8 +95,16 @@ function Cadastro() {
             </div>
             <div>
               <label className="text-sm font-medium" htmlFor="pwd">Senha</label>
-              <input id="pwd" type="password" required minLength={6} value={password} onChange={(e) => setPassword(e.target.value)}
+              <input id="pwd" type="password" required minLength={6} autoComplete="new-password" value={password} onChange={(e) => setPassword(e.target.value)}
                 className="mt-1 w-full h-11 px-3 rounded-xl border border-input bg-background focus:outline-none focus:ring-2 focus:ring-ring" />
+            </div>
+            <div>
+              <label className="text-sm font-medium" htmlFor="pwd2">Confirmar senha</label>
+              <input id="pwd2" type="password" required minLength={6} autoComplete="new-password" value={confirm} onChange={(e) => setConfirm(e.target.value)}
+                className="mt-1 w-full h-11 px-3 rounded-xl border border-input bg-background focus:outline-none focus:ring-2 focus:ring-ring" />
+              {confirm.length > 0 && confirm !== password && (
+                <p className="mt-1 text-xs text-destructive">As senhas não coincidem.</p>
+              )}
             </div>
             <button type="submit" disabled={busy} className="btn-brand w-full inline-flex items-center justify-center gap-2 disabled:opacity-60">
               {busy && <Loader2 className="size-4 animate-spin" />} Criar conta

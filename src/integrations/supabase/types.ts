@@ -231,32 +231,80 @@ export type Database = {
       profiles: {
         Row: {
           active: boolean
+          activity_level: string | null
+          available_time: number | null
           avatar_url: string | null
+          birth_date: string | null
           created_at: string
+          current_weight: number | null
           email: string
+          experience_level: string | null
+          gender: string | null
+          goal: string | null
+          goal_other: string | null
+          height_cm: number | null
           id: string
           last_seen_at: string | null
           name: string
+          onboarding_completed: boolean
+          onboarding_completed_at: string | null
+          onboarding_step: number
+          preferred_activities: string[]
+          start_weight: number | null
+          target_weight: number | null
+          training_frequency: number | null
           updated_at: string
         }
         Insert: {
           active?: boolean
+          activity_level?: string | null
+          available_time?: number | null
           avatar_url?: string | null
+          birth_date?: string | null
           created_at?: string
+          current_weight?: number | null
           email?: string
+          experience_level?: string | null
+          gender?: string | null
+          goal?: string | null
+          goal_other?: string | null
+          height_cm?: number | null
           id: string
           last_seen_at?: string | null
           name?: string
+          onboarding_completed?: boolean
+          onboarding_completed_at?: string | null
+          onboarding_step?: number
+          preferred_activities?: string[]
+          start_weight?: number | null
+          target_weight?: number | null
+          training_frequency?: number | null
           updated_at?: string
         }
         Update: {
           active?: boolean
+          activity_level?: string | null
+          available_time?: number | null
           avatar_url?: string | null
+          birth_date?: string | null
           created_at?: string
+          current_weight?: number | null
           email?: string
+          experience_level?: string | null
+          gender?: string | null
+          goal?: string | null
+          goal_other?: string | null
+          height_cm?: number | null
           id?: string
           last_seen_at?: string | null
           name?: string
+          onboarding_completed?: boolean
+          onboarding_completed_at?: string | null
+          onboarding_step?: number
+          preferred_activities?: string[]
+          start_weight?: number | null
+          target_weight?: number | null
+          training_frequency?: number | null
           updated_at?: string
         }
         Relationships: []
