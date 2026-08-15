@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Bell, Droplet, Dumbbell, Check } from "lucide-react";
 import { useMemo } from "react";
 import { useApp } from "@/lib/app-context";
+import { goalLabel } from "@/lib/onboarding";
 import { useAuth } from "@/lib/auth-context";
 import {
   computeStreak,
