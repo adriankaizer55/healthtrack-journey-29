@@ -30,10 +30,17 @@ export const Route = createFileRoute("/_app/perfil")({
 function Perfil() {
   const nav = useNavigate();
   const { userId, email, profile, refreshProfile, signOut } = useAuth();
-  const { weight, setWeight, targetWeight, setTargetWeight, unit, setUnit } = useApp();
+  const { unit, setUnit } = useApp();
   const [name, setName] = useState("");
+  const [weight, setWeight] = useState(0);
+  const [targetWeight, setTargetWeight] = useState(0);
 
-  useEffect(() => { if (profile?.name) setName(profile.name); }, [profile?.name]);
+  useEffect(() => {
+    if (!profile) return;
+    setName(profile.name ?? "");
+    setWeight(Number(profile.current_weight ?? 0));
+    setTargetWeight(Number(profile.target_weight ?? 0));
+  }, [profile]);
 
   const { data: completions = [] } = useQuery({
     queryKey: ["my-completions-all", userId],
@@ -58,7 +65,12 @@ function Perfil() {
   ];
 
   const save = useMutation({
-    mutationFn: () => updateMyProfile(userId!, { name: name.trim() }),
+    mutationFn: () =>
+      updateMyProfile(userId!, {
+        name: name.trim(),
+        current_weight: weight > 0 ? weight : null,
+        target_weight: targetWeight > 0 ? targetWeight : null,
+      }),
     onSuccess: async () => { await refreshProfile(); toast.success("Perfil salvo ✓"); },
     onError: () => toast.error("Não foi possível salvar o perfil."),
   });

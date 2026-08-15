@@ -312,7 +312,18 @@ export function computeStreak(days: string[]) {
 
 /* ---------- perfil / metas ---------- */
 
-export async function updateMyProfile(userId: string, patch: { name?: string; avatar_url?: string | null }) {
+export async function updateMyProfile(
+  userId: string,
+  patch: {
+    name?: string;
+    avatar_url?: string | null;
+    current_weight?: number | null;
+    target_weight?: number | null;
+    height_cm?: number | null;
+    goal?: string | null;
+    training_frequency?: number | null;
+  },
+) {
   const { error } = await supabase.from("profiles").update(patch).eq("id", userId);
   if (error) throw error;
 }
