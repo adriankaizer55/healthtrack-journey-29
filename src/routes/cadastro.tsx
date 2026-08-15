@@ -27,12 +27,16 @@ function Cadastro() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirm, setConfirm] = useState("");
   const [busy, setBusy] = useState(false);
   const [sent, setSent] = useState(false);
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
+    if (!name.trim()) return toast.error("Informe seu nome completo.");
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) return toast.error("Informe um e-mail válido.");
     if (password.length < 6) return toast.error("A senha precisa ter pelo menos 6 caracteres.");
+    if (password !== confirm) return toast.error("As senhas não coincidem.");
     setBusy(true);
     const { error, needsConfirm } = await signUp(name.trim(), email.trim(), password);
     setBusy(false);
