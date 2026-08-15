@@ -10,6 +10,21 @@ export type Profile = {
   active: boolean;
   created_at: string;
   last_seen_at: string | null;
+  goal: string | null;
+  goal_other: string | null;
+  current_weight: number | null;
+  target_weight: number | null;
+  start_weight: number | null;
+  height_cm: number | null;
+  birth_date: string | null;
+  gender: string | null;
+  activity_level: string | null;
+  training_frequency: number | null;
+  experience_level: string | null;
+  preferred_activities: string[] | null;
+  available_time: number | null;
+  onboarding_completed: boolean;
+  onboarding_step: number;
 };
 
 type AuthState = {
@@ -94,7 +109,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       const { data, error } = await supabase.auth.signUp({
         email: mail,
         password,
-        options: { data: { name }, emailRedirectTo: `${window.location.origin}/auth/callback` },
+        options: { data: { name, full_name: name }, emailRedirectTo: `${window.location.origin}/auth/callback` },
       });
       if (error) return { error: error.message };
       return { needsConfirm: !data.session };
