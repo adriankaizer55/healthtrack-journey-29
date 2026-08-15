@@ -95,8 +95,8 @@ function Onboarding() {
 
   const pct = useMemo(() => (step / TOTAL_STEPS) * 100, [step]);
 
-  function validate(): string | null {
-    switch (step) {
+  function validate(s: number = step): string | null {
+    switch (s) {
       case 1:
         return draft.name.trim().length >= 2 ? null : "Informe seu nome.";
       case 2:
@@ -149,10 +149,7 @@ function Onboarding() {
   async function finish() {
     if (!userId) return;
     for (let s = 1; s <= TOTAL_STEPS; s++) {
-      const saved = step;
-      setStep(s);
-      const err = validate();
-      setStep(saved);
+      const err = validate(s);
       if (err) {
         setStep(s);
         return toast.error(err);
