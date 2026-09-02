@@ -77,7 +77,7 @@ async function onSubmit(e: React.FormEvent) {
             <Link to="/recuperar-senha" className="text-primary font-medium hover:underline">Esqueci minha senha</Link>
           </div>
           <label className="flex items-start gap-3 text-sm cursor-pointer">
-            <input type="checkbox" checked={accept} onChange={(e) => setAccept(e.target.checked)} required
+            <input type="checkbox" checked={accept} onChange={(e) => setAccept(e.target.checked)}
               className="mt-0.5 size-4 rounded border-input accent-primary" />
             <span className="leading-snug text-muted-foreground">
               Li e aceito os{" "}

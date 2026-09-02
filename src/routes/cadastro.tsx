@@ -110,7 +110,7 @@ if (password !== confirm) return toast.error("As senhas não coincidem.");
               )}
             </div>
 <label className="flex items-start gap-3 text-sm cursor-pointer">
-              <input type="checkbox" checked={accept} onChange={(e) => setAccept(e.target.checked)} required
+              <input type="checkbox" checked={accept} onChange={(e) => setAccept(e.target.checked)}
                 className="mt-0.5 size-4 rounded border-input accent-primary" />
               <span className="leading-snug text-muted-foreground">
                 Li e aceito os{" "}
