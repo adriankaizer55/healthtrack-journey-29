@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as RecuperarSenhaRouteImport } from './routes/recuperar-senha'
+import { Route as PrivacidadeRouteImport } from './routes/privacidade'
 import { Route as OnboardingRouteImport } from './routes/onboarding'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as CadastroRouteImport } from './routes/cadastro'
@@ -25,7 +26,6 @@ import { Route as AdminMensagensRouteImport } from './routes/admin.mensagens'
 import { Route as AdminHabitsRouteImport } from './routes/admin.habits'
 import { Route as AppTreinosRouteImport } from './routes/_app.treinos'
 import { Route as AppSobreRouteImport } from './routes/_app.sobre'
-import { Route as AppPrivacidadeRouteImport } from './routes/_app.privacidade'
 import { Route as AppPerfilRouteImport } from './routes/_app.perfil'
 import { Route as AppNotificacoesRouteImport } from './routes/_app.notificacoes'
 import { Route as AppMetasRouteImport } from './routes/_app.metas'
@@ -55,6 +55,11 @@ const ResetPasswordRoute = ResetPasswordRouteImport.update({
 const RecuperarSenhaRoute = RecuperarSenhaRouteImport.update({
   id: '/recuperar-senha',
   path: '/recuperar-senha',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivacidadeRoute = PrivacidadeRouteImport.update({
+  id: '/privacidade',
+  path: '/privacidade',
   getParentRoute: () => rootRouteImport,
 } as any)
 const OnboardingRoute = OnboardingRouteImport.update({
@@ -124,11 +129,6 @@ const AppTreinosRoute = AppTreinosRouteImport.update({
 const AppSobreRoute = AppSobreRouteImport.update({
   id: '/sobre',
   path: '/sobre',
-  getParentRoute: () => AppRoute,
-} as any)
-const AppPrivacidadeRoute = AppPrivacidadeRouteImport.update({
-  id: '/privacidade',
-  path: '/privacidade',
   getParentRoute: () => AppRoute,
 } as any)
 const AppPerfilRoute = AppPerfilRouteImport.update({
@@ -243,6 +243,7 @@ export interface FileRoutesByFullPath {
   '/cadastro': typeof CadastroRoute
   '/login': typeof LoginRoute
   '/onboarding': typeof OnboardingRoute
+  '/privacidade': typeof PrivacidadeRoute
   '/recuperar-senha': typeof RecuperarSenhaRoute
   '/reset-password': typeof ResetPasswordRoute
   '/acessibilidade': typeof AppAcessibilidadeRouteWithChildren
@@ -258,7 +259,6 @@ export interface FileRoutesByFullPath {
   '/metas': typeof AppMetasRoute
   '/notificacoes': typeof AppNotificacoesRoute
   '/perfil': typeof AppPerfilRoute
-  '/privacidade': typeof AppPrivacidadeRoute
   '/sobre': typeof AppSobreRoute
   '/treinos': typeof AppTreinosRoute
   '/admin/habits': typeof AdminHabitsRoute
@@ -280,6 +280,7 @@ export interface FileRoutesByTo {
   '/cadastro': typeof CadastroRoute
   '/login': typeof LoginRoute
   '/onboarding': typeof OnboardingRoute
+  '/privacidade': typeof PrivacidadeRoute
   '/recuperar-senha': typeof RecuperarSenhaRoute
   '/reset-password': typeof ResetPasswordRoute
   '/ajuda': typeof AppAjudaRoute
@@ -294,7 +295,6 @@ export interface FileRoutesByTo {
   '/metas': typeof AppMetasRoute
   '/notificacoes': typeof AppNotificacoesRoute
   '/perfil': typeof AppPerfilRoute
-  '/privacidade': typeof AppPrivacidadeRoute
   '/sobre': typeof AppSobreRoute
   '/treinos': typeof AppTreinosRoute
   '/admin/habits': typeof AdminHabitsRoute
@@ -319,6 +319,7 @@ export interface FileRoutesById {
   '/cadastro': typeof CadastroRoute
   '/login': typeof LoginRoute
   '/onboarding': typeof OnboardingRoute
+  '/privacidade': typeof PrivacidadeRoute
   '/recuperar-senha': typeof RecuperarSenhaRoute
   '/reset-password': typeof ResetPasswordRoute
   '/_app/acessibilidade': typeof AppAcessibilidadeRouteWithChildren
@@ -334,7 +335,6 @@ export interface FileRoutesById {
   '/_app/metas': typeof AppMetasRoute
   '/_app/notificacoes': typeof AppNotificacoesRoute
   '/_app/perfil': typeof AppPerfilRoute
-  '/_app/privacidade': typeof AppPrivacidadeRoute
   '/_app/sobre': typeof AppSobreRoute
   '/_app/treinos': typeof AppTreinosRoute
   '/admin/habits': typeof AdminHabitsRoute
@@ -359,6 +359,7 @@ export interface FileRouteTypes {
     | '/cadastro'
     | '/login'
     | '/onboarding'
+    | '/privacidade'
     | '/recuperar-senha'
     | '/reset-password'
     | '/acessibilidade'
@@ -374,7 +375,6 @@ export interface FileRouteTypes {
     | '/metas'
     | '/notificacoes'
     | '/perfil'
-    | '/privacidade'
     | '/sobre'
     | '/treinos'
     | '/admin/habits'
@@ -396,6 +396,7 @@ export interface FileRouteTypes {
     | '/cadastro'
     | '/login'
     | '/onboarding'
+    | '/privacidade'
     | '/recuperar-senha'
     | '/reset-password'
     | '/ajuda'
@@ -410,7 +411,6 @@ export interface FileRouteTypes {
     | '/metas'
     | '/notificacoes'
     | '/perfil'
-    | '/privacidade'
     | '/sobre'
     | '/treinos'
     | '/admin/habits'
@@ -434,6 +434,7 @@ export interface FileRouteTypes {
     | '/cadastro'
     | '/login'
     | '/onboarding'
+    | '/privacidade'
     | '/recuperar-senha'
     | '/reset-password'
     | '/_app/acessibilidade'
@@ -449,7 +450,6 @@ export interface FileRouteTypes {
     | '/_app/metas'
     | '/_app/notificacoes'
     | '/_app/perfil'
-    | '/_app/privacidade'
     | '/_app/sobre'
     | '/_app/treinos'
     | '/admin/habits'
@@ -474,6 +474,7 @@ export interface RootRouteChildren {
   CadastroRoute: typeof CadastroRoute
   LoginRoute: typeof LoginRoute
   OnboardingRoute: typeof OnboardingRoute
+  PrivacidadeRoute: typeof PrivacidadeRoute
   RecuperarSenhaRoute: typeof RecuperarSenhaRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
   AuthCallbackRoute: typeof AuthCallbackRoute
@@ -493,6 +494,13 @@ declare module '@tanstack/react-router' {
       path: '/recuperar-senha'
       fullPath: '/recuperar-senha'
       preLoaderRoute: typeof RecuperarSenhaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privacidade': {
+      id: '/privacidade'
+      path: '/privacidade'
+      fullPath: '/privacidade'
+      preLoaderRoute: typeof PrivacidadeRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/onboarding': {
@@ -591,13 +599,6 @@ declare module '@tanstack/react-router' {
       path: '/sobre'
       fullPath: '/sobre'
       preLoaderRoute: typeof AppSobreRouteImport
-      parentRoute: typeof AppRoute
-    }
-    '/_app/privacidade': {
-      id: '/_app/privacidade'
-      path: '/privacidade'
-      fullPath: '/privacidade'
-      preLoaderRoute: typeof AppPrivacidadeRouteImport
       parentRoute: typeof AppRoute
     }
     '/_app/perfil': {
@@ -779,7 +780,6 @@ interface AppRouteChildren {
   AppMetasRoute: typeof AppMetasRoute
   AppNotificacoesRoute: typeof AppNotificacoesRoute
   AppPerfilRoute: typeof AppPerfilRoute
-  AppPrivacidadeRoute: typeof AppPrivacidadeRoute
   AppSobreRoute: typeof AppSobreRoute
   AppTreinosRoute: typeof AppTreinosRoute
 }
@@ -798,7 +798,6 @@ const AppRouteChildren: AppRouteChildren = {
   AppMetasRoute: AppMetasRoute,
   AppNotificacoesRoute: AppNotificacoesRoute,
   AppPerfilRoute: AppPerfilRoute,
-  AppPrivacidadeRoute: AppPrivacidadeRoute,
   AppSobreRoute: AppSobreRoute,
   AppTreinosRoute: AppTreinosRoute,
 }
@@ -842,6 +841,7 @@ const rootRouteChildren: RootRouteChildren = {
   CadastroRoute: CadastroRoute,
   LoginRoute: LoginRoute,
   OnboardingRoute: OnboardingRoute,
+  PrivacidadeRoute: PrivacidadeRoute,
   RecuperarSenhaRoute: RecuperarSenhaRoute,
   ResetPasswordRoute: ResetPasswordRoute,
   AuthCallbackRoute: AuthCallbackRoute,
