@@ -42,9 +42,22 @@ function Login() {
   }
 
   async function google() {
-    const result = await lovable.auth.signInWithOAuth("google", { redirect_uri: window.location.origin });
-    if (result.error) toast.error("Não foi possível entrar com Google.");
+    try {
+      const result = await lovable.auth.signInWithOAuth("google", {
+        redirect_uri: `${window.location.origin}/auth/callback`,
+      });
+      if (result.redirected) return; // o navegador está indo para o Google
+      if (result.error) {
+        toast.error("Não foi possível entrar com Google.");
+        return;
+      }
+      // sessão já definida pelo popup — decide o destino
+      nav({ to: "/auth/callback", replace: true });
+    } catch {
+      toast.error("Não foi possível entrar com Google.");
+    }
   }
+
 
   return (
     <div className="min-h-dvh flex items-center justify-center px-4 py-10 bg-background">
