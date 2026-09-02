@@ -80,8 +80,16 @@ function Login() {
           <button type="button" onClick={google} className="w-full h-11 rounded-xl border border-border font-medium hover:bg-muted">
             Entrar com Google
           </button>
-          <Link to="/cadastro" className="block text-center w-full h-11 leading-[44px] rounded-xl border border-border font-medium hover:bg-muted">Criar uma conta</Link>
+<Link to="/cadastro" className="block text-center w-full h-11 leading-[44px] rounded-xl border border-border font-medium hover:bg-muted">Criar uma conta</Link>
           <Link to="/ajuda" className="block text-center text-sm text-muted-foreground hover:text-foreground">Precisa de ajuda?</Link>
+          <div className="pt-3 border-t border-border/60 text-center">
+            <p className="text-xs text-muted-foreground leading-relaxed">
+              Ao entrar, você declara estar de acordo com a nossa{" "}
+              <Link to="/privacidade" className="text-primary font-medium hover:underline">Política de Privacidade</Link>{" "}
+              e com o tratamento dos seus dados pessoais conforme a{" "}
+              <Link to="/privacidade" className="text-primary font-medium hover:underline">LGPD</Link>.
+            </p>
+          </div>
         </form>
       </div>
     </div>
