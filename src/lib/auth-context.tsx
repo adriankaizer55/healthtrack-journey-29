@@ -1,6 +1,7 @@
 import { createContext, useCallback, useContext, useEffect, useState, type ReactNode } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { bootstrapUser } from "./user.functions";
+import { translateAuthError } from "@/lib/auth-errors";
 
 export type Profile = {
   id: string;
@@ -103,7 +104,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     isAdmin: role === "admin",
     signIn: async (mail, password) => {
       const { error } = await supabase.auth.signInWithPassword({ email: mail, password });
-      return error ? { error: error.message } : {};
+      return error ? { error: translateAuthError(error.message) } : {};
     },
     signUp: async (name, mail, password) => {
       const { data, error } = await supabase.auth.signUp({
@@ -111,7 +112,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         password,
         options: { data: { name, full_name: name }, emailRedirectTo: `${window.location.origin}/auth/callback` },
       });
-      if (error) return { error: error.message };
+      if (error) return { error: translateAuthError(error.message) };
       return { needsConfirm: !data.session };
     },
     signOut: async () => {
@@ -121,7 +122,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       const { error } = await supabase.auth.resetPasswordForEmail(mail, {
         redirectTo: `${window.location.origin}/auth/callback?type=recovery`,
       });
-      return error ? { error: error.message } : {};
+      return error ? { error: translateAuthError(error.message) } : {};
     },
     refreshProfile: async () => {
       if (userId) await load(userId);

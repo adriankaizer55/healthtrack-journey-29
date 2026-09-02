@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { Logo } from "@/components/Logo";
 import { useAuth } from "@/lib/auth-context";
+import { translateAuthError } from "@/lib/auth-errors";
 
 export const Route = createFileRoute("/login")({
   ssr: false,
@@ -37,7 +38,7 @@ function Login() {
     setBusy(true);
     const { error } = await signIn(email.trim(), password);
     setBusy(false);
-    if (error) toast.error(error === "Invalid login credentials" ? "E-mail ou senha inválidos." : error);
+    if (error) toast.error(translateAuthError(error));
   }
 
 

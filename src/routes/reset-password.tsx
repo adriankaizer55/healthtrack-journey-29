@@ -3,6 +3,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { Logo } from "@/components/Logo";
 import { supabase } from "@/integrations/supabase/client";
+import { translateAuthError } from "@/lib/auth-errors";
 
 export const Route = createFileRoute("/reset-password")({
   ssr: false,
@@ -35,7 +36,7 @@ function ResetPassword() {
             setBusy(true);
             const { error } = await supabase.auth.updateUser({ password });
             setBusy(false);
-            if (error) return toast.error(error.message);
+            if (error) return toast.error(translateAuthError(error.message));
             toast.success("Senha atualizada!");
             nav({ to: "/dashboard", replace: true });
           }}

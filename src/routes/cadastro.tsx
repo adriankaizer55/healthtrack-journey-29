@@ -5,6 +5,7 @@ import { toast } from "sonner";
 import { Logo } from "@/components/Logo";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth-context";
+import { translateAuthError } from "@/lib/auth-errors";
 
 export const Route = createFileRoute("/cadastro")({
   ssr: false,
@@ -58,7 +59,7 @@ function Cadastro() {
       options: { emailRedirectTo: `${window.location.origin}/auth/callback` },
     });
     setBusy(false);
-    if (error) return toast.error(error.message);
+    if (error) return toast.error(translateAuthError(error.message));
     toast.success("Novo e-mail de confirmação enviado.");
   }
 
