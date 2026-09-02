@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as TermosRouteImport } from './routes/termos'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as RecuperarSenhaRouteImport } from './routes/recuperar-senha'
 import { Route as PrivacidadeRouteImport } from './routes/privacidade'
@@ -47,6 +48,11 @@ import { Route as AppAcessibilidadeLeituraSimplificadaRouteImport } from './rout
 import { Route as AppAcessibilidadeFonteGrandeRouteImport } from './routes/_app.acessibilidade.fonte-grande'
 import { Route as AppAcessibilidadeAltoContrasteRouteImport } from './routes/_app.acessibilidade.alto-contraste'
 
+const TermosRoute = TermosRouteImport.update({
+  id: '/termos',
+  path: '/termos',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ResetPasswordRoute = ResetPasswordRouteImport.update({
   id: '/reset-password',
   path: '/reset-password',
@@ -246,6 +252,7 @@ export interface FileRoutesByFullPath {
   '/privacidade': typeof PrivacidadeRoute
   '/recuperar-senha': typeof RecuperarSenhaRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/termos': typeof TermosRoute
   '/acessibilidade': typeof AppAcessibilidadeRouteWithChildren
   '/ajuda': typeof AppAjudaRoute
   '/alimentacao': typeof AppAlimentacaoRoute
@@ -283,6 +290,7 @@ export interface FileRoutesByTo {
   '/privacidade': typeof PrivacidadeRoute
   '/recuperar-senha': typeof RecuperarSenhaRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/termos': typeof TermosRoute
   '/ajuda': typeof AppAjudaRoute
   '/alimentacao': typeof AppAlimentacaoRoute
   '/calendario': typeof AppCalendarioRoute
@@ -322,6 +330,7 @@ export interface FileRoutesById {
   '/privacidade': typeof PrivacidadeRoute
   '/recuperar-senha': typeof RecuperarSenhaRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/termos': typeof TermosRoute
   '/_app/acessibilidade': typeof AppAcessibilidadeRouteWithChildren
   '/_app/ajuda': typeof AppAjudaRoute
   '/_app/alimentacao': typeof AppAlimentacaoRoute
@@ -362,6 +371,7 @@ export interface FileRouteTypes {
     | '/privacidade'
     | '/recuperar-senha'
     | '/reset-password'
+    | '/termos'
     | '/acessibilidade'
     | '/ajuda'
     | '/alimentacao'
@@ -399,6 +409,7 @@ export interface FileRouteTypes {
     | '/privacidade'
     | '/recuperar-senha'
     | '/reset-password'
+    | '/termos'
     | '/ajuda'
     | '/alimentacao'
     | '/calendario'
@@ -437,6 +448,7 @@ export interface FileRouteTypes {
     | '/privacidade'
     | '/recuperar-senha'
     | '/reset-password'
+    | '/termos'
     | '/_app/acessibilidade'
     | '/_app/ajuda'
     | '/_app/alimentacao'
@@ -477,11 +489,19 @@ export interface RootRouteChildren {
   PrivacidadeRoute: typeof PrivacidadeRoute
   RecuperarSenhaRoute: typeof RecuperarSenhaRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
+  TermosRoute: typeof TermosRoute
   AuthCallbackRoute: typeof AuthCallbackRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/termos': {
+      id: '/termos'
+      path: '/termos'
+      fullPath: '/termos'
+      preLoaderRoute: typeof TermosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/reset-password': {
       id: '/reset-password'
       path: '/reset-password'
@@ -844,6 +864,7 @@ const rootRouteChildren: RootRouteChildren = {
   PrivacidadeRoute: PrivacidadeRoute,
   RecuperarSenhaRoute: RecuperarSenhaRoute,
   ResetPasswordRoute: ResetPasswordRoute,
+  TermosRoute: TermosRoute,
   AuthCallbackRoute: AuthCallbackRoute,
 }
 export const routeTree = rootRouteImport
