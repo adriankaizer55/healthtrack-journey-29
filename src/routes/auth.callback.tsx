@@ -56,8 +56,14 @@ function AuthCallback() {
         }
         // implicit flow (#access_token=...) is handled automatically by detectSessionInUrl
 
-        const { data } = await supabase.auth.getSession();
-        if (!data.session) throw new Error("Sessão não encontrada após a confirmação.");
+        let session = (await supabase.auth.getSession()).data.session;
+        for (let i = 0; !session && i < 10; i++) {
+          await new Promise((r) => setTimeout(r, 300));
+          session = (await supabase.auth.getSession()).data.session;
+        }
+        if (!session) throw new Error("Sessão não encontrada após a confirmação.");
+        const data = { session };
+
 
         if (type === "recovery") {
           nav({ to: "/reset-password", replace: true });
