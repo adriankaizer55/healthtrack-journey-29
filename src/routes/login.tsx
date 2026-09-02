@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { Logo } from "@/components/Logo";
 import { useAuth } from "@/lib/auth-context";
-import { lovable } from "@/integrations/lovable/index";
 
 export const Route = createFileRoute("/login")({
   ssr: false,
