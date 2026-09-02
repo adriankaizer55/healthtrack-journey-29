@@ -1,6 +1,6 @@
 import { Link, Outlet, useNavigate, useRouterState } from "@tanstack/react-router";
 import { useAuth } from "@/lib/auth-context";
-import { Home, ListChecks, UtensilsCrossed, Bot, Menu, Bell, User, Settings, Accessibility, HelpCircle, Shield, Info, LogOut, Droplet, MessageSquare, Dumbbell, Target, CalendarDays, Shield as ShieldIcon } from "lucide-react";
+import { Home, ListChecks, UtensilsCrossed, Bot, Menu, Bell, User, Settings, PersonStanding, HelpCircle, Shield, Info, LogOut, Droplet, MessageSquare, Dumbbell, Target, CalendarDays, Shield as ShieldIcon } from "lucide-react";
 import { Logo } from "./Logo";
 
 const NAV = [
@@ -19,7 +19,7 @@ const SIDE_EXTRA = [
   { to: "/hidratacao", label: "Hidratação", icon: Droplet },
   { to: "/perfil", label: "Perfil", icon: User },
   { to: "/notificacoes", label: "Notificações", icon: Bell },
-  { to: "/acessibilidade", label: "Acessibilidade", icon: Accessibility },
+  { to: "/acessibilidade", label: "Acessibilidade", icon: PersonStanding },
   { to: "/ajuda", label: "Ajuda", icon: HelpCircle },
   { to: "/privacidade", label: "Privacidade", icon: Shield },
   { to: "/sobre", label: "Sobre", icon: Info },
@@ -66,6 +66,15 @@ export function AppShell() {
       <main className="flex-1 min-w-0 pb-24 lg:pb-0">
         <Outlet />
       </main>
+
+      {/* Botão flutuante de acessibilidade */}
+      <Link
+        to="/acessibilidade"
+        aria-label="Abrir opções de acessibilidade"
+        className="fixed right-4 bottom-24 lg:bottom-6 z-50 size-14 rounded-full grid place-items-center bg-primary text-primary-foreground shadow-lg hover:opacity-90 transition-opacity focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+      >
+        <PersonStanding className="size-8" />
+      </Link>
 
       {/* Bottom nav mobile */}
       <nav className="lg:hidden fixed bottom-0 inset-x-0 z-50 bg-card/95 backdrop-blur border-t border-border" aria-label="Navegação">
