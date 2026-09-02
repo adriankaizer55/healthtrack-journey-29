@@ -27,14 +27,19 @@ function Login() {
   const [show, setShow] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [busy, setBusy] = useState(false);
+const [busy, setBusy] = useState(false);
+  const [accept, setAccept] = useState(false);
 
   useEffect(() => {
     if (!loading && userId) nav({ to: isAdmin ? "/admin" : "/dashboard", replace: true });
   }, [loading, userId, isAdmin, nav]);
 
-  async function onSubmit(e: React.FormEvent) {
+async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
+    if (!accept) {
+      toast.error("Você precisa aceitar os Termos de Uso e a Política de Privacidade para entrar.");
+      return;
+    }
     setBusy(true);
     const { error } = await signIn(email.trim(), password);
     setBusy(false);
@@ -68,9 +73,19 @@ function Login() {
               </button>
             </div>
           </div>
-          <div className="flex items-center justify-end text-sm">
+<div className="flex items-center justify-end text-sm">
             <Link to="/recuperar-senha" className="text-primary font-medium hover:underline">Esqueci minha senha</Link>
           </div>
+          <label className="flex items-start gap-3 text-sm cursor-pointer">
+            <input type="checkbox" checked={accept} onChange={(e) => setAccept(e.target.checked)} required
+              className="mt-0.5 size-4 rounded border-input accent-primary" />
+            <span className="leading-snug text-muted-foreground">
+              Li e aceito os{" "}
+              <Link to="/termos" className="text-primary font-medium hover:underline">Termos de Uso</Link>{" "}
+              e a{" "}
+              <Link to="/privacidade" className="text-primary font-medium hover:underline">Política de Privacidade</Link>.
+            </span>
+          </label>
           <button type="submit" disabled={busy} className="btn-brand w-full inline-flex items-center justify-center gap-2 disabled:opacity-60">
             {busy && <Loader2 className="size-4 animate-spin" />} Entrar
           </button>
