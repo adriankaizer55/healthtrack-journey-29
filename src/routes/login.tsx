@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { Logo } from "@/components/Logo";
 import { useAuth } from "@/lib/auth-context";
-import { lovable } from "@/integrations/lovable/index";
 
 export const Route = createFileRoute("/login")({
   ssr: false,
@@ -41,22 +40,6 @@ function Login() {
     if (error) toast.error(error === "Invalid login credentials" ? "E-mail ou senha inválidos." : error);
   }
 
-  async function google() {
-    try {
-      const result = await lovable.auth.signInWithOAuth("google", {
-        redirect_uri: `${window.location.origin}/auth/callback`,
-      });
-      if (result.redirected) return; // o navegador está indo para o Google
-      if (result.error) {
-        toast.error("Não foi possível entrar com Google.");
-        return;
-      }
-      // sessão já definida pelo popup — decide o destino
-      nav({ to: "/auth/callback", replace: true });
-    } catch {
-      toast.error("Não foi possível entrar com Google.");
-    }
-  }
 
 
   return (
@@ -89,9 +72,6 @@ function Login() {
           </div>
           <button type="submit" disabled={busy} className="btn-brand w-full inline-flex items-center justify-center gap-2 disabled:opacity-60">
             {busy && <Loader2 className="size-4 animate-spin" />} Entrar
-          </button>
-          <button type="button" onClick={google} className="w-full h-11 rounded-xl border border-border font-medium hover:bg-muted">
-            Entrar com Google
           </button>
 <Link to="/cadastro" className="block text-center w-full h-11 leading-[44px] rounded-xl border border-border font-medium hover:bg-muted">Criar uma conta</Link>
           <Link to="/ajuda" className="block text-center text-sm text-muted-foreground hover:text-foreground">Precisa de ajuda?</Link>
