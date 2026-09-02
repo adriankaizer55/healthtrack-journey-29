@@ -41,22 +41,6 @@ function Login() {
     if (error) toast.error(error === "Invalid login credentials" ? "E-mail ou senha inválidos." : error);
   }
 
-  async function google() {
-    try {
-      const result = await lovable.auth.signInWithOAuth("google", {
-        redirect_uri: `${window.location.origin}/auth/callback`,
-      });
-      if (result.redirected) return; // o navegador está indo para o Google
-      if (result.error) {
-        toast.error("Não foi possível entrar com Google.");
-        return;
-      }
-      // sessão já definida pelo popup — decide o destino
-      nav({ to: "/auth/callback", replace: true });
-    } catch {
-      toast.error("Não foi possível entrar com Google.");
-    }
-  }
 
 
   return (
