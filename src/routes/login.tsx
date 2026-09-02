@@ -90,9 +90,6 @@ function Login() {
           <button type="submit" disabled={busy} className="btn-brand w-full inline-flex items-center justify-center gap-2 disabled:opacity-60">
             {busy && <Loader2 className="size-4 animate-spin" />} Entrar
           </button>
-          <button type="button" onClick={google} className="w-full h-11 rounded-xl border border-border font-medium hover:bg-muted">
-            Entrar com Google
-          </button>
 <Link to="/cadastro" className="block text-center w-full h-11 leading-[44px] rounded-xl border border-border font-medium hover:bg-muted">Criar uma conta</Link>
           <Link to="/ajuda" className="block text-center text-sm text-muted-foreground hover:text-foreground">Precisa de ajuda?</Link>
           <div className="pt-3 border-t border-border/60 text-center">
