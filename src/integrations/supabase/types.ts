@@ -494,6 +494,14 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      admin_contacts: {
+        Args: never
+        Returns: {
+          avatar_url: string
+          id: string
+          name: string
+        }[]
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
@@ -502,6 +510,10 @@ export type Database = {
         Returns: boolean
       }
       is_admin: { Args: never; Returns: boolean }
+      send_direct_message: {
+        Args: { _message: string; _receiver_id: string }
+        Returns: string
+      }
     }
     Enums: {
       app_role: "admin" | "user"
