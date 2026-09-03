@@ -159,16 +159,12 @@ export async function fetchConversation(meId: string, otherId: string) {
   return data ?? [];
 }
 
-export async function sendMessage(meId: string, otherId: string, message: string) {
-  const { error } = await supabase.from("messages").insert({ sender_id: meId, receiver_id: otherId, message });
-  if (error) throw error;
-  await supabase.from("notifications").insert({
-    user_id: otherId,
-    type: "mensagem",
-    title: "Nova mensagem",
-    body: message.slice(0, 120),
-    link: "/mensagens",
+export async function sendMessage(_meId: string, otherId: string, message: string) {
+  const { error } = await supabase.rpc("send_direct_message", {
+    _receiver_id: otherId,
+    _message: message,
   });
+  if (error) throw error;
 }
 
 export async function markConversationRead(meId: string, otherId: string) {
@@ -181,11 +177,9 @@ export async function markConversationRead(meId: string, otherId: string) {
 }
 
 export async function fetchAdmins() {
-  const { data } = await supabase.from("user_roles").select("user_id").eq("role", "admin");
-  const ids = (data ?? []).map((r) => r.user_id);
-  if (ids.length === 0) return [];
-  const { data: profiles } = await supabase.from("profiles").select("*").in("id", ids);
-  return profiles ?? [];
+  const { data, error } = await supabase.rpc("admin_contacts");
+  if (error) throw error;
+  return (data ?? []) as { id: string; name: string; avatar_url: string | null }[];
 }
 
 /* ---------- admin ---------- */
