@@ -502,6 +502,16 @@ export type Database = {
           name: string
         }[]
       }
+      create_ai_workout: {
+        Args: {
+          _description: string
+          _duration_min: number
+          _exercises: Json
+          _level: string
+          _name: string
+        }
+        Returns: string
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
