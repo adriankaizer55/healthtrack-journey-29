@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { User, Bell, Dumbbell, Target, CalendarDays, Accessibility, Shield, HelpCircle, Info, LogOut, ChevronRight } from "lucide-react";
+import { User, Bell, Dumbbell, Target, CalendarDays, Accessibility, Shield, HelpCircle, Info, LogOut, ChevronRight, MessageSquare } from "lucide-react";
 
 export const Route = createFileRoute("/_app/mais")({ component: Mais });
 
@@ -8,6 +8,7 @@ const ITEMS = [
   { to: "/metas", label: "Metas", icon: Target },
   { to: "/calendario", label: "Calendário", icon: CalendarDays },
   { to: "/perfil", label: "Perfil", icon: User },
+  { to: "/mensagens", label: "Mensagens — Fale com a equipe", icon: MessageSquare },
   { to: "/notificacoes", label: "Notificações", icon: Bell },
   { to: "/acessibilidade", label: "Acessibilidade", icon: Accessibility },
   { to: "/privacidade", label: "Privacidade (LGPD)", icon: Shield },
