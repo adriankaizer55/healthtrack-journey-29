@@ -97,29 +97,33 @@ export const Route = createFileRoute("/api/ia-coach")({
         let buffer = "";
 
         const stream = new ReadableStream<Uint8Array>({
-          async pull(controller) {
-            const { done, value } = await reader.read();
-            if (done) {
-              controller.close();
-              return;
-            }
-            buffer += decoder.decode(value, { stream: true });
-            const lastBreak = buffer.lastIndexOf("\n");
-            if (lastBreak === -1) return;
-            const chunk = buffer.slice(0, lastBreak);
-            buffer = buffer.slice(lastBreak + 1);
-            for (const line of chunk.split("\n")) {
-              if (!line.startsWith("data:")) continue;
-              const payload = line.slice(5).trim();
-              if (!payload || payload === "[DONE]") continue;
-              try {
-                const event = JSON.parse(payload) as { type?: string; delta?: string };
-                if (event.type === "response.output_text.delta" && event.delta) {
-                  controller.enqueue(encoder.encode(event.delta));
+          async start(controller) {
+            try {
+              for (;;) {
+                const { done, value } = await reader.read();
+                if (done) break;
+                buffer += decoder.decode(value, { stream: true });
+                const lastBreak = buffer.lastIndexOf("\n");
+                if (lastBreak === -1) continue;
+                const chunk = buffer.slice(0, lastBreak);
+                buffer = buffer.slice(lastBreak + 1);
+                for (const line of chunk.split("\n")) {
+                  if (!line.startsWith("data:")) continue;
+                  const payload = line.slice(5).trim();
+                  if (!payload || payload === "[DONE]") continue;
+                  try {
+                    const event = JSON.parse(payload) as { type?: string; delta?: string };
+                    if (event.type === "response.output_text.delta" && event.delta) {
+                      controller.enqueue(encoder.encode(event.delta));
+                    }
+                  } catch {
+                    // ignora fragmentos incompletos
+                  }
                 }
-              } catch {
-                // ignora fragmentos incompletos
               }
+              controller.close();
+            } catch (err) {
+              controller.error(err);
             }
           },
           cancel() {
