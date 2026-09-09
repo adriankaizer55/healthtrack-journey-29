@@ -187,15 +187,38 @@ function IACoach() {
             )}
             {typeof m.text === "string" && (
               <div
-                className={`max-w-[75%] rounded-2xl px-4 py-2.5 whitespace-pre-wrap break-words ${
+                className={`max-w-[85%] lg:max-w-[75%] rounded-2xl px-4 py-2.5 break-words ${
                   m.role === "user"
                     ? "bg-primary text-primary-foreground rounded-br-sm"
                     : "bg-card border border-border rounded-bl-sm"
                 }`}
               >
-                {m.text || <span className="inline-flex gap-1 items-center text-muted-foreground text-sm">Pensando…</span>}
+                {m.text ? (
+                  <RichText text={m.text} />
+                ) : (
+                  <span className="inline-flex gap-1 items-center text-muted-foreground text-sm">Pensando…</span>
+                )}
+                {m.role === "ai" && !streaming && m.text && looksLikeWorkout(m.text) && (
+                  <button
+                    onClick={() => void saveWorkout(m.id, m.text!)}
+                    disabled={savingId === m.id || savedIds.includes(m.id)}
+                    className="mt-3 w-full min-h-10 rounded-xl font-semibold text-sm flex items-center justify-center gap-2 gradient-brand text-white disabled:opacity-60"
+                  >
+                    {savingId === m.id ? (
+                      <Loader2 className="size-4 animate-spin" />
+                    ) : (
+                      <Dumbbell className="size-4" />
+                    )}
+                    {savedIds.includes(m.id)
+                      ? "Já está nos seus treinos"
+                      : savingId === m.id
+                        ? "Salvando treino…"
+                        : "Adicionar aos meus treinos"}
+                  </button>
+                )}
               </div>
             )}
+
             {m.card === "workout" && (
               <div className="card-soft max-w-[85%]">
                 <div className="flex items-center gap-3">
