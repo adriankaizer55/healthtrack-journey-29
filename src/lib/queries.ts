@@ -182,6 +182,31 @@ export async function fetchAdmins() {
   return (data ?? []) as { id: string; name: string; avatar_url: string | null }[];
 }
 
+/** Todas as pessoas com quem eu já troquei mensagens, com contagem de não lidas. */
+export async function fetchMyThreads(meId: string) {
+  const { data, error } = await supabase
+    .from("messages")
+    .select("sender_id, receiver_id, message, created_at, read_at")
+    .or(`sender_id.eq.${meId},receiver_id.eq.${meId}`)
+    .order("created_at", { ascending: false });
+  if (error) throw error;
+
+  const threads = new Map<string, { otherId: string; lastAt: string; lastMessage: string; unread: number }>();
+  for (const m of data ?? []) {
+    const otherId = m.sender_id === meId ? (m.receiver_id as string) : (m.sender_id as string);
+    if (otherId === meId) continue;
+    const entry = threads.get(otherId) ?? {
+      otherId,
+      lastAt: m.created_at as string,
+      lastMessage: m.message as string,
+      unread: 0,
+    };
+    if (m.receiver_id === meId && !m.read_at) entry.unread += 1;
+    threads.set(otherId, entry);
+  }
+  return [...threads.values()].sort((a, b) => (a.lastAt < b.lastAt ? 1 : -1));
+}
+
 /* ---------- admin ---------- */
 
 export async function fetchAllProfiles() {
