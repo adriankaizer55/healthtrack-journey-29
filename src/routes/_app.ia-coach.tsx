@@ -48,6 +48,33 @@ function IACoach() {
   const endRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const abortRef = useRef<AbortController | null>(null);
+  const qc = useQueryClient();
+  const [savingId, setSavingId] = useState<string | null>(null);
+  const [savedIds, setSavedIds] = useState<string[]>([]);
+
+  function looksLikeWorkout(text: string) {
+    const t = text.toLowerCase();
+    const hasWorkout = /treino|exerc[íi]cio|aquecimento|s[ée]ries/.test(t);
+    const hasDetail = /\d\s*(x|s[ée]ries?|repeti|min)/.test(t);
+    return hasWorkout && hasDetail && text.length > 120;
+  }
+
+  async function saveWorkout(id: string, text: string) {
+    setSavingId(id);
+    try {
+      const draft = await extractWorkoutFromText(text);
+      await saveAiWorkout(draft);
+      setSavedIds((s) => [...s, id]);
+      void qc.invalidateQueries({ queryKey: ["my-workouts"] });
+      void qc.invalidateQueries({ queryKey: ["notifications"] });
+      toast.success("Treino adicionado aos seus treinos 💪");
+    } catch (err) {
+      toast.error((err as Error).message);
+    } finally {
+      setSavingId(null);
+    }
+  }
+
 
   useEffect(() => {
     endRef.current?.scrollIntoView({ behavior: "smooth" });
