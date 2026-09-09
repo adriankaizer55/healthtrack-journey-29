@@ -21,6 +21,7 @@ import { Route as AppRouteImport } from './routes/_app'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as AuthCallbackRouteImport } from './routes/auth.callback'
+import { Route as ApiIaCoachRouteImport } from './routes/api/ia-coach'
 import { Route as AdminWorkoutsRouteImport } from './routes/admin.workouts'
 import { Route as AdminUsersRouteImport } from './routes/admin.users'
 import { Route as AdminMensagensRouteImport } from './routes/admin.mensagens'
@@ -105,6 +106,11 @@ const AdminIndexRoute = AdminIndexRouteImport.update({
 const AuthCallbackRoute = AuthCallbackRouteImport.update({
   id: '/auth/callback',
   path: '/auth/callback',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiIaCoachRoute = ApiIaCoachRouteImport.update({
+  id: '/api/ia-coach',
+  path: '/api/ia-coach',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminWorkoutsRoute = AdminWorkoutsRouteImport.update({
@@ -272,6 +278,7 @@ export interface FileRoutesByFullPath {
   '/admin/mensagens': typeof AdminMensagensRoute
   '/admin/users': typeof AdminUsersRouteWithChildren
   '/admin/workouts': typeof AdminWorkoutsRoute
+  '/api/ia-coach': typeof ApiIaCoachRoute
   '/auth/callback': typeof AuthCallbackRoute
   '/admin/': typeof AdminIndexRoute
   '/acessibilidade/alto-contraste': typeof AppAcessibilidadeAltoContrasteRoute
@@ -309,6 +316,7 @@ export interface FileRoutesByTo {
   '/admin/mensagens': typeof AdminMensagensRoute
   '/admin/users': typeof AdminUsersRouteWithChildren
   '/admin/workouts': typeof AdminWorkoutsRoute
+  '/api/ia-coach': typeof ApiIaCoachRoute
   '/auth/callback': typeof AuthCallbackRoute
   '/admin': typeof AdminIndexRoute
   '/acessibilidade/alto-contraste': typeof AppAcessibilidadeAltoContrasteRoute
@@ -350,6 +358,7 @@ export interface FileRoutesById {
   '/admin/mensagens': typeof AdminMensagensRoute
   '/admin/users': typeof AdminUsersRouteWithChildren
   '/admin/workouts': typeof AdminWorkoutsRoute
+  '/api/ia-coach': typeof ApiIaCoachRoute
   '/auth/callback': typeof AuthCallbackRoute
   '/admin/': typeof AdminIndexRoute
   '/_app/acessibilidade/alto-contraste': typeof AppAcessibilidadeAltoContrasteRoute
@@ -391,6 +400,7 @@ export interface FileRouteTypes {
     | '/admin/mensagens'
     | '/admin/users'
     | '/admin/workouts'
+    | '/api/ia-coach'
     | '/auth/callback'
     | '/admin/'
     | '/acessibilidade/alto-contraste'
@@ -428,6 +438,7 @@ export interface FileRouteTypes {
     | '/admin/mensagens'
     | '/admin/users'
     | '/admin/workouts'
+    | '/api/ia-coach'
     | '/auth/callback'
     | '/admin'
     | '/acessibilidade/alto-contraste'
@@ -468,6 +479,7 @@ export interface FileRouteTypes {
     | '/admin/mensagens'
     | '/admin/users'
     | '/admin/workouts'
+    | '/api/ia-coach'
     | '/auth/callback'
     | '/admin/'
     | '/_app/acessibilidade/alto-contraste'
@@ -490,6 +502,7 @@ export interface RootRouteChildren {
   RecuperarSenhaRoute: typeof RecuperarSenhaRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
   TermosRoute: typeof TermosRoute
+  ApiIaCoachRoute: typeof ApiIaCoachRoute
   AuthCallbackRoute: typeof AuthCallbackRoute
 }
 
@@ -577,6 +590,13 @@ declare module '@tanstack/react-router' {
       path: '/auth/callback'
       fullPath: '/auth/callback'
       preLoaderRoute: typeof AuthCallbackRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/ia-coach': {
+      id: '/api/ia-coach'
+      path: '/api/ia-coach'
+      fullPath: '/api/ia-coach'
+      preLoaderRoute: typeof ApiIaCoachRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin/workouts': {
@@ -865,6 +885,7 @@ const rootRouteChildren: RootRouteChildren = {
   RecuperarSenhaRoute: RecuperarSenhaRoute,
   ResetPasswordRoute: ResetPasswordRoute,
   TermosRoute: TermosRoute,
+  ApiIaCoachRoute: ApiIaCoachRoute,
   AuthCallbackRoute: AuthCallbackRoute,
 }
 export const routeTree = rootRouteImport
