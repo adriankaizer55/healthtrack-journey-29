@@ -1,8 +1,11 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useApp } from "@/lib/app-context";
-import { Bot, MoreVertical, Paperclip, Send, Play, Droplet, RotateCcw, Square } from "lucide-react";
+import { Bot, MoreVertical, Paperclip, Send, Play, Droplet, RotateCcw, Square, Dumbbell, Loader2 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
+import { useQueryClient } from "@tanstack/react-query";
+import { extractWorkoutFromText, saveAiWorkout } from "@/lib/queries";
+
 
 export const Route = createFileRoute("/_app/ia-coach")({
   head: () => ({
