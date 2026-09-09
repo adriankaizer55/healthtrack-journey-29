@@ -42,6 +42,7 @@ import { Route as AppAlimentacaoRouteImport } from './routes/_app.alimentacao'
 import { Route as AppAjudaRouteImport } from './routes/_app.ajuda'
 import { Route as AppAcessibilidadeRouteImport } from './routes/_app.acessibilidade'
 import { Route as AppAcessibilidadeIndexRouteImport } from './routes/_app.acessibilidade.index'
+import { Route as ApiIaCoachTreinoRouteImport } from './routes/api/ia-coach.treino'
 import { Route as AdminUsersIdRouteImport } from './routes/admin.users.$id'
 import { Route as AppAcessibilidadeNavegacaoPorVozRouteImport } from './routes/_app.acessibilidade.navegacao-por-voz'
 import { Route as AppAcessibilidadeModoEscuroRouteImport } from './routes/_app.acessibilidade.modo-escuro'
@@ -213,6 +214,11 @@ const AppAcessibilidadeIndexRoute = AppAcessibilidadeIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AppAcessibilidadeRoute,
 } as any)
+const ApiIaCoachTreinoRoute = ApiIaCoachTreinoRouteImport.update({
+  id: '/treino',
+  path: '/treino',
+  getParentRoute: () => ApiIaCoachRoute,
+} as any)
 const AdminUsersIdRoute = AdminUsersIdRouteImport.update({
   id: '/$id',
   path: '/$id',
@@ -278,7 +284,7 @@ export interface FileRoutesByFullPath {
   '/admin/mensagens': typeof AdminMensagensRoute
   '/admin/users': typeof AdminUsersRouteWithChildren
   '/admin/workouts': typeof AdminWorkoutsRoute
-  '/api/ia-coach': typeof ApiIaCoachRoute
+  '/api/ia-coach': typeof ApiIaCoachRouteWithChildren
   '/auth/callback': typeof AuthCallbackRoute
   '/admin/': typeof AdminIndexRoute
   '/acessibilidade/alto-contraste': typeof AppAcessibilidadeAltoContrasteRoute
@@ -287,6 +293,7 @@ export interface FileRoutesByFullPath {
   '/acessibilidade/modo-escuro': typeof AppAcessibilidadeModoEscuroRoute
   '/acessibilidade/navegacao-por-voz': typeof AppAcessibilidadeNavegacaoPorVozRoute
   '/admin/users/$id': typeof AdminUsersIdRoute
+  '/api/ia-coach/treino': typeof ApiIaCoachTreinoRoute
   '/acessibilidade/': typeof AppAcessibilidadeIndexRoute
 }
 export interface FileRoutesByTo {
@@ -316,7 +323,7 @@ export interface FileRoutesByTo {
   '/admin/mensagens': typeof AdminMensagensRoute
   '/admin/users': typeof AdminUsersRouteWithChildren
   '/admin/workouts': typeof AdminWorkoutsRoute
-  '/api/ia-coach': typeof ApiIaCoachRoute
+  '/api/ia-coach': typeof ApiIaCoachRouteWithChildren
   '/auth/callback': typeof AuthCallbackRoute
   '/admin': typeof AdminIndexRoute
   '/acessibilidade/alto-contraste': typeof AppAcessibilidadeAltoContrasteRoute
@@ -325,6 +332,7 @@ export interface FileRoutesByTo {
   '/acessibilidade/modo-escuro': typeof AppAcessibilidadeModoEscuroRoute
   '/acessibilidade/navegacao-por-voz': typeof AppAcessibilidadeNavegacaoPorVozRoute
   '/admin/users/$id': typeof AdminUsersIdRoute
+  '/api/ia-coach/treino': typeof ApiIaCoachTreinoRoute
   '/acessibilidade': typeof AppAcessibilidadeIndexRoute
 }
 export interface FileRoutesById {
@@ -358,7 +366,7 @@ export interface FileRoutesById {
   '/admin/mensagens': typeof AdminMensagensRoute
   '/admin/users': typeof AdminUsersRouteWithChildren
   '/admin/workouts': typeof AdminWorkoutsRoute
-  '/api/ia-coach': typeof ApiIaCoachRoute
+  '/api/ia-coach': typeof ApiIaCoachRouteWithChildren
   '/auth/callback': typeof AuthCallbackRoute
   '/admin/': typeof AdminIndexRoute
   '/_app/acessibilidade/alto-contraste': typeof AppAcessibilidadeAltoContrasteRoute
@@ -367,6 +375,7 @@ export interface FileRoutesById {
   '/_app/acessibilidade/modo-escuro': typeof AppAcessibilidadeModoEscuroRoute
   '/_app/acessibilidade/navegacao-por-voz': typeof AppAcessibilidadeNavegacaoPorVozRoute
   '/admin/users/$id': typeof AdminUsersIdRoute
+  '/api/ia-coach/treino': typeof ApiIaCoachTreinoRoute
   '/_app/acessibilidade/': typeof AppAcessibilidadeIndexRoute
 }
 export interface FileRouteTypes {
@@ -409,6 +418,7 @@ export interface FileRouteTypes {
     | '/acessibilidade/modo-escuro'
     | '/acessibilidade/navegacao-por-voz'
     | '/admin/users/$id'
+    | '/api/ia-coach/treino'
     | '/acessibilidade/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -447,6 +457,7 @@ export interface FileRouteTypes {
     | '/acessibilidade/modo-escuro'
     | '/acessibilidade/navegacao-por-voz'
     | '/admin/users/$id'
+    | '/api/ia-coach/treino'
     | '/acessibilidade'
   id:
     | '__root__'
@@ -488,6 +499,7 @@ export interface FileRouteTypes {
     | '/_app/acessibilidade/modo-escuro'
     | '/_app/acessibilidade/navegacao-por-voz'
     | '/admin/users/$id'
+    | '/api/ia-coach/treino'
     | '/_app/acessibilidade/'
   fileRoutesById: FileRoutesById
 }
@@ -502,7 +514,7 @@ export interface RootRouteChildren {
   RecuperarSenhaRoute: typeof RecuperarSenhaRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
   TermosRoute: typeof TermosRoute
-  ApiIaCoachRoute: typeof ApiIaCoachRoute
+  ApiIaCoachRoute: typeof ApiIaCoachRouteWithChildren
   AuthCallbackRoute: typeof AuthCallbackRoute
 }
 
@@ -739,6 +751,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppAcessibilidadeIndexRouteImport
       parentRoute: typeof AppAcessibilidadeRoute
     }
+    '/api/ia-coach/treino': {
+      id: '/api/ia-coach/treino'
+      path: '/treino'
+      fullPath: '/api/ia-coach/treino'
+      preLoaderRoute: typeof ApiIaCoachTreinoRouteImport
+      parentRoute: typeof ApiIaCoachRoute
+    }
     '/admin/users/$id': {
       id: '/admin/users/$id'
       path: '/$id'
@@ -874,6 +893,18 @@ const AdminRouteChildren: AdminRouteChildren = {
 
 const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
 
+interface ApiIaCoachRouteChildren {
+  ApiIaCoachTreinoRoute: typeof ApiIaCoachTreinoRoute
+}
+
+const ApiIaCoachRouteChildren: ApiIaCoachRouteChildren = {
+  ApiIaCoachTreinoRoute: ApiIaCoachTreinoRoute,
+}
+
+const ApiIaCoachRouteWithChildren = ApiIaCoachRoute._addFileChildren(
+  ApiIaCoachRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AppRoute: AppRouteWithChildren,
@@ -885,7 +916,7 @@ const rootRouteChildren: RootRouteChildren = {
   RecuperarSenhaRoute: RecuperarSenhaRoute,
   ResetPasswordRoute: ResetPasswordRoute,
   TermosRoute: TermosRoute,
-  ApiIaCoachRoute: ApiIaCoachRoute,
+  ApiIaCoachRoute: ApiIaCoachRouteWithChildren,
   AuthCallbackRoute: AuthCallbackRoute,
 }
 export const routeTree = rootRouteImport

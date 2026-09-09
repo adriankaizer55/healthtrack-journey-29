@@ -1,8 +1,11 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useApp } from "@/lib/app-context";
-import { Bot, MoreVertical, Paperclip, Send, Play, Droplet, RotateCcw, Square } from "lucide-react";
+import { Bot, MoreVertical, Paperclip, Send, Play, Droplet, RotateCcw, Square, Dumbbell, Loader2 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
+import { useQueryClient } from "@tanstack/react-query";
+import { extractWorkoutFromText, saveAiWorkout } from "@/lib/queries";
+
 
 export const Route = createFileRoute("/_app/ia-coach")({
   head: () => ({
@@ -45,6 +48,33 @@ function IACoach() {
   const endRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const abortRef = useRef<AbortController | null>(null);
+  const qc = useQueryClient();
+  const [savingId, setSavingId] = useState<string | null>(null);
+  const [savedIds, setSavedIds] = useState<string[]>([]);
+
+  function looksLikeWorkout(text: string) {
+    const t = text.toLowerCase();
+    const hasWorkout = /treino|exerc[íi]cio|aquecimento|s[ée]ries/.test(t);
+    const hasDetail = /\d\s*(x|s[ée]ries?|repeti|min)/.test(t);
+    return hasWorkout && hasDetail && text.length > 120;
+  }
+
+  async function saveWorkout(id: string, text: string) {
+    setSavingId(id);
+    try {
+      const draft = await extractWorkoutFromText(text);
+      await saveAiWorkout(draft);
+      setSavedIds((s) => [...s, id]);
+      void qc.invalidateQueries({ queryKey: ["my-workouts"] });
+      void qc.invalidateQueries({ queryKey: ["notifications"] });
+      toast.success("Treino adicionado aos seus treinos 💪");
+    } catch (err) {
+      toast.error((err as Error).message);
+    } finally {
+      setSavingId(null);
+    }
+  }
+
 
   useEffect(() => {
     endRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -103,7 +133,7 @@ function IACoach() {
         setMessages((m) =>
           m.map((msg) => (msg.id === aiId ? { ...msg, text: "Não consegui responder agora. Pode tentar de novo?" } : msg)),
         );
-      } else if (/água|agua|hidrat/i.test(value + acc)) {
+      } else if (/água|agua|hidrat|beber/i.test(value)) {
         setMessages((m) => [...m, { id: `c-${Date.now()}`, role: "ai", card: "water" }]);
       }
     } catch (err) {
@@ -157,15 +187,38 @@ function IACoach() {
             )}
             {typeof m.text === "string" && (
               <div
-                className={`max-w-[75%] rounded-2xl px-4 py-2.5 whitespace-pre-wrap break-words ${
+                className={`max-w-[85%] lg:max-w-[75%] rounded-2xl px-4 py-2.5 break-words ${
                   m.role === "user"
                     ? "bg-primary text-primary-foreground rounded-br-sm"
                     : "bg-card border border-border rounded-bl-sm"
                 }`}
               >
-                {m.text || <span className="inline-flex gap-1 items-center text-muted-foreground text-sm">Pensando…</span>}
+                {m.text ? (
+                  <RichText text={m.text} />
+                ) : (
+                  <span className="inline-flex gap-1 items-center text-muted-foreground text-sm">Pensando…</span>
+                )}
+                {m.role === "ai" && !streaming && m.text && looksLikeWorkout(m.text) && (
+                  <button
+                    onClick={() => void saveWorkout(m.id, m.text!)}
+                    disabled={savingId === m.id || savedIds.includes(m.id)}
+                    className="mt-3 w-full min-h-10 rounded-xl font-semibold text-sm flex items-center justify-center gap-2 gradient-brand text-white disabled:opacity-60"
+                  >
+                    {savingId === m.id ? (
+                      <Loader2 className="size-4 animate-spin" />
+                    ) : (
+                      <Dumbbell className="size-4" />
+                    )}
+                    {savedIds.includes(m.id)
+                      ? "Já está nos seus treinos"
+                      : savingId === m.id
+                        ? "Salvando treino…"
+                        : "Adicionar aos meus treinos"}
+                  </button>
+                )}
               </div>
             )}
+
             {m.card === "workout" && (
               <div className="card-soft max-w-[85%]">
                 <div className="flex items-center gap-3">
@@ -255,4 +308,66 @@ function IACoach() {
       </div>
     </div>
   );
+}
+
+function Inline({ text }: { text: string }) {
+  const parts = text.split(/(\*\*[^*]+\*\*|\*[^*\n]+\*)/g).filter(Boolean);
+  return (
+    <>
+      {parts.map((p, i) =>
+        p.startsWith("**") && p.endsWith("**") ? (
+          <strong key={i} className="font-semibold">
+            {p.slice(2, -2)}
+          </strong>
+        ) : p.startsWith("*") && p.endsWith("*") && p.length > 2 ? (
+          <em key={i}>{p.slice(1, -1)}</em>
+        ) : (
+          <span key={i}>{p}</span>
+        ),
+      )}
+    </>
+  );
+}
+
+function RichText({ text }: { text: string }) {
+  const lines = text.split("\n");
+  const blocks: { type: "p" | "li"; content: string }[] = [];
+  for (const raw of lines) {
+    const line = raw.trim();
+    if (!line) continue;
+    const bullet = line.match(/^(?:[-*•]|\d+[.)])\s+(.*)$/);
+    if (bullet) blocks.push({ type: "li", content: bullet[1]! });
+    else blocks.push({ type: "p", content: line.replace(/^#+\s*/, "") });
+  }
+
+  const out: React.ReactNode[] = [];
+  let list: string[] = [];
+  const flush = (key: string) => {
+    if (list.length === 0) return;
+    out.push(
+      <ul key={key} className="my-1.5 space-y-1 pl-4 list-disc">
+        {list.map((item, i) => (
+          <li key={i}>
+            <Inline text={item} />
+          </li>
+        ))}
+      </ul>,
+    );
+    list = [];
+  };
+
+  blocks.forEach((b, i) => {
+    if (b.type === "li") list.push(b.content);
+    else {
+      flush(`l-${i}`);
+      out.push(
+        <p key={`p-${i}`} className="[&:not(:first-child)]:mt-2">
+          <Inline text={b.content} />
+        </p>,
+      );
+    }
+  });
+  flush("l-end");
+
+  return <div className="text-[0.95rem] leading-relaxed">{out}</div>;
 }
