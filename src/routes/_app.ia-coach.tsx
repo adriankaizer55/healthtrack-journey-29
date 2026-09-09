@@ -309,3 +309,65 @@ function IACoach() {
     </div>
   );
 }
+
+function Inline({ text }: { text: string }) {
+  const parts = text.split(/(\*\*[^*]+\*\*|\*[^*\n]+\*)/g).filter(Boolean);
+  return (
+    <>
+      {parts.map((p, i) =>
+        p.startsWith("**") && p.endsWith("**") ? (
+          <strong key={i} className="font-semibold">
+            {p.slice(2, -2)}
+          </strong>
+        ) : p.startsWith("*") && p.endsWith("*") && p.length > 2 ? (
+          <em key={i}>{p.slice(1, -1)}</em>
+        ) : (
+          <span key={i}>{p}</span>
+        ),
+      )}
+    </>
+  );
+}
+
+function RichText({ text }: { text: string }) {
+  const lines = text.split("\n");
+  const blocks: { type: "p" | "li"; content: string }[] = [];
+  for (const raw of lines) {
+    const line = raw.trim();
+    if (!line) continue;
+    const bullet = line.match(/^(?:[-*•]|\d+[.)])\s+(.*)$/);
+    if (bullet) blocks.push({ type: "li", content: bullet[1]! });
+    else blocks.push({ type: "p", content: line.replace(/^#+\s*/, "") });
+  }
+
+  const out: React.ReactNode[] = [];
+  let list: string[] = [];
+  const flush = (key: string) => {
+    if (list.length === 0) return;
+    out.push(
+      <ul key={key} className="my-1.5 space-y-1 pl-4 list-disc">
+        {list.map((item, i) => (
+          <li key={i}>
+            <Inline text={item} />
+          </li>
+        ))}
+      </ul>,
+    );
+    list = [];
+  };
+
+  blocks.forEach((b, i) => {
+    if (b.type === "li") list.push(b.content);
+    else {
+      flush(`l-${i}`);
+      out.push(
+        <p key={`p-${i}`} className="[&:not(:first-child)]:mt-2">
+          <Inline text={b.content} />
+        </p>,
+      );
+    }
+  });
+  flush("l-end");
+
+  return <div className="text-[0.95rem] leading-relaxed">{out}</div>;
+}
