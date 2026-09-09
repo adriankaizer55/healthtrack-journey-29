@@ -423,3 +423,46 @@ export async function deleteGoal(id: string) {
   const { error } = await supabase.from("goals").delete().eq("id", id);
   if (error) throw error;
 }
+
+/* ---------- Treinos criados pelo IA Coach ---------- */
+
+export type AiWorkoutDraft = {
+  name: string;
+  description?: string | null;
+  duration_min?: number | null;
+  level?: string | null;
+  exercises?: {
+    name: string;
+    sets?: number | null;
+    reps?: string | null;
+    load?: string | null;
+    rest_seconds?: number | null;
+    notes?: string | null;
+  }[];
+};
+
+export async function extractWorkoutFromText(text: string): Promise<AiWorkoutDraft> {
+  const res = await fetch("/api/ia-coach/treino", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ text }),
+  });
+  const data = (await res.json().catch(() => ({}))) as AiWorkoutDraft & { error?: string };
+  if (!res.ok) throw new Error(data.error || "Não consegui montar o treino agora.");
+  return data;
+}
+
+export async function saveAiWorkout(draft: AiWorkoutDraft) {
+  const { data, error } = await (supabase.rpc as unknown as (
+    fn: string,
+    args: Record<string, unknown>,
+  ) => Promise<{ data: string | null; error: { message: string } | null }>)("create_ai_workout", {
+    _name: draft.name,
+    _description: draft.description ?? null,
+    _duration_min: draft.duration_min ?? 30,
+    _level: draft.level ?? "iniciante",
+    _exercises: draft.exercises ?? [],
+  });
+  if (error) throw new Error(error.message);
+  return data;
+}
