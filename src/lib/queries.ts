@@ -176,6 +176,49 @@ export async function markConversationRead(meId: string, otherId: string) {
     .is("read_at", null);
 }
 
+export type AdminThread = {
+  userId: string;
+  lastAt: string;
+  lastMessage: string;
+  unread: number;
+  total: number;
+};
+
+/** Admin: todas as conversas da plataforma agrupadas por usuário. */
+export async function fetchAllConversations(meId: string, adminIds: string[]) {
+  const { data, error } = await supabase
+    .from("messages")
+    .select("sender_id, receiver_id, message, created_at, read_at")
+    .order("created_at", { ascending: false });
+  if (error) throw error;
+
+  const admins = new Set(adminIds);
+  const threads = new Map<string, AdminThread>();
+  for (const m of data ?? []) {
+    const sender = m.sender_id as string;
+    const receiver = m.receiver_id as string;
+    let userId = !admins.has(sender) ? sender : !admins.has(receiver) ? receiver : sender === meId ? receiver : sender;
+    if (userId === meId) userId = sender === meId ? receiver : sender;
+    const entry =
+      threads.get(userId) ?? { userId, lastAt: m.created_at as string, lastMessage: m.message as string, unread: 0, total: 0 };
+    entry.total += 1;
+    if (receiver === meId && !m.read_at) entry.unread += 1;
+    threads.set(userId, entry);
+  }
+  return [...threads.values()].sort((a, b) => (a.lastAt < b.lastAt ? 1 : -1));
+}
+
+/** Admin: histórico completo de mensagens de um usuário (com qualquer membro da equipe). */
+export async function fetchUserMessages(userId: string) {
+  const { data, error } = await supabase
+    .from("messages")
+    .select("*")
+    .or(`sender_id.eq.${userId},receiver_id.eq.${userId}`)
+    .order("created_at", { ascending: true });
+  if (error) throw error;
+  return data ?? [];
+}
+
 export async function fetchAdmins() {
   const { data, error } = await supabase.rpc("admin_contacts");
   if (error) throw error;
