@@ -133,7 +133,7 @@ function IACoach() {
         setMessages((m) =>
           m.map((msg) => (msg.id === aiId ? { ...msg, text: "Não consegui responder agora. Pode tentar de novo?" } : msg)),
         );
-      } else if (/água|agua|hidrat/i.test(value + acc)) {
+      } else if (/água|agua|hidrat|beber/i.test(value)) {
         setMessages((m) => [...m, { id: `c-${Date.now()}`, role: "ai", card: "water" }]);
       }
     } catch (err) {
