@@ -91,8 +91,11 @@ function IACoach() {
     const userMsg: Msg = { id: `u-${Date.now()}`, role: "user", text: value };
     const aiId = `a-${Date.now()}`;
     const history = messages
-      .filter((m) => m.text)
-      .map((m) => ({ role: m.role === "user" ? ("user" as const) : ("assistant" as const), text: m.text! }));
+      .flatMap((m) =>
+        m.text
+          ? [{ role: m.role === "user" ? ("user" as const) : ("assistant" as const), text: m.text }]
+          : [],
+      );
 
     setMessages((m) => [...m, userMsg, { id: aiId, role: "ai", text: "" }]);
     setInput("");
@@ -200,7 +203,7 @@ function IACoach() {
                 )}
                 {m.role === "ai" && !streaming && m.text && looksLikeWorkout(m.text) && (
                   <button
-                    onClick={() => void saveWorkout(m.id, m.text!)}
+                    onClick={() => m.text && void saveWorkout(m.id, m.text)}
                     disabled={savingId === m.id || savedIds.includes(m.id)}
                     className="mt-3 w-full min-h-10 rounded-xl font-semibold text-sm flex items-center justify-center gap-2 gradient-brand text-white disabled:opacity-60"
                   >
