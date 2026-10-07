@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import { useQueryClient } from "@tanstack/react-query";
 import { extractWorkoutFromText, saveAiWorkout } from "@/lib/queries";
+import { Button } from "@/components/ui/button";
 
 
 export const Route = createFileRoute("/_app/ia-coach")({
@@ -155,7 +156,7 @@ function IACoach() {
   const onlyGreeting = messages.length <= 3;
 
   return (
-    <div className="flex flex-col h-dvh lg:h-screen">
+    <div className="flex flex-col h-[calc(100dvh-4rem)] lg:h-dvh overflow-hidden">
       <header className="px-4 lg:px-8 py-3 border-b border-border flex items-center gap-3 bg-card/50 backdrop-blur sticky top-0 z-20">
         <div className="size-10 rounded-full gradient-brand grid place-items-center text-white">
           <Bot className="size-5" />
@@ -180,7 +181,7 @@ function IACoach() {
         </button>
       </header>
 
-      <div className="flex-1 overflow-y-auto px-4 lg:px-8 py-4 space-y-3 max-w-3xl w-full mx-auto">
+      <div className="flex-1 min-h-0 overflow-y-auto px-4 lg:px-8 py-4 space-y-3 max-w-3xl w-full mx-auto">
         {messages.map((m) => (
           <div key={m.id} className={`flex gap-2 ${m.role === "user" ? "justify-end" : "justify-start"}`}>
             {m.role === "ai" && (
@@ -202,10 +203,10 @@ function IACoach() {
                   <span className="inline-flex gap-1 items-center text-muted-foreground text-sm">Pensando…</span>
                 )}
                 {m.role === "ai" && !streaming && m.text && looksLikeWorkout(m.text) && (
-                  <button
+                  <Button
                     onClick={() => m.text && void saveWorkout(m.id, m.text)}
                     disabled={savingId === m.id || savedIds.includes(m.id)}
-                    className="mt-3 w-full min-h-10 rounded-xl font-semibold text-sm flex items-center justify-center gap-2 gradient-brand text-white disabled:opacity-60"
+                    className="mt-3 w-full min-h-10 whitespace-normal font-semibold"
                   >
                     {savingId === m.id ? (
                       <Loader2 className="size-4 animate-spin" />
@@ -217,7 +218,7 @@ function IACoach() {
                       : savingId === m.id
                         ? "Salvando treino…"
                         : "Adicionar aos meus treinos"}
-                  </button>
+                  </Button>
                 )}
               </div>
             )}
@@ -257,7 +258,7 @@ function IACoach() {
         <div ref={endRef} />
       </div>
 
-      <div className="border-t border-border bg-card/80 backdrop-blur px-4 lg:px-8 py-3 sticky bottom-16 lg:bottom-0">
+      <div className="shrink-0 border-t border-border bg-card/80 backdrop-blur px-4 lg:px-8 py-3">
         {onlyGreeting && !streaming && (
           <div className="max-w-3xl mx-auto flex gap-2 overflow-x-auto pb-2">
             {SUGGESTIONS.map((s) => (
@@ -287,7 +288,7 @@ function IACoach() {
             onChange={(e) => setInput(e.target.value)}
             placeholder="Pergunte algo..."
             aria-label="Mensagem para o IA Coach"
-            className="flex-1 h-11 px-4 rounded-full border border-input bg-background focus:outline-none focus:ring-2 focus:ring-ring"
+            className="flex-1 min-w-0 h-11 px-4 rounded-full border border-input bg-background focus:outline-none focus:ring-2 focus:ring-ring"
           />
           {streaming ? (
             <button
@@ -339,7 +340,7 @@ function RichText({ text }: { text: string }) {
     const line = raw.trim();
     if (!line) continue;
     const bullet = line.match(/^(?:[-*•]|\d+[.)])\s+(.*)$/);
-    if (bullet) blocks.push({ type: "li", content: bullet[1]! });
+    if (bullet?.[1]) blocks.push({ type: "li", content: bullet[1] });
     else blocks.push({ type: "p", content: line.replace(/^#+\s*/, "") });
   }
 
