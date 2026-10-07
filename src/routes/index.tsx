@@ -2,7 +2,18 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect } from "react";
 import { Logo } from "@/components/Logo";
 
-export const Route = createFileRoute("/")({ ssr: false, component: Index });
+export const Route = createFileRoute("/")({
+  ssr: false,
+  head: () => ({ meta: [
+    { title: "HealthTrack — saúde e bem-estar" },
+    { name: "description", content: "Acompanhe seus hábitos, treinos e bem-estar no HealthTrack." },
+    { property: "og:title", content: "HealthTrack — saúde e bem-estar" },
+    { property: "og:description", content: "Sua rotina de saúde, hábitos e treinos em um só lugar." },
+    { property: "og:type", content: "website" },
+    { name: "twitter:card", content: "summary" },
+  ] }),
+  component: Index,
+});
 
 function Index() {
   const nav = useNavigate();
