@@ -9,84 +9,50 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as IndexRouteImport } from './routes/index'
-import { Route as AppRouteImport } from './routes/_app'
-import { Route as AdminRouteImport } from './routes/admin'
-import { Route as CadastroRouteImport } from './routes/cadastro'
-import { Route as LoginRouteImport } from './routes/login'
-import { Route as OnboardingRouteImport } from './routes/onboarding'
-import { Route as PrivacidadeRouteImport } from './routes/privacidade'
-import { Route as RecuperarSenhaRouteImport } from './routes/recuperar-senha'
-import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as TermosRouteImport } from './routes/termos'
-import { Route as AppAcessibilidadeRouteImport } from './routes/_app.acessibilidade'
-import { Route as AppAjudaRouteImport } from './routes/_app.ajuda'
-import { Route as AppAlimentacaoRouteImport } from './routes/_app.alimentacao'
-import { Route as AppCalendarioRouteImport } from './routes/_app.calendario'
-import { Route as AppDashboardRouteImport } from './routes/_app.dashboard'
-import { Route as AppHabitosRouteImport } from './routes/_app.habitos'
-import { Route as AppHidratacaoRouteImport } from './routes/_app.hidratacao'
-import { Route as AppIaCoachRouteImport } from './routes/_app.ia-coach'
-import { Route as AppMaisRouteImport } from './routes/_app.mais'
-import { Route as AppMensagensRouteImport } from './routes/_app.mensagens'
-import { Route as AppMetasRouteImport } from './routes/_app.metas'
-import { Route as AppNotificacoesRouteImport } from './routes/_app.notificacoes'
-import { Route as AppPerfilRouteImport } from './routes/_app.perfil'
-import { Route as AppSobreRouteImport } from './routes/_app.sobre'
-import { Route as AppTreinosRouteImport } from './routes/_app.treinos'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
+import { Route as RecuperarSenhaRouteImport } from './routes/recuperar-senha'
+import { Route as PrivacidadeRouteImport } from './routes/privacidade'
+import { Route as OnboardingRouteImport } from './routes/onboarding'
+import { Route as LoginRouteImport } from './routes/login'
+import { Route as CadastroRouteImport } from './routes/cadastro'
+import { Route as AdminRouteImport } from './routes/admin'
+import { Route as AppRouteImport } from './routes/_app'
+import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
-import { Route as AdminHabitsRouteImport } from './routes/admin.habits'
-import { Route as AdminMensagensRouteImport } from './routes/admin.mensagens'
-import { Route as AdminUsersRouteImport } from './routes/admin.users'
-import { Route as AdminWorkoutsRouteImport } from './routes/admin.workouts'
-import { Route as ApiIaCoachRouteImport } from './routes/api/ia-coach'
 import { Route as AuthCallbackRouteImport } from './routes/auth.callback'
+import { Route as ApiIaCoachRouteImport } from './routes/api/ia-coach'
+import { Route as AdminWorkoutsRouteImport } from './routes/admin.workouts'
+import { Route as AdminUsersRouteImport } from './routes/admin.users'
+import { Route as AdminMensagensRouteImport } from './routes/admin.mensagens'
+import { Route as AdminHabitsRouteImport } from './routes/admin.habits'
+import { Route as AppTreinosRouteImport } from './routes/_app.treinos'
+import { Route as AppSobreRouteImport } from './routes/_app.sobre'
+import { Route as AppPerfilRouteImport } from './routes/_app.perfil'
+import { Route as AppNotificacoesRouteImport } from './routes/_app.notificacoes'
+import { Route as AppMetasRouteImport } from './routes/_app.metas'
+import { Route as AppMensagensRouteImport } from './routes/_app.mensagens'
+import { Route as AppMaisRouteImport } from './routes/_app.mais'
+import { Route as AppIaCoachRouteImport } from './routes/_app.ia-coach'
+import { Route as AppHidratacaoRouteImport } from './routes/_app.hidratacao'
+import { Route as AppHabitosRouteImport } from './routes/_app.habitos'
+import { Route as AppDashboardRouteImport } from './routes/_app.dashboard'
+import { Route as AppCalendarioRouteImport } from './routes/_app.calendario'
+import { Route as AppAlimentacaoRouteImport } from './routes/_app.alimentacao'
+import { Route as AppAjudaRouteImport } from './routes/_app.ajuda'
+import { Route as AppAcessibilidadeRouteImport } from './routes/_app.acessibilidade'
 import { Route as AppAcessibilidadeIndexRouteImport } from './routes/_app.acessibilidade.index'
-import { Route as AppAcessibilidadeAltoContrasteRouteImport } from './routes/_app.acessibilidade.alto-contraste'
-import { Route as AppAcessibilidadeFonteGrandeRouteImport } from './routes/_app.acessibilidade.fonte-grande'
-import { Route as AppAcessibilidadeLeituraSimplificadaRouteImport } from './routes/_app.acessibilidade.leitura-simplificada'
-import { Route as AppAcessibilidadeModoEscuroRouteImport } from './routes/_app.acessibilidade.modo-escuro'
-import { Route as AppAcessibilidadeNavegacaoPorVozRouteImport } from './routes/_app.acessibilidade.navegacao-por-voz'
-import { Route as AdminUsersIdRouteImport } from './routes/admin.users.$id'
 import { Route as ApiIaCoachTreinoRouteImport } from './routes/api/ia-coach.treino'
+import { Route as AdminUsersIdRouteImport } from './routes/admin.users.$id'
+import { Route as AppAcessibilidadeNavegacaoPorVozRouteImport } from './routes/_app.acessibilidade.navegacao-por-voz'
+import { Route as AppAcessibilidadeModoEscuroRouteImport } from './routes/_app.acessibilidade.modo-escuro'
+import { Route as AppAcessibilidadeLeituraSimplificadaRouteImport } from './routes/_app.acessibilidade.leitura-simplificada'
+import { Route as AppAcessibilidadeFonteGrandeRouteImport } from './routes/_app.acessibilidade.fonte-grande'
+import { Route as AppAcessibilidadeAltoContrasteRouteImport } from './routes/_app.acessibilidade.alto-contraste'
 
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AppRoute = AppRouteImport.update({
-  id: '/_app',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AdminRoute = AdminRouteImport.update({
-  id: '/admin',
-  path: '/admin',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const CadastroRoute = CadastroRouteImport.update({
-  id: '/cadastro',
-  path: '/cadastro',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const LoginRoute = LoginRouteImport.update({
-  id: '/login',
-  path: '/login',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const OnboardingRoute = OnboardingRouteImport.update({
-  id: '/onboarding',
-  path: '/onboarding',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PrivacidadeRoute = PrivacidadeRouteImport.update({
-  id: '/privacidade',
-  path: '/privacidade',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const RecuperarSenhaRoute = RecuperarSenhaRouteImport.update({
-  id: '/recuperar-senha',
-  path: '/recuperar-senha',
+const TermosRoute = TermosRouteImport.update({
+  id: '/termos',
+  path: '/termos',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ResetPasswordRoute = ResetPasswordRouteImport.update({
@@ -94,99 +60,63 @@ const ResetPasswordRoute = ResetPasswordRouteImport.update({
   path: '/reset-password',
   getParentRoute: () => rootRouteImport,
 } as any)
-const TermosRoute = TermosRouteImport.update({
-  id: '/termos',
-  path: '/termos',
+const RecuperarSenhaRoute = RecuperarSenhaRouteImport.update({
+  id: '/recuperar-senha',
+  path: '/recuperar-senha',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AppAcessibilidadeRoute = AppAcessibilidadeRouteImport.update({
-  id: '/acessibilidade',
-  path: '/acessibilidade',
-  getParentRoute: () => AppRoute,
+const PrivacidadeRoute = PrivacidadeRouteImport.update({
+  id: '/privacidade',
+  path: '/privacidade',
+  getParentRoute: () => rootRouteImport,
 } as any)
-const AppAjudaRoute = AppAjudaRouteImport.update({
-  id: '/ajuda',
-  path: '/ajuda',
-  getParentRoute: () => AppRoute,
+const OnboardingRoute = OnboardingRouteImport.update({
+  id: '/onboarding',
+  path: '/onboarding',
+  getParentRoute: () => rootRouteImport,
 } as any)
-const AppAlimentacaoRoute = AppAlimentacaoRouteImport.update({
-  id: '/alimentacao',
-  path: '/alimentacao',
-  getParentRoute: () => AppRoute,
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
 } as any)
-const AppCalendarioRoute = AppCalendarioRouteImport.update({
-  id: '/calendario',
-  path: '/calendario',
-  getParentRoute: () => AppRoute,
+const CadastroRoute = CadastroRouteImport.update({
+  id: '/cadastro',
+  path: '/cadastro',
+  getParentRoute: () => rootRouteImport,
 } as any)
-const AppDashboardRoute = AppDashboardRouteImport.update({
-  id: '/dashboard',
-  path: '/dashboard',
-  getParentRoute: () => AppRoute,
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => rootRouteImport,
 } as any)
-const AppHabitosRoute = AppHabitosRouteImport.update({
-  id: '/habitos',
-  path: '/habitos',
-  getParentRoute: () => AppRoute,
+const AppRoute = AppRouteImport.update({
+  id: '/_app',
+  getParentRoute: () => rootRouteImport,
 } as any)
-const AppHidratacaoRoute = AppHidratacaoRouteImport.update({
-  id: '/hidratacao',
-  path: '/hidratacao',
-  getParentRoute: () => AppRoute,
-} as any)
-const AppIaCoachRoute = AppIaCoachRouteImport.update({
-  id: '/ia-coach',
-  path: '/ia-coach',
-  getParentRoute: () => AppRoute,
-} as any)
-const AppMaisRoute = AppMaisRouteImport.update({
-  id: '/mais',
-  path: '/mais',
-  getParentRoute: () => AppRoute,
-} as any)
-const AppMensagensRoute = AppMensagensRouteImport.update({
-  id: '/mensagens',
-  path: '/mensagens',
-  getParentRoute: () => AppRoute,
-} as any)
-const AppMetasRoute = AppMetasRouteImport.update({
-  id: '/metas',
-  path: '/metas',
-  getParentRoute: () => AppRoute,
-} as any)
-const AppNotificacoesRoute = AppNotificacoesRouteImport.update({
-  id: '/notificacoes',
-  path: '/notificacoes',
-  getParentRoute: () => AppRoute,
-} as any)
-const AppPerfilRoute = AppPerfilRouteImport.update({
-  id: '/perfil',
-  path: '/perfil',
-  getParentRoute: () => AppRoute,
-} as any)
-const AppSobreRoute = AppSobreRouteImport.update({
-  id: '/sobre',
-  path: '/sobre',
-  getParentRoute: () => AppRoute,
-} as any)
-const AppTreinosRoute = AppTreinosRouteImport.update({
-  id: '/treinos',
-  path: '/treinos',
-  getParentRoute: () => AppRoute,
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const AdminIndexRoute = AdminIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => AdminRoute,
 } as any)
-const AdminHabitsRoute = AdminHabitsRouteImport.update({
-  id: '/habits',
-  path: '/habits',
-  getParentRoute: () => AdminRoute,
+const AuthCallbackRoute = AuthCallbackRouteImport.update({
+  id: '/auth/callback',
+  path: '/auth/callback',
+  getParentRoute: () => rootRouteImport,
 } as any)
-const AdminMensagensRoute = AdminMensagensRouteImport.update({
-  id: '/mensagens',
-  path: '/mensagens',
+const ApiIaCoachRoute = ApiIaCoachRouteImport.update({
+  id: '/api/ia-coach',
+  path: '/api/ia-coach',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminWorkoutsRoute = AdminWorkoutsRouteImport.update({
+  id: '/workouts',
+  path: '/workouts',
   getParentRoute: () => AdminRoute,
 } as any)
 const AdminUsersRoute = AdminUsersRouteImport.update({
@@ -194,42 +124,110 @@ const AdminUsersRoute = AdminUsersRouteImport.update({
   path: '/users',
   getParentRoute: () => AdminRoute,
 } as any)
-const AdminWorkoutsRoute = AdminWorkoutsRouteImport.update({
-  id: '/workouts',
-  path: '/workouts',
+const AdminMensagensRoute = AdminMensagensRouteImport.update({
+  id: '/mensagens',
+  path: '/mensagens',
   getParentRoute: () => AdminRoute,
 } as any)
-const ApiIaCoachRoute = ApiIaCoachRouteImport.update({
-  id: '/api/ia-coach',
-  path: '/api/ia-coach',
-  getParentRoute: () => rootRouteImport,
+const AdminHabitsRoute = AdminHabitsRouteImport.update({
+  id: '/habits',
+  path: '/habits',
+  getParentRoute: () => AdminRoute,
 } as any)
-const AuthCallbackRoute = AuthCallbackRouteImport.update({
-  id: '/auth/callback',
-  path: '/auth/callback',
-  getParentRoute: () => rootRouteImport,
+const AppTreinosRoute = AppTreinosRouteImport.update({
+  id: '/treinos',
+  path: '/treinos',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppSobreRoute = AppSobreRouteImport.update({
+  id: '/sobre',
+  path: '/sobre',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppPerfilRoute = AppPerfilRouteImport.update({
+  id: '/perfil',
+  path: '/perfil',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppNotificacoesRoute = AppNotificacoesRouteImport.update({
+  id: '/notificacoes',
+  path: '/notificacoes',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppMetasRoute = AppMetasRouteImport.update({
+  id: '/metas',
+  path: '/metas',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppMensagensRoute = AppMensagensRouteImport.update({
+  id: '/mensagens',
+  path: '/mensagens',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppMaisRoute = AppMaisRouteImport.update({
+  id: '/mais',
+  path: '/mais',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppIaCoachRoute = AppIaCoachRouteImport.update({
+  id: '/ia-coach',
+  path: '/ia-coach',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppHidratacaoRoute = AppHidratacaoRouteImport.update({
+  id: '/hidratacao',
+  path: '/hidratacao',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppHabitosRoute = AppHabitosRouteImport.update({
+  id: '/habitos',
+  path: '/habitos',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppDashboardRoute = AppDashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppCalendarioRoute = AppCalendarioRouteImport.update({
+  id: '/calendario',
+  path: '/calendario',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppAlimentacaoRoute = AppAlimentacaoRouteImport.update({
+  id: '/alimentacao',
+  path: '/alimentacao',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppAjudaRoute = AppAjudaRouteImport.update({
+  id: '/ajuda',
+  path: '/ajuda',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppAcessibilidadeRoute = AppAcessibilidadeRouteImport.update({
+  id: '/acessibilidade',
+  path: '/acessibilidade',
+  getParentRoute: () => AppRoute,
 } as any)
 const AppAcessibilidadeIndexRoute = AppAcessibilidadeIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => AppAcessibilidadeRoute,
 } as any)
-const AppAcessibilidadeAltoContrasteRoute =
-  AppAcessibilidadeAltoContrasteRouteImport.update({
-    id: '/alto-contraste',
-    path: '/alto-contraste',
-    getParentRoute: () => AppAcessibilidadeRoute,
-  } as any)
-const AppAcessibilidadeFonteGrandeRoute =
-  AppAcessibilidadeFonteGrandeRouteImport.update({
-    id: '/fonte-grande',
-    path: '/fonte-grande',
-    getParentRoute: () => AppAcessibilidadeRoute,
-  } as any)
-const AppAcessibilidadeLeituraSimplificadaRoute =
-  AppAcessibilidadeLeituraSimplificadaRouteImport.update({
-    id: '/leitura-simplificada',
-    path: '/leitura-simplificada',
+const ApiIaCoachTreinoRoute = ApiIaCoachTreinoRouteImport.update({
+  id: '/treino',
+  path: '/treino',
+  getParentRoute: () => ApiIaCoachRoute,
+} as any)
+const AdminUsersIdRoute = AdminUsersIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => AdminUsersRoute,
+} as any)
+const AppAcessibilidadeNavegacaoPorVozRoute =
+  AppAcessibilidadeNavegacaoPorVozRouteImport.update({
+    id: '/navegacao-por-voz',
+    path: '/navegacao-por-voz',
     getParentRoute: () => AppAcessibilidadeRoute,
   } as any)
 const AppAcessibilidadeModoEscuroRoute =
@@ -238,22 +236,24 @@ const AppAcessibilidadeModoEscuroRoute =
     path: '/modo-escuro',
     getParentRoute: () => AppAcessibilidadeRoute,
   } as any)
-const AppAcessibilidadeNavegacaoPorVozRoute =
-  AppAcessibilidadeNavegacaoPorVozRouteImport.update({
-    id: '/navegacao-por-voz',
-    path: '/navegacao-por-voz',
+const AppAcessibilidadeLeituraSimplificadaRoute =
+  AppAcessibilidadeLeituraSimplificadaRouteImport.update({
+    id: '/leitura-simplificada',
+    path: '/leitura-simplificada',
     getParentRoute: () => AppAcessibilidadeRoute,
   } as any)
-const AdminUsersIdRoute = AdminUsersIdRouteImport.update({
-  id: '/$id',
-  path: '/$id',
-  getParentRoute: () => AdminUsersRoute,
-} as any)
-const ApiIaCoachTreinoRoute = ApiIaCoachTreinoRouteImport.update({
-  id: '/treino',
-  path: '/treino',
-  getParentRoute: () => ApiIaCoachRoute,
-} as any)
+const AppAcessibilidadeFonteGrandeRoute =
+  AppAcessibilidadeFonteGrandeRouteImport.update({
+    id: '/fonte-grande',
+    path: '/fonte-grande',
+    getParentRoute: () => AppAcessibilidadeRoute,
+  } as any)
+const AppAcessibilidadeAltoContrasteRoute =
+  AppAcessibilidadeAltoContrasteRouteImport.update({
+    id: '/alto-contraste',
+    path: '/alto-contraste',
+    getParentRoute: () => AppAcessibilidadeRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -520,60 +520,11 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/_app': {
-      id: '/_app'
-      path: ''
-      fullPath: '/'
-      preLoaderRoute: typeof AppRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/admin': {
-      id: '/admin'
-      path: '/admin'
-      fullPath: '/admin'
-      preLoaderRoute: typeof AdminRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/cadastro': {
-      id: '/cadastro'
-      path: '/cadastro'
-      fullPath: '/cadastro'
-      preLoaderRoute: typeof CadastroRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/login': {
-      id: '/login'
-      path: '/login'
-      fullPath: '/login'
-      preLoaderRoute: typeof LoginRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/onboarding': {
-      id: '/onboarding'
-      path: '/onboarding'
-      fullPath: '/onboarding'
-      preLoaderRoute: typeof OnboardingRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/privacidade': {
-      id: '/privacidade'
-      path: '/privacidade'
-      fullPath: '/privacidade'
-      preLoaderRoute: typeof PrivacidadeRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/recuperar-senha': {
-      id: '/recuperar-senha'
-      path: '/recuperar-senha'
-      fullPath: '/recuperar-senha'
-      preLoaderRoute: typeof RecuperarSenhaRouteImport
+    '/termos': {
+      id: '/termos'
+      path: '/termos'
+      fullPath: '/termos'
+      preLoaderRoute: typeof TermosRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/reset-password': {
@@ -583,117 +534,61 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ResetPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/termos': {
-      id: '/termos'
-      path: '/termos'
-      fullPath: '/termos'
-      preLoaderRoute: typeof TermosRouteImport
+    '/recuperar-senha': {
+      id: '/recuperar-senha'
+      path: '/recuperar-senha'
+      fullPath: '/recuperar-senha'
+      preLoaderRoute: typeof RecuperarSenhaRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_app/acessibilidade': {
-      id: '/_app/acessibilidade'
-      path: '/acessibilidade'
-      fullPath: '/acessibilidade'
-      preLoaderRoute: typeof AppAcessibilidadeRouteImport
-      parentRoute: typeof AppRoute
+    '/privacidade': {
+      id: '/privacidade'
+      path: '/privacidade'
+      fullPath: '/privacidade'
+      preLoaderRoute: typeof PrivacidadeRouteImport
+      parentRoute: typeof rootRouteImport
     }
-    '/_app/ajuda': {
-      id: '/_app/ajuda'
-      path: '/ajuda'
-      fullPath: '/ajuda'
-      preLoaderRoute: typeof AppAjudaRouteImport
-      parentRoute: typeof AppRoute
+    '/onboarding': {
+      id: '/onboarding'
+      path: '/onboarding'
+      fullPath: '/onboarding'
+      preLoaderRoute: typeof OnboardingRouteImport
+      parentRoute: typeof rootRouteImport
     }
-    '/_app/alimentacao': {
-      id: '/_app/alimentacao'
-      path: '/alimentacao'
-      fullPath: '/alimentacao'
-      preLoaderRoute: typeof AppAlimentacaoRouteImport
-      parentRoute: typeof AppRoute
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
     }
-    '/_app/calendario': {
-      id: '/_app/calendario'
-      path: '/calendario'
-      fullPath: '/calendario'
-      preLoaderRoute: typeof AppCalendarioRouteImport
-      parentRoute: typeof AppRoute
+    '/cadastro': {
+      id: '/cadastro'
+      path: '/cadastro'
+      fullPath: '/cadastro'
+      preLoaderRoute: typeof CadastroRouteImport
+      parentRoute: typeof rootRouteImport
     }
-    '/_app/dashboard': {
-      id: '/_app/dashboard'
-      path: '/dashboard'
-      fullPath: '/dashboard'
-      preLoaderRoute: typeof AppDashboardRouteImport
-      parentRoute: typeof AppRoute
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
+      parentRoute: typeof rootRouteImport
     }
-    '/_app/habitos': {
-      id: '/_app/habitos'
-      path: '/habitos'
-      fullPath: '/habitos'
-      preLoaderRoute: typeof AppHabitosRouteImport
-      parentRoute: typeof AppRoute
+    '/_app': {
+      id: '/_app'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AppRouteImport
+      parentRoute: typeof rootRouteImport
     }
-    '/_app/hidratacao': {
-      id: '/_app/hidratacao'
-      path: '/hidratacao'
-      fullPath: '/hidratacao'
-      preLoaderRoute: typeof AppHidratacaoRouteImport
-      parentRoute: typeof AppRoute
-    }
-    '/_app/ia-coach': {
-      id: '/_app/ia-coach'
-      path: '/ia-coach'
-      fullPath: '/ia-coach'
-      preLoaderRoute: typeof AppIaCoachRouteImport
-      parentRoute: typeof AppRoute
-    }
-    '/_app/mais': {
-      id: '/_app/mais'
-      path: '/mais'
-      fullPath: '/mais'
-      preLoaderRoute: typeof AppMaisRouteImport
-      parentRoute: typeof AppRoute
-    }
-    '/_app/mensagens': {
-      id: '/_app/mensagens'
-      path: '/mensagens'
-      fullPath: '/mensagens'
-      preLoaderRoute: typeof AppMensagensRouteImport
-      parentRoute: typeof AppRoute
-    }
-    '/_app/metas': {
-      id: '/_app/metas'
-      path: '/metas'
-      fullPath: '/metas'
-      preLoaderRoute: typeof AppMetasRouteImport
-      parentRoute: typeof AppRoute
-    }
-    '/_app/notificacoes': {
-      id: '/_app/notificacoes'
-      path: '/notificacoes'
-      fullPath: '/notificacoes'
-      preLoaderRoute: typeof AppNotificacoesRouteImport
-      parentRoute: typeof AppRoute
-    }
-    '/_app/perfil': {
-      id: '/_app/perfil'
-      path: '/perfil'
-      fullPath: '/perfil'
-      preLoaderRoute: typeof AppPerfilRouteImport
-      parentRoute: typeof AppRoute
-    }
-    '/_app/sobre': {
-      id: '/_app/sobre'
-      path: '/sobre'
-      fullPath: '/sobre'
-      preLoaderRoute: typeof AppSobreRouteImport
-      parentRoute: typeof AppRoute
-    }
-    '/_app/treinos': {
-      id: '/_app/treinos'
-      path: '/treinos'
-      fullPath: '/treinos'
-      preLoaderRoute: typeof AppTreinosRouteImport
-      parentRoute: typeof AppRoute
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/admin/': {
       id: '/admin/'
@@ -702,18 +597,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminIndexRouteImport
       parentRoute: typeof AdminRoute
     }
-    '/admin/habits': {
-      id: '/admin/habits'
-      path: '/habits'
-      fullPath: '/admin/habits'
-      preLoaderRoute: typeof AdminHabitsRouteImport
-      parentRoute: typeof AdminRoute
+    '/auth/callback': {
+      id: '/auth/callback'
+      path: '/auth/callback'
+      fullPath: '/auth/callback'
+      preLoaderRoute: typeof AuthCallbackRouteImport
+      parentRoute: typeof rootRouteImport
     }
-    '/admin/mensagens': {
-      id: '/admin/mensagens'
-      path: '/mensagens'
-      fullPath: '/admin/mensagens'
-      preLoaderRoute: typeof AdminMensagensRouteImport
+    '/api/ia-coach': {
+      id: '/api/ia-coach'
+      path: '/api/ia-coach'
+      fullPath: '/api/ia-coach'
+      preLoaderRoute: typeof ApiIaCoachRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/workouts': {
+      id: '/admin/workouts'
+      path: '/workouts'
+      fullPath: '/admin/workouts'
+      preLoaderRoute: typeof AdminWorkoutsRouteImport
       parentRoute: typeof AdminRoute
     }
     '/admin/users': {
@@ -723,26 +625,124 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminUsersRouteImport
       parentRoute: typeof AdminRoute
     }
-    '/admin/workouts': {
-      id: '/admin/workouts'
-      path: '/workouts'
-      fullPath: '/admin/workouts'
-      preLoaderRoute: typeof AdminWorkoutsRouteImport
+    '/admin/mensagens': {
+      id: '/admin/mensagens'
+      path: '/mensagens'
+      fullPath: '/admin/mensagens'
+      preLoaderRoute: typeof AdminMensagensRouteImport
       parentRoute: typeof AdminRoute
     }
-    '/api/ia-coach': {
-      id: '/api/ia-coach'
-      path: '/api/ia-coach'
-      fullPath: '/api/ia-coach'
-      preLoaderRoute: typeof ApiIaCoachRouteImport
-      parentRoute: typeof rootRouteImport
+    '/admin/habits': {
+      id: '/admin/habits'
+      path: '/habits'
+      fullPath: '/admin/habits'
+      preLoaderRoute: typeof AdminHabitsRouteImport
+      parentRoute: typeof AdminRoute
     }
-    '/auth/callback': {
-      id: '/auth/callback'
-      path: '/auth/callback'
-      fullPath: '/auth/callback'
-      preLoaderRoute: typeof AuthCallbackRouteImport
-      parentRoute: typeof rootRouteImport
+    '/_app/treinos': {
+      id: '/_app/treinos'
+      path: '/treinos'
+      fullPath: '/treinos'
+      preLoaderRoute: typeof AppTreinosRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/sobre': {
+      id: '/_app/sobre'
+      path: '/sobre'
+      fullPath: '/sobre'
+      preLoaderRoute: typeof AppSobreRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/perfil': {
+      id: '/_app/perfil'
+      path: '/perfil'
+      fullPath: '/perfil'
+      preLoaderRoute: typeof AppPerfilRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/notificacoes': {
+      id: '/_app/notificacoes'
+      path: '/notificacoes'
+      fullPath: '/notificacoes'
+      preLoaderRoute: typeof AppNotificacoesRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/metas': {
+      id: '/_app/metas'
+      path: '/metas'
+      fullPath: '/metas'
+      preLoaderRoute: typeof AppMetasRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/mensagens': {
+      id: '/_app/mensagens'
+      path: '/mensagens'
+      fullPath: '/mensagens'
+      preLoaderRoute: typeof AppMensagensRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/mais': {
+      id: '/_app/mais'
+      path: '/mais'
+      fullPath: '/mais'
+      preLoaderRoute: typeof AppMaisRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/ia-coach': {
+      id: '/_app/ia-coach'
+      path: '/ia-coach'
+      fullPath: '/ia-coach'
+      preLoaderRoute: typeof AppIaCoachRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/hidratacao': {
+      id: '/_app/hidratacao'
+      path: '/hidratacao'
+      fullPath: '/hidratacao'
+      preLoaderRoute: typeof AppHidratacaoRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/habitos': {
+      id: '/_app/habitos'
+      path: '/habitos'
+      fullPath: '/habitos'
+      preLoaderRoute: typeof AppHabitosRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/dashboard': {
+      id: '/_app/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof AppDashboardRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/calendario': {
+      id: '/_app/calendario'
+      path: '/calendario'
+      fullPath: '/calendario'
+      preLoaderRoute: typeof AppCalendarioRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/alimentacao': {
+      id: '/_app/alimentacao'
+      path: '/alimentacao'
+      fullPath: '/alimentacao'
+      preLoaderRoute: typeof AppAlimentacaoRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/ajuda': {
+      id: '/_app/ajuda'
+      path: '/ajuda'
+      fullPath: '/ajuda'
+      preLoaderRoute: typeof AppAjudaRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/acessibilidade': {
+      id: '/_app/acessibilidade'
+      path: '/acessibilidade'
+      fullPath: '/acessibilidade'
+      preLoaderRoute: typeof AppAcessibilidadeRouteImport
+      parentRoute: typeof AppRoute
     }
     '/_app/acessibilidade/': {
       id: '/_app/acessibilidade/'
@@ -751,25 +751,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppAcessibilidadeIndexRouteImport
       parentRoute: typeof AppAcessibilidadeRoute
     }
-    '/_app/acessibilidade/alto-contraste': {
-      id: '/_app/acessibilidade/alto-contraste'
-      path: '/alto-contraste'
-      fullPath: '/acessibilidade/alto-contraste'
-      preLoaderRoute: typeof AppAcessibilidadeAltoContrasteRouteImport
-      parentRoute: typeof AppAcessibilidadeRoute
+    '/api/ia-coach/treino': {
+      id: '/api/ia-coach/treino'
+      path: '/treino'
+      fullPath: '/api/ia-coach/treino'
+      preLoaderRoute: typeof ApiIaCoachTreinoRouteImport
+      parentRoute: typeof ApiIaCoachRoute
     }
-    '/_app/acessibilidade/fonte-grande': {
-      id: '/_app/acessibilidade/fonte-grande'
-      path: '/fonte-grande'
-      fullPath: '/acessibilidade/fonte-grande'
-      preLoaderRoute: typeof AppAcessibilidadeFonteGrandeRouteImport
-      parentRoute: typeof AppAcessibilidadeRoute
+    '/admin/users/$id': {
+      id: '/admin/users/$id'
+      path: '/$id'
+      fullPath: '/admin/users/$id'
+      preLoaderRoute: typeof AdminUsersIdRouteImport
+      parentRoute: typeof AdminUsersRoute
     }
-    '/_app/acessibilidade/leitura-simplificada': {
-      id: '/_app/acessibilidade/leitura-simplificada'
-      path: '/leitura-simplificada'
-      fullPath: '/acessibilidade/leitura-simplificada'
-      preLoaderRoute: typeof AppAcessibilidadeLeituraSimplificadaRouteImport
+    '/_app/acessibilidade/navegacao-por-voz': {
+      id: '/_app/acessibilidade/navegacao-por-voz'
+      path: '/navegacao-por-voz'
+      fullPath: '/acessibilidade/navegacao-por-voz'
+      preLoaderRoute: typeof AppAcessibilidadeNavegacaoPorVozRouteImport
       parentRoute: typeof AppAcessibilidadeRoute
     }
     '/_app/acessibilidade/modo-escuro': {
@@ -779,26 +779,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppAcessibilidadeModoEscuroRouteImport
       parentRoute: typeof AppAcessibilidadeRoute
     }
-    '/_app/acessibilidade/navegacao-por-voz': {
-      id: '/_app/acessibilidade/navegacao-por-voz'
-      path: '/navegacao-por-voz'
-      fullPath: '/acessibilidade/navegacao-por-voz'
-      preLoaderRoute: typeof AppAcessibilidadeNavegacaoPorVozRouteImport
+    '/_app/acessibilidade/leitura-simplificada': {
+      id: '/_app/acessibilidade/leitura-simplificada'
+      path: '/leitura-simplificada'
+      fullPath: '/acessibilidade/leitura-simplificada'
+      preLoaderRoute: typeof AppAcessibilidadeLeituraSimplificadaRouteImport
       parentRoute: typeof AppAcessibilidadeRoute
     }
-    '/admin/users/$id': {
-      id: '/admin/users/$id'
-      path: '/$id'
-      fullPath: '/admin/users/$id'
-      preLoaderRoute: typeof AdminUsersIdRouteImport
-      parentRoute: typeof AdminUsersRoute
+    '/_app/acessibilidade/fonte-grande': {
+      id: '/_app/acessibilidade/fonte-grande'
+      path: '/fonte-grande'
+      fullPath: '/acessibilidade/fonte-grande'
+      preLoaderRoute: typeof AppAcessibilidadeFonteGrandeRouteImport
+      parentRoute: typeof AppAcessibilidadeRoute
     }
-    '/api/ia-coach/treino': {
-      id: '/api/ia-coach/treino'
-      path: '/treino'
-      fullPath: '/api/ia-coach/treino'
-      preLoaderRoute: typeof ApiIaCoachTreinoRouteImport
-      parentRoute: typeof ApiIaCoachRoute
+    '/_app/acessibilidade/alto-contraste': {
+      id: '/_app/acessibilidade/alto-contraste'
+      path: '/alto-contraste'
+      fullPath: '/acessibilidade/alto-contraste'
+      preLoaderRoute: typeof AppAcessibilidadeAltoContrasteRouteImport
+      parentRoute: typeof AppAcessibilidadeRoute
     }
   }
 }
